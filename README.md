@@ -4,20 +4,20 @@
 - Grupp: Natali Stefan Susanna 
 - Projektnamn: “HoReCa”
 
-## Frågor Till Krister: 
-- []Hur ska man skapa listorna? 
-- [] ska man lägga till via en Add-metod eller via konstruktorn? 
+- Frågor Till Krister: 
+- Hur ska man skapa listorna? 
+- Ska man lägga till via en Add-metod eller via konstruktorn? 
  
 
 
-# Tidsplan:
+## Tidsplan:
 
 - 24e oktober - första presentation (meddelande till Krister på Discord)
 - 7-14e November - code review (en annan grupp ger review. Medd. till Krister via Discord)
 - 18e November - Redovisning. Berätta, motivera, visa, vidareutveckla, förslag
 - 23e November kl.04.00. inlämning. Sista commits
 
-# HORECA POS-system
+## HORECA POS-system
 
 - [] Registrera användare (servis, hovmästare, admin - lägga till/ta bort personal/meny/moms)
 - [] Servis: namn, arbetstitel och säkerhetsnivå, ta beställningar
@@ -33,12 +33,12 @@
 - [] Ta beställning, splitta, skicka notan till en annan sektion?
 - [] Ta betalning med olika medel
 
-Klassdiagram (se IO-diagram för översikt)
-Userhandler - userhandler (admin, server, manager osv)
-Rapport -Rapporthandler
-Table - tablehandler (karta, lista)
-Product - producthandler
-Sales/order (ta beställning)
+- Klassdiagram (se IO-diagram för översikt)
+- Userhandler - userhandler (admin, server, manager osv)
+- Rapport -Rapporthandler
+- Table - tablehandler (karta, lista)
+- Product - producthandler
+- Sales/order (ta beställning)
 
 
 Framtida utvecklingsidéer
