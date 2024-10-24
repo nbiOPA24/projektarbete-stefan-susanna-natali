@@ -1,8 +1,7 @@
 public class Table
 {
     int Number {get; set;}
-    int VAT {get; set;}
-    public enum Category 
+    public enum ReportCategory 
     {
         X,
         Y,
