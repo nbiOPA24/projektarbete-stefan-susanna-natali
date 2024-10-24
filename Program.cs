@@ -3,22 +3,28 @@
 {
     
         static void Main(string[] args)
-        {
-            User user = new User();
-            UserHandler.AddUser(user);
-            UserHandler.PrintUser(UserHandler.userList);
-            UserHandler.AddUser(user);
-            Console.WriteLine("Uppdaterad lista: ");
-            UserHandler.PrintUser(UserHandler.userList);
-            UserHandler.RemoveUser(user);
-            UserHandler.PrintUser(UserHandler.userList);
+        {   
+            
+            //User user = new User();
+            //Product product = new();
+            // UserHandler.AddUser(user);
+            // UserHandler.PrintUser(UserHandler.userList);
+            // UserHandler.AddUser(user);
+            // Console.WriteLine("Uppdaterad lista: ");
+            // UserHandler.PrintUser(UserHandler.userList);
+            // UserHandler.RemoveUser(user);
+            // UserHandler.PrintUser(UserHandler.userList);
+            Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
+            Console.WriteLine("val 1, 2");
+            ProductHandler.AddProduct(product);
+
+            ProductHandler.PrintProduct(ProductHandler.productList);
 
             // List<User>userList = new ();
             // List<Report> saleslist =  new List<Report>(); 
             // List<Table> tablelist = new();
-                               
-            Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
             //ProductHandler.productList.Add(product);
+                               
             //Console.WriteLine(product.Name);
             //Console.WriteLine(product.Price);
             //Console.WriteLine(product.MenuItem);
