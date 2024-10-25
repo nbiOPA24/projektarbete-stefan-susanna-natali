@@ -1,13 +1,14 @@
 public class User
 
 {
-    public string? Name {get; set;}
+    public string? FirstName {get; set;} // TODO fixa ev. lastname
+    
     public int UserId {get; set;}
     //TypeOfUser, chef, hov,
     // TODO göra userId 24 DateTime eller ska det bara vara 2-siffor? //ska det vara en algoritm/beräkninssätt
-    public User (string name, int userId)
+    public User (string firstName, int userId)
     {
-        Name = name;
+        FirstName = firstName;
         UserId = userId;
         
     }
@@ -20,42 +21,66 @@ public class User
 public static class UserHandler
 {
     public static List<User> userList = new ();
-            public static List<User> PrintUser (List<User> userList)
-    {
+
+    public static List<User> PrintUser (List<User> userList)
+    {   Console.WriteLine("Här är personallistan: ");
         foreach (User u in userList)
         {
-            Console.WriteLine("Namn: " + u.Name + " - " + u.UserId);
-            Console.WriteLine("________________________");
+            Console.WriteLine("Namn: " + u.FirstName + " - " + u.UserId);
+            
         }
+        Console.WriteLine("________________________");
         return userList;
     }
     public static void AddUser(User user)
     {
         Console.WriteLine("LÄGG TILL PERSONAL");
-        Console.Write("Personalens namn: "); 
-        string? name = Console.ReadLine(); 
-        Console.WriteLine("Personal " + name + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas kronologisk ordning
+        Console.Write("Personalens förnamn: "); 
+        string? firstname = UppercaseFirst(Console.ReadLine());
+
         user.UserId++;
-        User newUser = new(name,user.UserId);
-        
+        Console.WriteLine("Personal " + firstname + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas id-nummer i kronologisk ordning
+
+        User newUser = new(firstname,user.UserId);
         userList.Add(newUser);
 
     }
+        private static string UppercaseFirst(string str) // TODO gör denna universal till hela programmet
+        {
+            if (string.IsNullOrEmpty(str))
+            return string.Empty;
+            return char.ToUpper(str[0]) + str.Substring(1).ToLower();
+        }
 
     public static void RemoveUser(User user)
     {
         Console.WriteLine("TA BORT PERSONAL");
-        Console.WriteLine("Här är personallistan:");
         PrintUser(userList);
         Console.Write("Skriv in ID-nummer för personal du vill ta bort: ");
         int id = int.Parse(Console.ReadLine());
 
-        foreach (User u in userList)
+        for (int i = 0; i < userList.Count; i++)
         {
-            userList.Remove(u);
+            if (id == userList[i].UserId)
+            {
+                Console.WriteLine(userList[i].FirstName + " är borttagen!");
+                userList.RemoveAt(i);
+            }
         }
-
+        
+    // public static void SearchForUser(){}
     }
-    public static void ModifyUser(){}
-    public static void Print(){}
+    public static void ModifyUser()
+    {
+        Console.WriteLine("ÄNDRA PERSONAL");
+        PrintUser(userList);
+        Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
+        //int id = int.Parse(Console.ReadLine());
+        // 
+        //
+        //
+        //
+        //
+    }
+    
 }

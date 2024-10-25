@@ -5,9 +5,9 @@
         static void Main(string[] args)
         {   
             
-            //User user = new User();
+            User user = new User();
             //Product product = new();
-            // UserHandler.AddUser(user);
+            //UserHandler.AddUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
             // UserHandler.AddUser(user);
             // Console.WriteLine("Uppdaterad lista: ");
@@ -15,11 +15,12 @@
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
             Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
-            Console.WriteLine("val 1, 2");
+            
             ProductHandler.AddProduct(product);
-
-            ProductHandler.PrintProduct(ProductHandler.productList);
-
+            //ProductHandler.PrintProduct();
+            // UserHandler.AddUser(user);
+            // UserHandler.RemoveUser(user);
+            // UserHandler.PrintUser(UserHandler.userList);
             // List<User>userList = new ();
             // List<Report> saleslist =  new List<Report>(); 
             // List<Table> tablelist = new();
@@ -30,16 +31,16 @@
             //Console.WriteLine(product.MenuItem);
             //ProductHandler.Add("Pripps", 55, product.MenuItem);
             
-            while (true)
-            {
+            // while (true)
+            // {
                 //Console.WriteLine("1. lägg till");
                 //Console.WriteLine("2. printa");
                 //Console.WriteLine("3. avsluta");
-                string? choice = Console.ReadLine();
-                switch(choice)
-                {
-                    case "1":
-                    {
+                // string? choice = Console.ReadLine();
+                // switch(choice)
+                // {
+                //     case "1":
+                //     {
                         //Console.WriteLine("Ange produktnamn");
                         //string? name = Console.ReadLine();
                         //Console.WriteLine("Ange pris");
@@ -56,20 +57,20 @@
         
 
                         //Product prod = new Product(name, price, Product.ProductType, Product.VatRate._12);
-                        break;
-                    }
-                    case "2":
-                    {
-                        //newProduct.Print();
-                        break;
-                    }
-                    case "3":
-                    {
-                        return;
-                    }
-                }   
+            //             break;
+            //         }
+            //         case "2":
+            //         {
+            //             //newProduct.Print();
+            //             break;
+            //         }
+            //         case "3":
+            //         {
+            //             return;
+            //         }
+            //     }   
                     
-            }
+            // }
         }
 
 }
