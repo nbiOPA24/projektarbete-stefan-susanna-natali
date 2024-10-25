@@ -1,10 +1,13 @@
 // Klass för en produkt med div. egenskaper.
+/* using Newtonsoft.Json;
+
+*/
 public class Product
 {   
     public enum ProductType // förrätt, varmrätt, dessert 
     {
         Food = 1,
-        Drinks    
+        Drinks = 2
     }
 
 //  int[] array = new int[2];
@@ -12,7 +15,7 @@ public class Product
     public enum VatRate //momssatser för produkter 
     {
         _12 = 1,
-        _25
+        _25 = 2
     }
 
     public string Name {get ; set ;}
@@ -31,7 +34,7 @@ public class Product
 }
 public static class ProductHandler
 {
-    public static List<Product> productList {get ; set ;} = new();
+    public static List<Product> productList {get ; set ;} = new(); // 
 
     public static void PrintProduct () // varför inte void tex?
     //Om du bara ska skriva ut produkter är void tillräckligt. 
@@ -50,34 +53,53 @@ public static class ProductHandler
     public static void AddProduct(Product product) //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
-        Console.Write("Typ av produkt: ");
+        Console.WriteLine("Typ av produkt: ");
+        Console.WriteLine("q för quit"); //TODO "global" Quit-metod
         Console.WriteLine("Ange typ utifrån siffra.");
         
         var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array
         var vatarray = Enum.GetValues(typeof(Product.VatRate)); // gör om vatItem till array 
-        int input = int.Parse(Console.ReadLine()); // användare lägger till typ och moms genom att ange heltal
+        string input = Console.ReadLine(); // användare lägger till typ och moms genom att ange heltal
+        input = UppercaseFirst(input);
         
         // If-sats
         
-        while (input != typearray.Length)
+        while (int.TryParse(input, out int intinput)) //TODO kolla upp varför int input funkade utan -1 i array
         {
-            Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(input); // hämtar produkttypen efter angivet heltal ??
-            Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(input); // hämtar och sätter momssats efter angivet heltal
+            if (intinput == 1 || intinput == 2) 
+            {
+                Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput -1); // hämtar produkttypen efter angivet heltal ??
+                Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(intinput -1); // hämtar och sätter momssats efter angivet heltal
+                
+                Console.Write("Produktens namn: ");
+                string? name = UppercaseFirst(Console.ReadLine());
+                Console.Write("Pris: ");
+                double price = double.Parse(Console.ReadLine());
+                Product newProduct = new(name, price, selectedItemType, selectedVatType);
+                productList.Add(newProduct);                
+                PrintProduct();  
+                break;  
+            }
             
-            Console.Write("Produktens namn: ");
-            string? name = Console.ReadLine();
-            Console.Write("Pris: ");
-            double price = double.Parse(Console.ReadLine());
-            Product newProduct = new(name, price, selectedItemType, selectedVatType);
-            productList.Add(newProduct);                
-            PrintProduct();  
-            break;  
+            else if (input == "Q" )
+            {   
+                Console.WriteLine("Hejdå!");
+                break;
+            }
+            else
+            {
+                Console.Write("Ogiltig input!");
+                continue;
+            }
         }
-        // if
-        // {
-        //     Console.Write("Ogiltig input!");
-        // }
 
+    }
+
+    private static string UppercaseFirst(string str)
+    {
+    if (string.IsNullOrEmpty(str))
+    return string.Empty;
+    return char.ToUpper(str[0]) + str.Substring(1).ToLower();   
     }
 
     public static void PrintProductType()
