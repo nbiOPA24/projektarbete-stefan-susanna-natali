@@ -63,24 +63,33 @@ public static class ProductHandler
         input = UppercaseFirst(input);
         
         // If-sats
-        
-        while (int.TryParse(input, out int intinput)) //TODO kolla upp varför int input funkade utan -1 i array
-        {
-            if (intinput == 1 || intinput == 2) 
+        bool addmeny = true;
+        while(addmeny)
+        { 
+            if (int.TryParse(input, out int intinput)) //TODO kolla upp varför int input funkade utan -1 i array
             {
-                Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput -1); // hämtar produkttypen efter angivet heltal ??
-                Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(intinput -1); // hämtar och sätter momssats efter angivet heltal
-                
-                Console.Write("Produktens namn: ");
-                string? name = UppercaseFirst(Console.ReadLine());
-                Console.Write("Pris: ");
-                double price = double.Parse(Console.ReadLine());
-                Product newProduct = new(name, price, selectedItemType, selectedVatType);
-                productList.Add(newProduct);                
-                PrintProduct();  
-                break;  
-            }
+                if (intinput != 1 && intinput != 2) 
+                {
+                    Console.Write("Ogiltig input!");
+                    addmeny = false;
+                }
             
+
+                else
+                {
+                    Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput -1); // hämtar produkttypen efter angivet heltal ??
+                    Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(intinput -1); // hämtar och sätter momssats efter angivet heltal
+                    
+                    Console.Write("Produktens namn: ");
+                    string? name = UppercaseFirst(Console.ReadLine());
+                    Console.Write("Pris: ");
+                    double price = double.Parse(Console.ReadLine());
+                    Product newProduct = new(name, price, selectedItemType, selectedVatType);
+                    productList.Add(newProduct);                
+                    PrintProduct();  
+                    addmeny = false;  
+                }
+            }
             else if (input == "Q" )
             {   
                 Console.WriteLine("Hejdå!");
@@ -88,12 +97,65 @@ public static class ProductHandler
             }
             else
             {
-                Console.Write("Ogiltig input!");
-                continue;
+                Console.WriteLine("Ogiltigt tjänstenummer. Försök igen.");
+                break;
             }
         }
-
     }
+                            //     List<Officer> dispatchOfficers = new List<Officer>();
+                            // bool continueAdding = true;
+
+                            // while (continueAdding)
+                            // {
+                            //     Console.WriteLine("Tillgängliga poliser");
+                            //     newOfficer.PrintRoster(); // Visar alla poliser i roster
+
+                            //     Console.WriteLine("Ange tjänstenummer för att lägga till en polis:");
+                            //     badgeInput = Console.ReadLine();
+
+                            //     if (int.TryParse(badgeInput, out badgeNr))
+                            //     {
+                            //         // Hitta polisen med det angivna tjänstenumret
+                            //         Officer officerToAdd = newOfficer.roster.Find(officer => officer.BadgeNr == badgeNr);
+
+                            //         if (officerToAdd != null)
+                            //         {
+                            //             Console.WriteLine($"Vill du lägga till {officerToAdd.FirstName} {officerToAdd.LastName}? (J/N)");
+                            //             input = Console.ReadLine().ToUpper();
+
+                            //             if (input == "J")
+                            //             {
+                            //                 dispatchOfficers.Add(officerToAdd); // Lägg till polisen i dispatchlistan
+                            //                 Console.WriteLine($"{officerToAdd.FirstName} {officerToAdd.LastName} tillagd.");
+                            //             }
+                            //             else if (input == "N")
+                            //             {
+                            //                 Console.WriteLine("Åtgärd avbruten.");
+                            //             }
+                            //             else
+                            //             {
+                            //                 Console.WriteLine("Ogiltigt val.");
+                            //             }
+                            //         }
+                            //         else
+                            //         {
+                            //             Console.WriteLine("Ingen polis med detta tjänstenummer hittades.");
+                            //         }
+                            //     }
+                            //     else
+                            //     {
+                            //         Console.WriteLine("Ogiltigt tjänstenummer. Försök igen.");
+                            //     }
+
+                            //     // Fråga om användaren vill lägga till ytterligare en polis
+                            //     Console.WriteLine("Vill du lägga till ytterligare en polis? (J/N)");
+                            //     string continueInput = Console.ReadLine().ToUpper();
+
+                            //     if (continueInput != "J")
+                            //     {
+                            //         continueAdding = false;
+                            //     }
+                            // }
 
     private static string UppercaseFirst(string str)
     {
