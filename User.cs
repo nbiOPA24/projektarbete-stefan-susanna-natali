@@ -75,12 +75,20 @@ public static class UserHandler
         Console.WriteLine("ÄNDRA PERSONAL");
         PrintUser(userList);
         Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
-        //int id = int.Parse(Console.ReadLine());
-        // 
-        //
-        //
-        //
-        //
+        int id = int.Parse(Console.ReadLine());
+        Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
+        int choice = int.Parse(Console.ReadLine());
+        foreach (User u in userList)
+            {if (choice == 2)
+                if (id == u.UserId) //TODO välj från meny namn eller id-nummer.
+                {
+                    Console.Write("ID-nummer valt. Skriv in nytt: ");
+                    int newId = int.Parse(Console.ReadLine());
+                    u.UserId = newId;
+                    Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+                }
+            }
+
     }
     
 }

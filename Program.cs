@@ -7,16 +7,18 @@
             
             User user = new User();
             //Product product = new();
-            //UserHandler.AddUser(user);
-            // UserHandler.PrintUser(UserHandler.userList);
-            // UserHandler.AddUser(user);
+            UserHandler.AddUser(user);
+            UserHandler.PrintUser(UserHandler.userList);
+            UserHandler.ModifyUser();
+            Console.WriteLine("Här är listan uppdaterad: ");
+            UserHandler.PrintUser(UserHandler.userList);
             // Console.WriteLine("Uppdaterad lista: ");
             // UserHandler.PrintUser(UserHandler.userList);
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
             Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
             
-            ProductHandler.AddProduct(product);
+            //ProductHandler.AddProduct(product);
             //ProductHandler.PrintProduct();
             // UserHandler.AddUser(user);
             // UserHandler.RemoveUser(user);
