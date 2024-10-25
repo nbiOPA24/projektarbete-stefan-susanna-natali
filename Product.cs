@@ -3,7 +3,7 @@ public class Product
 {   
     public enum ProductType // förrätt, varmrätt, dessert 
     {
-        Food,
+        Food = 1,
         Drinks    
     }
 
@@ -11,7 +11,7 @@ public class Product
 //  string[] ProductType = ["food", "Drinks"];
     public enum VatRate //momssatser för produkter 
     {
-        _12,
+        _12 = 1,
         _25
     }
 
@@ -55,18 +55,29 @@ public static class ProductHandler
         
         var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array
         var vatarray = Enum.GetValues(typeof(Product.VatRate)); // gör om vatItem till array 
+        int input = int.Parse(Console.ReadLine()); // användare lägger till typ och moms genom att ange heltal
         
-        int input = int.Parse(Console.ReadLine()); 
+        // If-sats
         
-        Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(input); // 
-        Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(input);
-        Console.Write("Produktens namn: ");
-        string? name = Console.ReadLine();
-        Console.Write("Pris: ");
-        double price = double.Parse(Console.ReadLine());
-        Product newProduct = new(name, price, selectedItemType, selectedVatType);
-        productList.Add(newProduct);                
-        PrintProduct();    
+        while (input != typearray.Length)
+        {
+            Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(input); // hämtar produkttypen efter angivet heltal ??
+            Product.VatRate selectedVatType = (Product.VatRate)vatarray.GetValue(input); // hämtar och sätter momssats efter angivet heltal
+            
+            Console.Write("Produktens namn: ");
+            string? name = Console.ReadLine();
+            Console.Write("Pris: ");
+            double price = double.Parse(Console.ReadLine());
+            Product newProduct = new(name, price, selectedItemType, selectedVatType);
+            productList.Add(newProduct);                
+            PrintProduct();  
+            break;  
+        }
+        // if
+        // {
+        //     Console.Write("Ogiltig input!");
+        // }
+
     }
 
     public static void PrintProductType()
