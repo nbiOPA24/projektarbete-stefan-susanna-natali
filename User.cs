@@ -1,26 +1,26 @@
 public class User
 
 {
-        public enum TypeOfUser
+    public enum TypeOfUser
     {
         Admin = 1,
         Manager,
         HeadWaiter,
+        Sommelier,
         Waiter,
         Bartender
     }
-    public string? FirstName {get; set;} // TODO fixa ev. lastname
-    public int UserId {get; set;}
-    public TypeOfUser UserType {get; set;}
+    public string? FirstName { get; set; } // TODO fixa ev. lastname
+    public int UserId { get; set; }
+    public TypeOfUser UserType { get; set; }
 
-    //TypeOfUser, chef, hov,
     // TODO göra userId 24 DateTime eller ska det bara vara 2-siffor? //ska det vara en algoritm/beräkninssätt
-    public User (TypeOfUser userType, string firstName, int userId)
+    public User(TypeOfUser userType, string firstName, int userId)
     {
         UserType = userType;
         FirstName = firstName;
         UserId = userId;
-        
+
     }
     public User() // tom konstruktor som sätter default-värden
     {
@@ -30,51 +30,93 @@ public class User
 }
 public static class UserHandler
 {
-    public static List<User> userList = new ();
+    public static List<User> userList = new();
 
-    public static List<User> PrintUser (List<User> userList)
-    {   Console.WriteLine("Här är personallistan: ");
-        foreach (User u in userList)
+    public static List<User> PrintUser(List<User> userList, User user)
+    {
+        Console.WriteLine("Här är personallistan: ");
+        if (userList.Count == 0)
         {
-            Console.WriteLine("Namn: " + u.FirstName + " - " + u.UserId);
-            
+            Console.WriteLine("------TOM------");
+            Console.Write("Lägga till personal? j/n: ");
+            string? input = Console.ReadLine();
+            input = UppercaseFirst(input);
+            if (input == "J")
+            {
+                AddUser(user);
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Bekräftar, lägger inte till personal");
+            }
+            else
+            {
+                Console.WriteLine("Ogilig input!");
+            }
+
         }
-        Console.WriteLine("________________________");
+        else
+        {
+
+            foreach (User u in userList)
+            {
+                Console.WriteLine("Namn: " + u.FirstName + " - " + u.UserId);
+
+            }
+            Console.WriteLine("________________________");
+
+        }
         return userList;
+
     }
     public static void PrintUserType()
     {
         Console.WriteLine("Behörighetslista: ");
-        foreach(User.TypeOfUser u in Enum.GetValues(typeof(User.TypeOfUser)))
+        foreach (User.TypeOfUser u in Enum.GetValues(typeof(User.TypeOfUser)))
         {
-            Console.WriteLine((int)u +". " + u);
+            Console.WriteLine((int)u + ". " + u);
         }
+        //TODO om behörighetslistan är tom "Finns ingen behöriget"?? 
+
     }
     public static void AddUser(User user)
     {
         Console.WriteLine("LÄGG TILL PERSONAL");
-        Console.Write("Behörighet, ange utifrån siffra: ");
         PrintUserType();
-        int input = int.Parse(Console.ReadLine());
-        var userArray = Enum.GetValues(typeof(User.TypeOfUser));
-        User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input); // hämtar produkttypen efter angivet heltal ??
+        Console.Write("Behörighet, ange utifrån siffra: ");
+        try
+        {
+            int input = int.Parse(Console.ReadLine());
+            var userArray = Enum.GetValues(typeof(User.TypeOfUser));
+            User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar produkttypen efter angivet heltal ??
 
-        Console.Write("Personalens förnamn: "); 
-        string? firstname = UppercaseFirst(Console.ReadLine());
+            Console.Write("Personalens förnamn: ");
+            string? firstname = UppercaseFirst(Console.ReadLine());
+            if (int.TryParse(firstname, out int number))
+            {
+                Console.WriteLine("Ogilitg input, enbart bokstäver är tillåtna!");
+                return;
+            }
 
-        user.UserId++;
-        Console.WriteLine("Personal " + firstname + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas id-nummer i kronologisk ordning
+            user.UserId++;
+            Console.WriteLine(selectedUserType + " " + firstname + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas id-nummer i kronologisk ordning
 
-        User newUser = new(selectedUserType, firstname,user.UserId);
-        userList.Add(newUser);
+            User newUser = new(selectedUserType, firstname, user.UserId);
+            userList.Add(newUser);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Ogiltig input!");
+
+        }
 
     }
 
 
-    public static void RemoveUser()
+    public static void RemoveUser(User user)
     {
         Console.WriteLine("TA BORT PERSONAL");
-        PrintUser(userList);
+        PrintUser(userList, user);
         Console.Write("Skriv in ID-nummer för personal du vill ta bort: ");
         int id = int.Parse(Console.ReadLine());
 
@@ -85,45 +127,84 @@ public static class UserHandler
                 Console.WriteLine(userList[i].FirstName + " är borttagen!");
                 userList.RemoveAt(i);
             }
+            else
+            {
+                Console.WriteLine("Ogiltig input!");
+            }
         }
-        
-    // public static void SearchForUser(){}
+
+
     }
-    public static void ModifyUser()
+    public static void SearchForUser(User user) //TODO kanske en global? Tex. menyval först för 1. User, 2. Product osv och en för allt?
+    {
+        List<User> searchList = new();
+        Console.Write("Skriv in sökning: ");
+        string search = Console.ReadLine();
+        foreach (User u in userList)
+        {
+            if (search == user.FirstName)
+            {
+                searchList.Add(u);
+            }
+            int.TryParse(search, out int number);
+            if (number == user.UserId)
+            {
+                searchList.Add(u);
+            }
+            //TODO lägg till if search == enum typeofuser
+            Console.WriteLine("Sökningen resulterade i: ");
+            PrintUser(searchList, user);
+
+        }
+    }
+
+    // Officer officerToAdd = newOfficer.roster.Find(officer => officer.BadgeNr == badgeNr)
+    public static void ModifyUser(User user)
     {
         Console.WriteLine("ÄNDRA PERSONAL");
-        PrintUser(userList);
-        Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
+        PrintUser(userList, user);
+        Console.Write("Skriv in ID-nummer för personal du vill ändra: ");//TODO felhantering valt utanför listan 
+
         int id = int.Parse(Console.ReadLine());
         Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
         int choice = int.Parse(Console.ReadLine());
         foreach (User u in userList)
+        {
+            if (choice == 1)
             {
-                if (choice == 2)
+                Console.Write("Namn valt. Skriv in nytt: ");
+                string? newName = Console.ReadLine();
+                u.FirstName = newName;
+                Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+            }
+            else if (choice == 2)
+            {
+                if (id == u.UserId)
                 {
-                if (id == u.UserId) //TODO välj från meny namn eller id-nummer.
-                    {
-                        Console.Write("ID-nummer valt. Skriv in nytt: ");
-                        int newId = int.Parse(Console.ReadLine());
-                        u.UserId = newId;
-                        Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
-                    }
-                }
-                else if (choice == 2)
-                {
-                    Console.Write("Namn valt. Skriv in nytt: ");
-                    string? newName = Console.ReadLine();
-                    u.FirstName = newName;
+                    Console.Write("ID-nummer valt. Skriv in nytt: ");
+                    int newId = int.Parse(Console.ReadLine());
+                    u.UserId = newId;
                     Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                 }
             }
+            else
+            {
+                Console.WriteLine("Ogilig input!");
+            }
+
+        }
 
     }
-            private static string UppercaseFirst(string str) // TODO gör denna universal till hela programmet
-        {
-            if (string.IsNullOrEmpty(str))
+    public static void NotValidInput()
+    {
+        Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");
+
+    }
+    private static string UppercaseFirst(string str) // TODO gör denna universal till hela programmet
+    {
+        if (string.IsNullOrEmpty(str))
             return string.Empty;
-            return char.ToUpper(str[0]) + str.Substring(1).ToLower();
-        }
-    
+        return char.ToUpper(str[0]) + str.Substring(1).ToLower();
+    }
+
 }
