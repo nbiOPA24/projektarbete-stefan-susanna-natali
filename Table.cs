@@ -1,6 +1,3 @@
-using System.Formats.Asn1;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 public class Table
 {
@@ -20,83 +17,116 @@ public class TableHandler
 
 public class TableMap //klass för en bordskarta
 {
-    public static int XLine { get; set; }
-    public static int YLine { get; set; }
-    public List<TableMap> tableMaps { get; set; }
-    public TableMap(int xLine, int yLine)
+    public string? Name { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public List<TableMap> tableMaps { get; set; } //= new List<TableMap>();
+    public TableMap(string? name, int width, int height)// behov?
     {
-        XLine = xLine;
-        YLine = yLine;
+        Name = name;
+        Width = width;
+        Height = height;
+        tableMaps = new List<TableMap>();
     }
     public void CreateMap()
     {
-        Console.WriteLine("Hur bred ska kartan vara? Ange 1 - 50.\nOm du vill använda standardstorlek tryck enter");
-        int xline = int.Parse(Console.ReadLine());
+        Console.WriteLine("Vill du skapa ny bordskarta eller redigera en sparad?");
+        Console.WriteLine("1. för skapa ny.");
+        Console.WriteLine("2. ladda en sparad karta.");
+        string? choice = Console.ReadLine();
+        if (choice == "1")
+        {
+            Console.WriteLine("Ange namn för din bordskarta");
+            string name = Console.ReadLine();
+            while (true) // borde ha bättre loopar
+            {
+                Console.Write("Hur bred ska kartan vara?\nange 0 för standard"); //fixa lite tryparse osv
+                int width = int.Parse(Console.ReadLine());
 
-        Console.WriteLine("Hur hög?\nOm du vill använda standardstorlek tryck enter");
-        int yLine = int.Parse(Console.ReadLine());
+                Console.Write("Hur hög ska kartan vara?\nange 0 för standard"); // tryparse senare
+                int height = int.Parse(Console.ReadLine());
+
+                string? xline;
+                string? yline = null;
+                string? space;
+
+                if (width == 0 && height == 0)
+                {
+                    width = 50;
+                    xline = new string('*', width);
+                    Console.WriteLine(xline);
+                    height = 25;
+                    for (int i = 0; i <= height; i++)
+                    {
+                        yline = "*";
+                        space = new string(' ', width - 2);
+                        Console.WriteLine($"{yline}{space}{yline}");
+                    }
+                    xline = new string('*', width - 2);
+                    Console.WriteLine($"{yline}{xline}{yline}");
+                }
+                else if (height <= 0 || height >= 50 || width <= 0 || width >= 100)
+                {
+                    Console.WriteLine("Fel storlek! Försök igen.");
+                    continue;
+                }
+
+                xline = new string('*', width);
+                Console.WriteLine(xline);
+
+                for (int i = 0; i <= height; i++)
+                {
+                    yline = "*";
+                    space = new string(' ', width - 2);
+                    Console.WriteLine($"{yline}{space}{yline}");
+                }
+
+                xline = new string('*', width - 2);
+                Console.WriteLine($"{yline}{xline}{yline}");
+                Console.WriteLine(name);
+
+                Console.WriteLine("'E' för att fortsätta redigera.");
+                Console.WriteLine("'S' för att spara.");
+
+                Console.WriteLine("'Q' för avsluta.");
+                choice = Console.ReadLine().ToUpper();
+                if (choice == "S")
+                {
+                    AddMap(width, height, name);// Ska väl sparas till ngn fil
+                    break;
+                }
+                else if (choice == "E")
+                {
+                    continue;
+                }
+                else if (choice == "Q")
+                {
+                    break;
+                }
+            }
+        }
+        else if (choice == "2")
+        {
+            PrintMap();
+            Console.WriteLine("Ange kartnummer för att öppna");
+            // .find osv.
+            Console.ReadKey();
+
+        }
     }
-    
+    public void AddMap(int width, int height, string? name)
+    {
+        TableMap newMap = new(name, width, height);
+        tableMaps.Add(newMap);
+    }
+    public void PrintMap()
+    {
+        for (int i = 0; i < tableMaps.Count; i++)
+        {
+            Console.WriteLine($"{i+1}. {tableMaps[i].Name}");
+        }
+    }
 }
 
-// public class TableMap
-// {   
-//     public static string? FrameTop {get; set;} // ska de va char eller kanske struct?
-//     public static string? FrameSides {get; set;}
-//     public static string? FrameBottom {get; set;}
-
-//     public List<TableMap> map {get; set;}// lista för "ramen" i bordskartan
-//     public TableMap(string frameTop, string frameSides, string frameBottom)
-//     {
-//         map = new List<TableMap>();
-//         FrameBottom = frameBottom;
-//         FrameTop = frameTop;
-//         FrameSides = frameSides;
-//     }
-
-//     public void CreateBordskarta()// man kanske behöver en lista för alla x,y botten top?
-//     {   
-    
-//         string? frameSides;
-//         string? frameBottom;
-//         string? frameTop;
-        
-//         Console.WriteLine("Hur bred ska kartan vara? Ange 1 - 50.\nOm du vill använda standardstorlek tryck enter");
-//         int xLine = int.Parse(Console.ReadLine());
-//         Console.WriteLine("Hur hög?\nOm du vill använda standardstorlek tryck enter");
-//         int yLine = int.Parse(Console.ReadLine());
-        
-//         if (xLine == 0)
-//         {   
-//             xLine = 50;
-//             // frameTop = new string('_', xLine); 
-//             // Console.WriteLine(frameTop);
-//         }
-//         if (yLine == 0)
-//         {
-//             yLine = 25;
-//             // for (int i = 0; i < 25; i++)
-//             // {   
-//             //     map[i] = "|"
-//             //     Console.WriteLine(map[i]);
-//             // }
-//         }
-//         frameTop = new string('_', xLine);
-//         frameBottom = frameTop;
-//         frameSides = $"{yLine}";
-
-
-//         TableMap nykarta = new(frameBottom, frameTop, frameSides);
-//         map.Add(nykarta);
-
-    
-//     }
-    // public static void DisplayTableMap() // Print table map
-    // {
-    //     for (int i = 0; i < tableMap.Count; i++)
-    //     {
-    //         Console.WriteLine();;
-    //     }
-    // }
 
    
