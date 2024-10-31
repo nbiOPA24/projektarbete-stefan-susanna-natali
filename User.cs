@@ -24,6 +24,7 @@ public class User
     }
     public User() // tom konstruktor som sätter default-värden
     {
+        FirstName = "N/A";
         UserId = 2400;
     }
 
@@ -32,7 +33,7 @@ public static class UserHandler
 {
     public static List<User> userList = new();
 
-    public static List<User> PrintUser(List<User> userList, User user)
+    public static void PrintUser(User user)
     {
         Console.WriteLine("Här är personallistan: ");
         if (userList.Count == 0)
@@ -66,7 +67,7 @@ public static class UserHandler
             Console.WriteLine("________________________");
 
         }
-        return userList;
+
 
     }
     public static void PrintUserType()
@@ -116,7 +117,7 @@ public static class UserHandler
     public static void RemoveUser(User user)
     {
         Console.WriteLine("TA BORT PERSONAL");
-        PrintUser(userList, user);
+        PrintUser(user);
         Console.Write("Skriv in ID-nummer för personal du vill ta bort: ");
         int id = int.Parse(Console.ReadLine());
 
@@ -135,38 +136,43 @@ public static class UserHandler
 
 
     }
-    public static void SearchForUser(User user) //TODO kanske en global? Tex. menyval först för 1. User, 2. Product osv och en för allt?
+    public static void SearchForUser() //TODO kanske en global? Tex. menyval först för 1. User, 2. Product osv och en för allt?
     {
         List<User> searchList = new();
         Console.Write("Skriv in sökning: ");
-        string search = Console.ReadLine();
+        string? search = Console.ReadLine();
+        search = UppercaseFirst(search);
         foreach (User u in userList)
-        {
-            if (search == user.FirstName)
+        {//om u.Usertype.ToString (namn på enum. ToString: konverterar alla värden till sträng) Equals: jämför resultatet med search
+            if (search == u.FirstName || u.UserType.ToString().Equals(search))
             {
                 searchList.Add(u);
             }
-            int.TryParse(search, out int number);
-            if (number == user.UserId)
+            if (int.TryParse(search, out int number))
             {
-                searchList.Add(u);
+                if (number == u.UserId)
+                {
+                    searchList.Add(u);
+                }
             }
-            //TODO lägg till if search == enum typeofuser
-            Console.WriteLine("Sökningen resulterade i: ");
-            PrintUser(searchList, user);
-
         }
+            Console.WriteLine("Sökningen resulterade i: ");
+            foreach (User s in searchList)
+            {
+                Console.WriteLine(s.FirstName + " " + s.UserId);
+                
+            }
+        
     }
 
-    // Officer officerToAdd = newOfficer.roster.Find(officer => officer.BadgeNr == badgeNr)
     public static void ModifyUser(User user)
     {
         Console.WriteLine("ÄNDRA PERSONAL");
-        PrintUser(userList, user);
-        Console.Write("Skriv in ID-nummer för personal du vill ändra: ");//TODO felhantering valt utanför listan 
+        PrintUser(user);
+        Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
 
         int id = int.Parse(Console.ReadLine());
-        Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
+        Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? "); 
         int choice = int.Parse(Console.ReadLine());
         foreach (User u in userList)
         {
@@ -195,6 +201,9 @@ public static class UserHandler
         }
 
     }
+    public static void AccsessLevelAdmin(){}
+    public static void AccsessLevelHigh(){}
+    public static void AccsessLevelLow(){}
     public static void NotValidInput()
     {
         Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");
