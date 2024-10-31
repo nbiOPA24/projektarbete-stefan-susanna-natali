@@ -5,17 +5,35 @@ public class Table
     int YPosition { get; set; }
     int Number {get; set;}
     int Size {get;set;}
+    // public Table(int xPosition, int yPosition, int number)
+    // {
+    //     XPosition = xPosition;
+    //     YPosition = yPosition;
+    //     Number = number;
+    // }
 }
+
 public class TableHandler
 { 
 
     public static List<Table> listOfTables = new();
-    public static void AddTable(){}
+    public static void AddTable()
+    {
+        Console.WriteLine("Lägg till bordsnr:");
+        int number = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Lägg till antal personer:");
+        int size =int.Parse(Console.ReadLine());
+
+        //getPosition
+
+        //listOfTables.Add
+    }
     public static void RemoveTable(){}
     public static void ChangeTable(){}
 }
 
-public class TableMap //klass för en bordskarta
+public class TableMap : Table//klass för en bordskarta, testar arv
 {
     public string? Name { get; set; }
     public int Width { get; set; }
@@ -27,6 +45,7 @@ public class TableMap //klass för en bordskarta
         Width = width;
         Height = height;
         tableMaps = new List<TableMap>();
+    
     }
     public void CreateMap()
     {
@@ -110,10 +129,72 @@ public class TableMap //klass för en bordskarta
             PrintMap();
             Console.WriteLine("Ange kartnummer för att öppna");
             // .find osv.
+            // AddTableToMap
             Console.ReadKey();
 
         }
     }
+    public void AddTableToMap(int width, int height, string? name) // DockTable, GetTable? bättre namn asap:)
+    {
+        // kolla doom? spelet för inspiration
+        // kunna lägga in emoji-bord
+        // flytta bordet och fästa bordet på plats.
+        // Oklar logik kring loopar och y,x -positioner
+        
+        Console.Clear();
+        Console.CursorVisible = false;
+        string tableSymbol = "\u25A0";
+        bool bordsloop = true;
+        while (bordsloop)
+        {
+            string? xline;
+            string? yline = null;
+            string? space;
+
+            // testar med standardkarta
+            width = 50;
+            xline = new string('*', width);
+            Console.WriteLine(xline);
+            height = 25;
+            for (int i = 0; i <= height; i++)
+                {
+                        yline = "*";
+                        space = new string(' ', width - 2);
+                        Console.WriteLine($"{yline}{space}{yline}");
+                        Console.WriteLine(tableSymbol);
+                    }
+                    xline = new string('*', width - 2);
+                    Console.WriteLine($"{yline}{xline}{yline}");
+
+        }
+
+    }
+    // metod för att flytta runt bord på karta
+    public void TableMovement(int xPosition, int yPosition, int width, int height)
+    {
+            int newX = xPosition;
+            int newY = yPosition;
+            bool isValidKey = true;
+
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            switch (keyInfo.Key)
+            {
+                case ConsoleKey.RightArrow: newX++; break;
+                case ConsoleKey.LeftArrow: newX--; break;
+                case ConsoleKey.UpArrow: newY--; break;
+                case ConsoleKey.DownArrow: newY++; break;
+                default: isValidKey = false; break;
+            }
+
+            // lägga till typ "space" för att låsa?
+            if (isValidKey &&
+                newX >= 0 && newX < width &&
+                newY >= 0 && newY < height)
+            {
+                xPosition = newX;
+                yPosition = newY;
+            }
+    }    
     public void AddMap(int width, int height, string? name)
     {
         TableMap newMap = new(name, width, height);
