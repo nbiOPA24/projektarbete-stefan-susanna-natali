@@ -10,7 +10,7 @@ public class User
         Waiter,
         Bartender
     }
-    public string? FirstName { get; set; } // TODO fixa ev. lastname
+    public string? FirstName { get; set; } // TODO fixa ev. lastname!
     public int UserId { get; set; }
     public TypeOfUser UserType { get; set; }
 
@@ -156,13 +156,13 @@ public static class UserHandler
                 }
             }
         }
-            Console.WriteLine("Sökningen resulterade i: ");
-            foreach (User s in searchList)
-            {
-                Console.WriteLine(s.FirstName + " " + s.UserId);
-                
-            }
-        
+        Console.WriteLine("Sökningen resulterade i: ");
+        foreach (User s in searchList)
+        {
+            Console.WriteLine(s.FirstName + " " + s.UserId);
+
+        }
+
     }
 
     public static void ModifyUser(User user)
@@ -172,7 +172,7 @@ public static class UserHandler
         Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
 
         int id = int.Parse(Console.ReadLine());
-        Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? "); 
+        Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
         int choice = int.Parse(Console.ReadLine());
         foreach (User u in userList)
         {
@@ -201,9 +201,9 @@ public static class UserHandler
         }
 
     }
-    public static void AccsessLevelAdmin(){}
-    public static void AccsessLevelHigh(){}
-    public static void AccsessLevelLow(){}
+    public static void AccsessLevelAdmin() { }
+    public static void AccsessLevelHigh() { }
+    public static void AccsessLevelLow() { }
     public static void NotValidInput()
     {
         Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");
