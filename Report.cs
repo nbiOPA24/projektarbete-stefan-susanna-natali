@@ -7,31 +7,33 @@ public class Report
         DailySales,
         PrintReceipt
     }
-}
-//     public int ReportNumber {get; set;}
-//     public DateTime Date {get; set;}
-//     public ReportType Type {get; set;} // TODO ska den heta type? 
 
-//     public List<Sale> Sales {get; set;} = new(); 
+     public int ReportNumber {get; set;}
+     public DateTime Date {get; set;}
+     public ReportType Type {get; set;} // TODO ska den heta type? 
 
-//     public void AddSale(decimal amount, DateTime date)
-//     {
-//         Sales.Add(new Sale(amount, date));
-//     }
-// }
+     public List<Sale> Sales {get; set;} = new(); 
 
-// public class Sale // för att hantera individuella 'sales' inom 'Report'-rapporter
-// TODO{
-//     public decimal Amount {get; set;} //"decimal" för att hantera monetära beräkningar
-//     public DateTime Date {get; set;} //TODO kanske fler egenskaper än summa + tid/datum?
+     public void AddSale(decimal amount, DateTime date)
+     {
+         Sales.Add(new Sale(amount, date));
+    }
+ }
 
-//     public Sale(decimal amount, DateTime date)
-//     {
-//         Amount = amount;
-//         Date = date;
-//     }
-// }
-/*public static class ReportHandler
+ public class Sales // för att hantera individuella 'sales' inom 'Report'-rapporter
+                    // TODO en egen SALES-flik...
+
+{
+     public decimal Amount {get; set;} //"decimal" för att hantera monetära beräkningar
+     public DateTime Date {get; set;} //TODO kanske fler egenskaper än summa + tid/datum?
+
+     public Sales(decimal amount, DateTime date)
+     {
+         Amount = amount;
+         Date = date;
+     }
+ }
+public static class ReportHandler
 {
     public static List<Report> saleslist {get; set;}  =  new(); 
 
@@ -59,4 +61,4 @@ public class Report
     public static decimal DailySales(){}
     public static decimal PrintReceipt(){}
     
-}*/
+}
