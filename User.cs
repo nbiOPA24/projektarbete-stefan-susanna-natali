@@ -36,7 +36,7 @@ public static class UserHandler
         string? name = Console.ReadLine(); 
         Console.WriteLine("Personal " + name + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas kronologisk ordning
         user.UserId++;
-        User newUser = new(name,user.UserId);
+        User newUser = new(name, user.UserId);
         
         userList.Add(newUser);
 
