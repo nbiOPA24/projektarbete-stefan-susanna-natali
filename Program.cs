@@ -4,19 +4,22 @@
     
         static void Main(string[] args)
         {   
-            
-            User user = new User();
+            int number = 0;
+            bool open = false;
+            TableHandler tableHandler = new TableHandler();
+            tableHandler.TableMenu(number, open);
+            //User user = new User();
             //Product product = new();
-            UserHandler.AddUser(user);
-            UserHandler.PrintUser(UserHandler.userList);
-            UserHandler.ModifyUser();
-            Console.WriteLine("Här är listan uppdaterad: ");
-            UserHandler.PrintUser(UserHandler.userList);
+            //UserHandler.AddUser(user);
+            //UserHandler.PrintUser(UserHandler.userList);
+            //UserHandler.ModifyUser();
+            //Console.WriteLine("Här är listan uppdaterad: ");
+            //UserHandler.PrintUser(UserHandler.userList);
             // Console.WriteLine("Uppdaterad lista: ");
             // UserHandler.PrintUser(UserHandler.userList);
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
-            Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
+            //Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
             
             //ProductHandler.AddProduct(product);
             //ProductHandler.PrintProduct();
