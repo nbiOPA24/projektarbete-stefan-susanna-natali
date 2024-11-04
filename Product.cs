@@ -1,14 +1,12 @@
 // Klass för en produkt med div. egenskaper.
-/* using Newtonsoft.Json;
 
-*/
 public class Product
 {
-    public enum ProductType // förrätt, varmrätt, dessert 
+    public enum ProductType // förrätt, varmrätt, dessert? 
     {
         Food = 1,
         Alcohol = 2,
-        Beverages = 3
+        Beverage = 3
 
     }
 
@@ -16,18 +14,18 @@ public class Product
     //  string[] ProductType = ["food", "Drinks"];
     public enum VatRate //momssatser för produkter 
     {
-        Moms_12 = 1,
-        Moms_25 = 2,
+        _12 = 1,
+        _25 = 2,
 
     }
 
 
     public string Name { get; set; }
     public double Price { get; set; }
-    //public double VAT {get; set;}
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
-    //TODO beskrivning till menyer
+    public string Description { get; set; }
+
 
     public Product(string name, double price, ProductType menuItem, VatRate vatItem)
     {
@@ -46,10 +44,11 @@ public static class ProductHandler
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
         int i = 1;
+
         foreach (Product p in productList)
         {
 
-            Console.WriteLine(i + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem); //TODO gör sån -45 för att få det centrerat
+            Console.WriteLine(i + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms");
             i++;
 
         }
@@ -59,10 +58,10 @@ public static class ProductHandler
     public static void AddProduct() //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
-        Console.WriteLine("q för quit"); //TODO "global" Quit-metod
+        Console.WriteLine("q för quit");
         Console.Write("Ange typ av produkt utifrån siffra: ");
 
-        var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array //TODO ev global för klassen? 
+        var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array  
         var vatarray = Enum.GetValues(typeof(Product.VatRate)); // gör om vatItem till array 
         string input = Console.ReadLine(); // användare lägger till typ och moms genom att ange heltal
         input = UppercaseFirst(input);
@@ -87,7 +86,7 @@ public static class ProductHandler
                     //OM input = 3, 12% = 0
 
                     Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal ??
-                    Product.VatRate selectedVatType = Product.VatRate.Moms_12; //Standard 12%, alkohol 25  
+                    Product.VatRate selectedVatType = Product.VatRate._12; //Standard 12%, alkohol 25  
                     if (intinput == 2) // om input = 2, 25%
                     {
                         selectedVatType = (Product.VatRate)vatarray.GetValue(1);
@@ -121,10 +120,19 @@ public static class ProductHandler
 
     public static void PrintProductType()
     {
+        int moms;
 
         foreach (Product.ProductType p in Enum.GetValues(typeof(Product.ProductType)))
         {
-            Console.WriteLine((int)p + ". " + " " + p);
+            if (p == Product.ProductType.Alcohol)
+            {
+                moms = 25;
+            }
+            else
+            {
+                moms = 12;
+            }
+            Console.WriteLine((int)p + ". " + " " + p + " " + moms + "% moms");
 
         }
     }
@@ -156,19 +164,18 @@ public static class ProductHandler
                 Console.WriteLine("Ogiltig input! Mata enbart in j/n!");
             }
         }
-        //TODO sortera efter produkttyp? 
 
 
     }
 
+
     //TODO Generell prisändring på alla produkter inom kategori
-    //TODO sortera efter produkttyp?
-    public static void ModifyProduct()
+    public static void ModifyProduct(Product product)
     {
         while (true)
         {
             PrintProduct();
-            Console.Write("Välj vilken produkt du vill uppdatera? Ange siffa: ");
+            Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
             int pickProduct = int.Parse(Console.ReadLine());
 
             Console.WriteLine("1. Pris");
@@ -177,46 +184,40 @@ public static class ProductHandler
             Console.Write("Välj vad som ska ändras, ange siffa: ");
             int choice = int.Parse(Console.ReadLine());
             foreach (Product p in productList)
+            {
                 if (choice == 1)
                 {
                     Console.Write("Ange nytt pris: ");
                     int newPrice = int.Parse(Console.ReadLine());
-                    p.Price = newPrice;
+                    product.Price = newPrice;
+                    break;
                 }
                 else if (choice == 2)
                 {
                     Console.Write("Ange nytt namn: ");
                     string? newName = Console.ReadLine();
-                    p.Name = newName;
+                    product.Name = newName;
+                    break;
                 }
                 else if (choice == 3)
                 {
-                    Console.Write("Ange ny produkttyp: ");
+
+                    PrintProductType();
+                    Console.Write("Välj ny produkttyp, ange siffra: ");
+                    int type = int.Parse(Console.ReadLine());
+                    // 0 = Food, 1 = alcohol, 2 = beverage
+                    var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type-1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
+                    productList[pickProduct -1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
+                    //TODO fixa momsen
+                    break;
+
                 }
+            }
         }
 
     }
-    public static void DisplayMenu()
-    {
-        Console.WriteLine("\t\tRestaurangmeny\n\n");
-        
-        foreach (Product p in productList)
-        {
-            if (p.MenuItem == Product.ProductType.Food)
-            {
-                Console.WriteLine("\t{0, -20} {1}", p.Name, p.Price);
-                continue;
-            }
-            Console.WriteLine("\n\n\t\tBarmeny\n\n");
-            if (p.MenuItem == Product.ProductType.Alcohol)
-            {
-                Console.WriteLine("\t{0, -20} {1}", p.Name, p.Price);
-            }
+    
 
-
-        }
-
-    }
     private static string UppercaseFirst(string str)
     {
         if (string.IsNullOrEmpty(str))
@@ -224,15 +225,4 @@ public static class ProductHandler
         return char.ToUpper(str[0]) + str.Substring(1).ToLower();
     }
 
-
-    // static ProductHandler()
-    // {
-    //    productList = new();
-    // }
-    /*public static void Add()
-    {
-        Product addProduct = new Product();
-        productList.Add(addProduct);
-        
-    } */
 }
