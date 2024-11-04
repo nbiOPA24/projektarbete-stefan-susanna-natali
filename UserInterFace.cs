@@ -1,9 +1,79 @@
 public static class UserInterFace
 {
+    //TODO kolla status vid bordet, tex de vill ha något mer att dricka, dessert, de är nöjda/missnöjda kompensera? 
     //Sale: Type
+    public static double Pay { get; set; }
+    public static bool Cash { get; set; }
+    public static double AmountToPay = 650;  //TODO belopp här tillfälligt tills bordslogik finns
 
-    public static void Payment() { }
-    public static void SplitPayment() { }
+    public static void Payment()
+    {
+
+        Console.WriteLine("*******BETALNINGSTERMINAL********");
+        Console.Write("1. Kort eller 2. kontant?: ");
+        int input = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("Summa att betala: " + AmountToPay);
+
+        switch (input)
+        {
+
+            case 1: // KORT
+                Cash = false;
+                GetPayment();
+                break;
+
+            //TODO stäng bordet
+
+            case 2: // KONTANT
+                Cash = true;
+                GetPayment();
+                break;
+                //TODO stäng bordet
+
+
+        }
+    }
+    public static void GetPayment()
+    {
+
+        while (true)
+        {
+            Console.Write("Slå in totalbelopp: ");
+            int payment = int.Parse(Console.ReadLine());
+
+            if (payment < AmountToPay)
+            {
+                Console.WriteLine("Beloppet är för lågt! Summa att betala är " + AmountToPay);
+                continue;
+            }
+            if (Cash == true)
+            {
+                double change = payment - AmountToPay;
+                Console.WriteLine("Din växel är " + change + " kr."); //TODO ska den inte dricksa? 
+                Console.WriteLine("Tack!");
+                Console.WriteLine("Skriva ut kvitto?"); //TODO fixa
+                break;
+            }
+            else if (payment >= AmountToPay)
+            {
+                Console.WriteLine("Betalning genomförs..."); // TODO sleep thread så det är en väntetid? 
+                Console.WriteLine("Tack!");
+                Console.WriteLine("Skriva ut kvitto?"); //TODO fixa
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Ogilig inmatning!");
+            }
+        }
+    }
+    public static void SplitPayment()
+    {
+        // Splitta broderligt
+        // Splitta per person
+
+    }
     public static void Order() { }
     public static void AddOrderToTable() { }
     public static void OpenTable() { }
@@ -16,7 +86,7 @@ public static class UserInterFace
         foreach (Product p in ProductHandler.productList)
         {
             if (p.Description == null)
-            descriptionsToFill++;
+                descriptionsToFill++;
         }
 
         for (int i = 0; i < ProductHandler.productList.Count; i++)
@@ -52,26 +122,32 @@ public static class UserInterFace
             }
         }
     }
-    public static void EditMenuDescription(){}
+    public static void EditMenuDescription() { }
     public static void DisplayMenu()
     {
-        Console.WriteLine("\t\tRestaurangmeny\n\n");
 
-        foreach (Product p in ProductHandler.productList)
+        Console.WriteLine("\t\tRestaurangmeny\n\n");
+        foreach (Product food in ProductHandler.productList)
         {
-            if (p.MenuItem == Product.ProductType.Food)
+            if (food.MenuItem == Product.ProductType.Food)
             {
-                Console.WriteLine("\t{0, -20} {1, -15} {2}", p.Name, p.Price + "kr ", p.Description);
+                Console.WriteLine("\t{0, -20} {1, -15} {2}", food.Name, food.Price + "kr ", food.Description);
                 continue;
             }
-            Console.WriteLine("\n\n\t\tBarmeny\n\n");
-            if (p.MenuItem == Product.ProductType.Alcohol)
-            {
-                Console.WriteLine("\t{0, -20} {1, -15} {2}", p.Name, p.Price +"kr ", p.Description);
-            }
-
-
         }
+
+
+        Console.WriteLine("\n\n\t\tBarmeny\n\n");
+        foreach (Product drink in ProductHandler.productList)
+        {
+            if (drink.MenuItem == Product.ProductType.Alcohol || drink.MenuItem == Product.ProductType.Beverage)
+            {
+                Console.WriteLine("\t{0, -20} {1, -15} {2}", drink.Name, drink.Price + "kr ", drink.Description);
+            }
+        }//TODO lägg till dryck någonstans också
+
+
+
 
     }
     private static string UppercaseFirst(string str)
