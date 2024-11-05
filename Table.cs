@@ -36,9 +36,9 @@ public class TableHandler
     public void TableMenu(int number, bool status)
     {
         //startvärden
-        // int number = 0;
-        // bool status = false;
-        TestTables(number, status);
+        //int number = 0;
+        //bool status = false;
+        TestTables();
         //Console.Clear();
         while (true)
         {   
@@ -51,7 +51,7 @@ public class TableHandler
                 
             if (choice == "1")
             {
-                ShowTables(status);
+                ShowTables();
             }
             else if (choice == "2")
             {
@@ -60,7 +60,7 @@ public class TableHandler
             }
             else if (choice == "3")
             {
-                OpenTable(number, status);
+                OpenTable(number);
             }
             else if(choice == "4")
             {
@@ -81,22 +81,22 @@ public class TableHandler
     }
 
     // lite testbord
-    public void TestTables(int number, bool status)
+    public void TestTables()
     {   
         // loop för att skapa lite testobjekt
         for (int i = 0; i < 2; i++)
         {   
-            //status = false;
-            number = i + 1;
+            bool status = false;
+            int number = i + 1;
             Table newTable = new Table(number, status);
             tables.Add(newTable);
         }
     }
     
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
-    public void OpenTable(int number, bool status)
+    public void OpenTable(int number)
     {
-        ShowTables(status);
+        //ShowTables(false);
         Console.WriteLine();
         Console.WriteLine("Ange bordsnummer:");
         
@@ -113,9 +113,12 @@ public class TableHandler
                 
                 if (tableToOpen != null) // behövs null?
                 {
-                    status = true;
+                    //Checkar om status är true
+                    tableToOpen.Status = true;
                     
                     Console.WriteLine($"bord: {number}. är öppnat.");
+                    
+                    
                     Console.WriteLine();
                 }
                 else
@@ -135,15 +138,15 @@ public class TableHandler
         }
     }
 
-    // Metod för att stänga bord
-    public void CloseTable(int number, bool status)
+    // Metod för att stänga ALLA bord
+    public void CloseTable(int number, bool status) // close ALL tables
     {
         Console.WriteLine("STÄNGA BORD");
         ShowOpenTables(status); //Lista använda bord 
         Console.Write("Vilket bord vill du stänga? Ange bordsnummer:");
         Console.ReadLine();
 
-        // OBS! number funkar inte stänger alla
+        // OBS! number funkar inte... stänger alla
         foreach (Table t in tables)
         {
             if (status == true) // måste nog söka fram borden som e öppna
@@ -162,21 +165,22 @@ public class TableHandler
         }
     }
     // metod för att visa borden (listan)
-    public void ShowTables(bool status) // isVisible?
+    public void ShowTables() // isVisible?
     {   
+        
         string bord = "\u25A0"; // in i Table?
         Console.WriteLine();
         for(int i = 0; i < tables.Count; i++)
         {   
             // checkar om bord är status och markerar rött
-            if (status == true)
+            if (!tables[i].Status)
             {   
-                Console.WriteLine($"Bord: {tables[i].Number}.");
+                Console.WriteLine($"Bord: {tables[i].Number}.{tables[i].Status}");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                Console.WriteLine($"{bord} Bord: {tables[i].Number}.{tables[i].Status}");
                 Console.ResetColor();
             }
         }
