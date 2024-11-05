@@ -42,16 +42,24 @@ public class TableHandler
         //int number = 0;
         //bool status = false;
         TestTables();
-        //Console.Clear();
+        Console.Clear();
         while (true)
         {   
+            // TODO lägga till TypeOfUser från user sen
+            bool admin = false;
+
             Console.WriteLine("1. Visa bordslista.");
-            Console.WriteLine("2. Skapa nytt bord.");
-            Console.WriteLine("3. Öppna bord.");
-            Console.WriteLine("4. Stänga bord.");
-            Console.WriteLine("5. Stänga alla bord.");
-            Console.WriteLine("6. Ta bort bord.");
-            Console.WriteLine("7. Redigera bord.");
+            Console.WriteLine("2. Öppna bord.");
+            Console.WriteLine("3. Stänga bord.");
+            Console.WriteLine("4. Stänga alla bord.");
+
+            // dessa kräver adminlevel typ
+            if (admin)
+            {
+                Console.WriteLine("5. Skapa nytt bord.");
+                Console.WriteLine("6. Ta bort bord.");
+                Console.WriteLine("7. Redigera bord.");
+            }
             Console.WriteLine("Q. Avsluta.");
             string? choice = Console.ReadLine().ToUpper(); // tryparse senare
                 
@@ -61,27 +69,25 @@ public class TableHandler
             }
             else if (choice == "2")
             {
-
-                AddTable(number, status, size);
+                OpenTable(number);
             }
             else if (choice == "3")
             {
-                OpenTable(number);
+                CloseTable(number);
             }
             else if(choice == "4")
             {
-                CloseTable(number);
-
-            }
-            else if(choice == "5")
-            {
                 CloseAllTables();
             }
-            else if(choice == "6")
+            else if(choice == "5" && admin)
+            {
+                AddTable(number, status, size);
+            }
+            else if(choice == "6" && admin)
             {
                 RemoveTable(number);
             }
-            else if(choice == "7")
+            else if(choice == "7" && admin)
             {
                 EditTable(number, size);
             }
@@ -209,18 +215,30 @@ public class TableHandler
         {
             if (t.Status) // måste nog söka fram borden som e öppna
             {
-                //if (products != 0)
-                //{
-                    //Console.WriteLine(t.number + "Har produkter kvar! Vill du ändå stänga bordet?");
-                //}
+                // TODO kolla om de finns bongade produkter på bordet
+                int products = 0;
+                if (products != 0)
+                {
+                    Console.WriteLine(t.Number + "Har produkter kvar! Vill du ändå stänga bordet? J/N?");
+                    string? input = Console.ReadLine();
+                    if (input == "J")
+                    {
+                        //TODO voida produkter typ
+
+                    }
+                    break;//? continue? return?
+                }
                 t.Status = false;
             }   
         }
         Console.WriteLine("Alla bord är stängda.");
+        Console.WriteLine();
     }
     // metod för att visa borden (listan)
     public static void ShowTables() // isVisible?
     {   
+        //testar admin
+        bool admin = false;
         //Fyrkantsemoji som får symbolisera ett bord
         string bord = "\u25A0"; // in i Table?
         Console.WriteLine();
@@ -229,17 +247,24 @@ public class TableHandler
             // checkar om bord är status och markerar rött
             if (!tables[i].Status)
             {   
-                Console.WriteLine($"Bord: {tables[i].Number}, {tables[i].Size}.");
-            }
-            else if (tables[i].Size == 4)
-            {
-                
+                if(admin)
+                {
+                    Console.WriteLine($"Bord: {tables[i].Number}, {tables[i].Size}.");
+                }
+                Console.WriteLine($"Bord: {tables[i].Number}.");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{bord} Bord: {tables[i].Number}, {tables[i].Size}.");
-                Console.ResetColor();
+                //TODO fixa redundans 
+                if (admin)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{bord} Bord: {tables[i].Number}, {tables[i].Size}.");
+                    Console.ResetColor();
+                }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                    Console.ResetColor();
             }
         }
         Console.WriteLine();
