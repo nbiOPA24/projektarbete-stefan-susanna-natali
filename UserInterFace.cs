@@ -4,12 +4,29 @@ public static class UserInterFace
     //Sale: Type
     public static double Pay { get; set; }
     public static bool Cash { get; set; }
-    public static double AmountToPay = 650;  //TODO belopp här tillfälligt tills bordslogik finns
 
+    public static double AmountToPay { get; set; }  //TODO belopp här tillfälligt tills bordslogik finns
+    public static List<Product> orderList = new();
+
+    public static void PrintOrderlist()
+    {
+        int i = 1;
+
+        foreach (Product p in orderList) //TODO plussa på istället för att varje artikel hamnar på en egen rad, tex, 3 öl, 4 pizzor
+        {
+            // if (p.Quantity > 0)
+            // {
+            Console.WriteLine(i + ". " + p.Name + " - " + p.Price + " kr. "); //  + p.Quantity + " st"
+            i++;
+            //}
+        }
+
+    }
     public static void Payment()
     {
 
-        Console.WriteLine("*******BETALNINGSTERMINAL********");
+        Console.WriteLine("*******BETALNING********");
+        //TODO skriv in bordsnummer
         Console.Write("1. Kort eller 2. kontant?: ");
         int input = int.Parse(Console.ReadLine());
 
@@ -68,22 +85,61 @@ public static class UserInterFace
             }
         }
     }
-    public static void SplitPayment()
+    public static void SplitPayment() // vänta med denna
     {
         // Splitta broderligt
         // Splitta per person
 
+    }
+
+    public static void TakeOrder() //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    {
+        ProductHandler.PrintProduct();
+
+        while (true)
+        {
+            Console.Write("Skriv in beställning, ange siffra. q för klar: ");
+            string choice = Console.ReadLine();
+            if (choice == "q")
+            {
+                break;
+            }
+            if (int.TryParse(choice, out int number))
+            {
+                foreach (Product p in ProductHandler.productList)
+                {
+                    if (number - 1 == ProductHandler.productList.IndexOf(p))
+                    {
+                        
+                        orderList.Add(p);
+                        break;
+                    }
+
+                }
+                PrintOrderlist();
+                CountOrder();
+            }
+        }
+    }
+
+    public static void CountOrder()
+    {
+        foreach (Product p in orderList)
+        {
+            AmountToPay += p.Price; //p.Quantity *
+
+        }
+        Console.WriteLine("Totalbelopp: " + AmountToPay);
 
     }
-    public static void Order() { }
-    public static void PrintReceipt(){}
-    public static void AddOrderToTable() { }
-    public static void OpenTable() { }
-    public static void SendOrder() { }
-    public static void CancelOrder() { }
+    public static void PrintReceipt() { }
+    // public static void AddOrderToTable() { } Ska vara i tablehandler
+    // public static void OpenTable() { } ska vara i tablehandler
+    // public static void SendOrder() { } ska vara i tablehandler
+    // public static void CancelOrder() { } ska vara i tablehandler
     public static void CreateMenuDescription()
     {// OM en produkt inte innehåller en beskriving, fyll i beskrivning
-        // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
+     // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
         int descriptionsToFill = 0;
         foreach (Product p in ProductHandler.productList)
         {
@@ -112,23 +168,38 @@ public static class UserInterFace
                     input = UppercaseFirst(input);
                     if (input == "J")
                     {
-                        continue;
+                        break;
                     }
                     else if (input == "N")
                     {
 
-                        break;
+                        return;
                     }
                     else
                     {
                         Console.WriteLine("Ogiltig input!");
-                     
+
                     }
                 }
             }
         }
     }
-    public static void EditMenuDescription() { }
+    public static void EditMenuDescription()
+    {
+        ProductHandler.PrintProduct();
+        Console.Write("Vilken artikel ska ändras? Ange siffra: ");
+        int number = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < ProductHandler.productList.Count; i++)
+        {
+            if (number - 1 == i)
+            {
+                Console.Write("Skriv in ny beskrivning: ");
+                string newDescription = Console.ReadLine();
+                ProductHandler.productList[i].Description = newDescription;
+            }
+        }
+    }
     public static void DisplayMenu()
     {
 
