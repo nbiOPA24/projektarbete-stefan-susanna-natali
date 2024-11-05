@@ -50,7 +50,7 @@ public static class UserInterFace
             if (Cash == true)
             {
                 double change = payment - AmountToPay;
-                Console.WriteLine("Din växel är " + change + " kr."); //TODO ska den inte dricksa? 
+                Console.WriteLine("Din växel är " + change + " kr."); //TODO ska den inte dricksa? //If tips AddToSale eller Du dricksade + change
                 Console.WriteLine("Tack!");
                 Console.WriteLine("Skriva ut kvitto?"); //TODO fixa
                 break;
@@ -73,8 +73,10 @@ public static class UserInterFace
         // Splitta broderligt
         // Splitta per person
 
+
     }
     public static void Order() { }
+    public static void PrintReceipt(){}
     public static void AddOrderToTable() { }
     public static void OpenTable() { }
     public static void SendOrder() { }
@@ -103,21 +105,25 @@ public static class UserInterFace
                     Console.WriteLine("Meny komplett!");
                     break;
                 }
-                Console.Write("Vill du fortsätta? Du har " + descriptionsToFill + " kvar att fylla i. j/n: ");
-                string input = Console.ReadLine();
-                input = UppercaseFirst(input);
-                if (input == "J")
+                while (true)
                 {
-                    continue;
-                }
-                else if (input == "N")
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Ogiltig input!");
-                    //TODO gör så att den också fortsätter tillbaka till Vill du fortsätta? 
+                    Console.Write("Vill du fortsätta? Du har " + descriptionsToFill + " kvar att fylla i. j/n: ");
+                    string input = Console.ReadLine();
+                    input = UppercaseFirst(input);
+                    if (input == "J")
+                    {
+                        continue;
+                    }
+                    else if (input == "N")
+                    {
+
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ogiltig input!");
+                     
+                    }
                 }
             }
         }
@@ -144,7 +150,7 @@ public static class UserInterFace
             {
                 Console.WriteLine("\t{0, -20} {1, -15} {2}", drink.Name, drink.Price + "kr ", drink.Description);
             }
-        }//TODO lägg till dryck någonstans också
+        }
 
 
 
