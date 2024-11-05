@@ -14,11 +14,12 @@ public class Table
     public bool Status {get; set;} // status/closed? ska man göra lång set med if som skriver ut open/closed?
     
     // Storlek för bordskarta gällande ex. bokningsläge (innebär: antalpers som ryms på bord)
-    int Size {get;set;}
-    public Table(int number, bool status)
+    public int Size {get;set;}
+    public Table(int number, bool status, int size)
     {
         Number = number;
         Status = status;
+        Size = size;
     }
     public Table(bool status)
     {
@@ -35,7 +36,7 @@ public class TableHandler
     {
         tables = new List<Table>();
     }
-    public void TableMenu(int number, bool status)
+    public void TableMenu(int number, bool status, int size)
     {
         //startvärden
         //int number = 0;
@@ -50,6 +51,7 @@ public class TableHandler
             Console.WriteLine("4. Stänga bord.");
             Console.WriteLine("5. Stänga alla bord.");
             Console.WriteLine("6. Ta bort bord.");
+            Console.WriteLine("7. Redigera bord.");
             Console.WriteLine("Q. Avsluta.");
             string? choice = Console.ReadLine().ToUpper(); // tryparse senare
                 
@@ -60,7 +62,7 @@ public class TableHandler
             else if (choice == "2")
             {
 
-                AddTable(number, status);
+                AddTable(number, status, size);
             }
             else if (choice == "3")
             {
@@ -79,6 +81,10 @@ public class TableHandler
             {
                 RemoveTable(number);
             }
+            else if(choice == "7")
+            {
+                EditTable(number, size);
+            }
             else if (choice == "Q")
             {
                 Console.WriteLine("Valfri tangent för att avsluta.");
@@ -96,17 +102,18 @@ public class TableHandler
     public void TestTables()
     {   
         // loop för att skapa lite testobjekt
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {   
             bool status = false;
             int number = i + 1;
-            Table newTable = new Table(number, status);
+            int size = 4;
+            Table newTable = new Table(number, status, size);
             tables.Add(newTable);
         }
     }
     
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
-    public void OpenTable(int number)
+    public static void OpenTable(int number)
     {
         Console.WriteLine();
         Console.WriteLine("Ange bordsnummer:");
@@ -222,12 +229,16 @@ public class TableHandler
             // checkar om bord är status och markerar rött
             if (!tables[i].Status)
             {   
-                Console.WriteLine($"Bord: {tables[i].Number}.");
+                Console.WriteLine($"Bord: {tables[i].Number}, {tables[i].Size}.");
+            }
+            else if (tables[i].Size == 4)
+            {
+                
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                Console.WriteLine($"{bord} Bord: {tables[i].Number}, {tables[i].Size}.");
                 Console.ResetColor();
             }
         }
@@ -277,18 +288,18 @@ public class TableHandler
     }
     // meny för att köra tablehandler och testa
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
-    public void AddTable(int number, bool status)
+    public static void AddTable(int number, bool status, int size)
     {
         Console.WriteLine();
         Console.WriteLine("Skapa nytt bord.");
         Console.WriteLine("Ange bordsnr:");
         number = int.Parse(Console.ReadLine()); //Fixa tryparse
 
-        //Console.WriteLine("Lägg till storlek (antal pers):"); //sittplatser? stolar?
-        //int size =int.Parse(Console.ReadLine());
+        Console.WriteLine("Lägg till storlek:"); //sittplatser? stolar?
+        size = int.Parse(Console.ReadLine());
 
         // Adda funktion för att kolla så inte nr finns
-        Table newTable = new Table(number, status);
+        Table newTable = new Table(number, status, size);
         tables.Add(newTable);
 
         //getPosition
@@ -296,7 +307,7 @@ public class TableHandler
 
     // adminfunktion för att ta bort bord från lista
     public static void RemoveTable(int number)
-        {
+    {
             
         Console.WriteLine();
         ShowTables(); //Lista använda bord
@@ -341,11 +352,54 @@ public class TableHandler
     } 
 
     // adminfunktion för att redigera bord i lista dvs. ändra storlek
-    public static void ChangeTable(){}
+    public static void EditTable(int number, int size)
+    {
+        Console.WriteLine();
+        ShowTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du redigera? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill redigera bord {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
+
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToEdit = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToEdit != null) // checkar så bordet finns
+                {
+                    Console.WriteLine("ange ny storlek.");
+
+                    tableToEdit.Size = int.Parse(Console.ReadLine());
+                    
+                    Console.WriteLine($"bord: {number}. storlek ändrat till {size}.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }   
+    }
 }
 
 
-// 
+// försök till lite grafisk bordskart. Work in progress :)
 
 // public class TableMap : Table//klass för en bordskarta, testar arv
 // {
