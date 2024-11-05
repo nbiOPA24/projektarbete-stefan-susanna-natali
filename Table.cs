@@ -1,5 +1,7 @@
 // Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
+using System.Security.Cryptography.X509Certificates;
+
 public class Table
 {
     //int XPosition { get; set; }
@@ -28,7 +30,7 @@ public class Table
 public class TableHandler
 { 
     // lista med bord
-    public List<Table> tables { get; set;} //= new();
+    public static List<Table> tables { get; set;} //= new();
     public TableHandler()
     {
         tables = new List<Table>();
@@ -46,6 +48,8 @@ public class TableHandler
             Console.WriteLine("2. Skapa nytt bord.");
             Console.WriteLine("3. Öppna bord.");
             Console.WriteLine("4. Stänga bord.");
+            Console.WriteLine("5. Stänga alla bord.");
+            Console.WriteLine("6. Ta bort bord.");
             Console.WriteLine("Q. Avsluta.");
             string? choice = Console.ReadLine().ToUpper(); // tryparse senare
                 
@@ -64,8 +68,16 @@ public class TableHandler
             }
             else if(choice == "4")
             {
-                CloseTable(number, status);
+                CloseTable(number);
 
+            }
+            else if(choice == "5")
+            {
+                CloseAllTables();
+            }
+            else if(choice == "6")
+            {
+                RemoveTable(number);
             }
             else if (choice == "Q")
             {
@@ -96,7 +108,6 @@ public class TableHandler
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
     public void OpenTable(int number)
     {
-        //ShowTables(false);
         Console.WriteLine();
         Console.WriteLine("Ange bordsnummer:");
         
@@ -139,35 +150,71 @@ public class TableHandler
     }
 
     // Metod för att stänga ALLA bord
-    public void CloseTable(int number, bool status) // close ALL tables
+    public static void CloseTable(int number) // close ALL tables
     {
-        Console.WriteLine("STÄNGA BORD");
-        ShowOpenTables(status); //Lista använda bord 
-        Console.Write("Vilket bord vill du stänga? Ange bordsnummer:");
-        Console.ReadLine();
+            
+        Console.WriteLine();
+        ShowOpenTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du stänga? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill du stänga {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
 
-        // OBS! number funkar inte... stänger alla
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToOpen = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToOpen != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    tableToOpen.Status = false;
+                    
+                    Console.WriteLine($"bord: {number}. är stängt.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+    }    
+    // Metod för att stänga alla bord. Behov vid ex. dagsavslut.
+    public static void CloseAllTables()  
+    {  
+        ShowTables();
         foreach (Table t in tables)
         {
-            if (status == true) // måste nog söka fram borden som e öppna
+            if (t.Status) // måste nog söka fram borden som e öppna
             {
-                int nr = int.Parse(Console.ReadLine());
-                Console.Write("");
-                number = nr;
                 //if (products != 0)
                 //{
                     //Console.WriteLine(t.number + "Har produkter kvar! Vill du ändå stänga bordet?");
                 //}
-                status = false;
-                Console.WriteLine("bord " + t.Number + " är stängt");
-            }
-            
+                t.Status = false;
+            }   
         }
+        Console.WriteLine("Alla bord är stängda.");
     }
     // metod för att visa borden (listan)
-    public void ShowTables() // isVisible?
+    public static void ShowTables() // isVisible?
     {   
-        
+        //Fyrkantsemoji som får symbolisera ett bord
         string bord = "\u25A0"; // in i Table?
         Console.WriteLine();
         for(int i = 0; i < tables.Count; i++)
@@ -175,12 +222,12 @@ public class TableHandler
             // checkar om bord är status och markerar rött
             if (!tables[i].Status)
             {   
-                Console.WriteLine($"Bord: {tables[i].Number}.{tables[i].Status}");
+                Console.WriteLine($"Bord: {tables[i].Number}.");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{bord} Bord: {tables[i].Number}.{tables[i].Status}");
+                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
                 Console.ResetColor();
             }
         }
@@ -188,14 +235,14 @@ public class TableHandler
     }
 
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
-    public void ShowOpenTables(bool status)
+    public static void ShowOpenTables()
     {
         
         for(int i = 0; i < tables.Count; i++)
         {
             string bord = "\u25A0";   
-            // checkar om bord är status och markerar rött
-            if (status)
+            // checkar om bord är status och markerar rött och "bordsemoji"
+            if (tables[i].Status)
             {   
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
@@ -245,16 +292,60 @@ public class TableHandler
         tables.Add(newTable);
 
         //getPosition
-
-
     }
 
     // adminfunktion för att ta bort bord från lista
-    public static void RemoveTable(){}
+    public static void RemoveTable(int number)
+        {
+            
+        Console.WriteLine();
+        ShowTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du stänga? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill du ta bort bord {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
 
-    // adminfunktion för att redigera bord i lista
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToRemove = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToRemove != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    tables.Remove(tableToRemove);
+                    
+                    Console.WriteLine($"bord: {number}. är borttaget.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+    } 
+
+    // adminfunktion för att redigera bord i lista dvs. ändra storlek
     public static void ChangeTable(){}
 }
+
+
+// 
 
 // public class TableMap : Table//klass för en bordskarta, testar arv
 // {
