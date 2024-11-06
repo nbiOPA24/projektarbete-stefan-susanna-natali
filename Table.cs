@@ -1,7 +1,5 @@
 // Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
-using System.Security.Cryptography.X509Certificates;
-
 public class Table
 {
     //int XPosition { get; set; }
