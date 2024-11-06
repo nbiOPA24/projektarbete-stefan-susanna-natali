@@ -83,6 +83,7 @@ public static class UserHandler
     public static void AddUser(User user)
     {
         Console.WriteLine("LÄGG TILL PERSONAL");
+<<<<<<< HEAD
         PrintUserType();
         Console.Write("Behörighet, ange utifrån siffra: ");
         try
@@ -110,6 +111,15 @@ public static class UserHandler
             Console.WriteLine("Ogiltig input!" + e);
 
         }
+=======
+        Console.Write("Personalens namn: "); 
+        string? name = Console.ReadLine(); 
+        Console.WriteLine("Personal " + name + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas kronologisk ordning
+        user.UserId++;
+        User newUser = new(name, user.UserId);
+        
+        userList.Add(newUser);
+>>>>>>> Susanna
 
     }
 
