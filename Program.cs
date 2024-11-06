@@ -10,4 +10,5 @@
             
             TableHandler tableHandler = new TableHandler();
             tableHandler.TableMenu(number, status, size);
-            
+        }
+}    
