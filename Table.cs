@@ -117,7 +117,7 @@ public class TableHandler
             tables.Add(newTable);
         }
     }
-    
+    // TODO lägga till produkter på ngt sätt.
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
     public static void OpenTable(int number)
     {
