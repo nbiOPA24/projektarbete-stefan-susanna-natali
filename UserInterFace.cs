@@ -92,9 +92,10 @@ public static class UserInterFace
 
     }
 
-    public static void TakeOrder() //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    public static void Order() //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
     {
         ProductHandler.PrintProduct();
+        // välj bordsnummer OpenTable();
 
         while (true)
         {
@@ -110,7 +111,7 @@ public static class UserInterFace
                 {
                     if (number - 1 == ProductHandler.productList.IndexOf(p))
                     {
-                        
+
                         orderList.Add(p);
                         break;
                     }
@@ -122,7 +123,7 @@ public static class UserInterFace
         }
     }
 
-    public static void CountOrder()
+    public static void CountOrder() 
     {
         foreach (Product p in orderList)
         {
@@ -132,7 +133,27 @@ public static class UserInterFace
         Console.WriteLine("Totalbelopp: " + AmountToPay);
 
     }
-    public static void PrintReceipt() { }
+    public static void PrintReceipt()
+    {
+        int ReceiptNumber = 1000; //Todo gör till egenskap
+        Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber + "\n\n");
+        Console.WriteLine(); //Vilken Användare/servis
+        Console.WriteLine(); //DateTime från när betalningen gått igenom
+                            //Betalda artiklar
+                            //Betald summa
+                            //Varav dricks(Extra)
+                            //Varav moms
+                             
+        foreach (Product food in ProductHandler.productList)
+        {
+            if (food.MenuItem == Product.ProductType.Food)
+            {
+                Console.WriteLine("\t{0, -20} {1, -15} {2}", food.Name, food.Price + "kr ", food.Description);
+                continue;
+            }
+        }
+        ReceiptNumber++;
+    }
     // public static void AddOrderToTable() { } Ska vara i tablehandler
     // public static void OpenTable() { } ska vara i tablehandler
     // public static void SendOrder() { } ska vara i tablehandler
