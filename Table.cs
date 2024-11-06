@@ -1,4 +1,4 @@
-// Klass för ett bord med egenskaper
+// Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
 public class Table
 {
@@ -9,14 +9,19 @@ public class Table
     public int Number {get; set;}
 
     // testar en bool för att visa öppna bord
-    public bool Open {get; set;} // status kanske?
+    public bool Status {get; set;} // status/closed? ska man göra lång set med if som skriver ut open/closed?
     
     // Storlek för bordskarta gällande ex. bokningsläge (innebär: antalpers som ryms på bord)
-    int Size {get;set;}
-    public Table(int number, bool open)
+    public int Size {get;set;}
+    public Table(int number, bool status, int size)
     {
         Number = number;
-        Open = open;
+        Status = status;
+        Size = size;
+    }
+    public Table(bool status)
+    {
+        Status = status;
     }
 }
 
@@ -24,90 +29,260 @@ public class Table
 public class TableHandler
 { 
     // lista med bord
-    public List<Table> tables { get; set;} //= new();
+    public static List<Table> tables { get; set;} //= new();
     public TableHandler()
     {
         tables = new List<Table>();
     }
+    public void TableMenu(int number, bool status, int size)
+    {
+        //startvärden
+        //int number = 0;
+        //bool status = false;
+        TestTables();
+        Console.Clear();
+        while (true)
+        {   
+            // TODO lägga till TypeOfUser från user sen
+            bool admin = false;
+
+            Console.WriteLine("1. Visa bordslista.");
+            Console.WriteLine("2. Öppna bord.");
+            Console.WriteLine("3. Stänga bord.");
+            Console.WriteLine("4. Stänga alla bord.");
+
+            // dessa kräver adminlevel typ
+            if (admin)
+            {
+                Console.WriteLine("5. Skapa nytt bord.");
+                Console.WriteLine("6. Ta bort bord.");
+                Console.WriteLine("7. Redigera bord.");
+            }
+            Console.WriteLine("Q. Avsluta.");
+            string? choice = Console.ReadLine().ToUpper(); // tryparse senare
+                
+            if (choice == "1")
+            {
+                ShowTables();
+            }
+            else if (choice == "2")
+            {
+                OpenTable(number);
+            }
+            else if (choice == "3")
+            {
+                CloseTable(number);
+            }
+            else if(choice == "4")
+            {
+                CloseAllTables();
+            }
+            else if(choice == "5" && admin)
+            {
+                AddTable(number, status, size);
+            }
+            else if(choice == "6" && admin)
+            {
+                RemoveTable(number);
+            }
+            else if(choice == "7" && admin)
+            {
+                EditTable(number, size);
+            }
+            else if (choice == "Q")
+            {
+                Console.WriteLine("Valfri tangent för att avsluta.");
+                Console.ReadKey();
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val");
+            }
+        }
+    }
 
     // lite testbord
-    public void TestTables(int number, bool open)
+    public void TestTables()
     {   
         // loop för att skapa lite testobjekt
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 3; i++)
         {   
-            open = false;
-            number = i + 1;
-            Table newTable = new Table(number, open);
+            bool status = false;
+            int number = i + 1;
+            int size = 4;
+            Table newTable = new Table(number, status, size);
             tables.Add(newTable);
         }
     }
-    
+    // TODO lägga till produkter på ngt sätt.
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
-    public void OpenTable(int number, bool open)
+    public static void OpenTable(int number)
     {
-        open = true;
+        Console.WriteLine();
+        Console.WriteLine("Ange bordsnummer:");
+        
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill du öppna {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
+
+            if (input == "J")
+            {
+                Table tableToOpen = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToOpen != null) // behövs null?
+                {
+                    //Checkar om status är true
+                    tableToOpen.Status = true;
+                    
+                    Console.WriteLine($"bord: {number}. är öppnat.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        
+        }
     }
 
-    // Metod för att stänga bord
-    public void CloseTable(int number, bool open)
+    // Metod för att stänga ALLA bord
+    public static void CloseTable(int number) // close ALL tables
     {
-        Console.WriteLine("STÄNGA BORD");
-        ShowOpenTables(open); //Lista använda bord 
-        Console.Write("Vilket bord vill du stänga? Ange bordsnummer:");
-        int nr = int.Parse(Console.ReadLine());
+            
+        Console.WriteLine();
+        ShowOpenTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du stänga? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill du stänga {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
 
-        // OBS! number funkar inte stänger alla
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToOpen = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToOpen != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    tableToOpen.Status = false;
+                    
+                    Console.WriteLine($"bord: {number}. är stängt.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+    }    
+    // Metod för att stänga alla bord. Behov vid ex. dagsavslut.
+    public static void CloseAllTables()  
+    {  
+        ShowTables();
         foreach (Table t in tables)
         {
-            if (open) // måste nog söka fram borden som e öppna
+            if (t.Status) // måste nog söka fram borden som e öppna
             {
-                Console.Write("");
-                number = nr;
-                //if (products != 0)
-                //{
-                    //Console.WriteLine(t.number + "Har produkter kvar! Vill du ändå stänga bordet?");
-                //}
-                open = !open;
-                Console.WriteLine("bord " + t.Number + " är stängt");
-            }
-        }
-    }
+                // TODO kolla om de finns bongade produkter på bordet
+                int products = 0;
+                if (products != 0)
+                {
+                    Console.WriteLine(t.Number + "Har produkter kvar! Vill du ändå stänga bordet? J/N?");
+                    string? input = Console.ReadLine();
+                    if (input == "J")
+                    {
+                        //TODO voida produkter typ
 
+                    }
+                    break;//? continue? return?
+                }
+                t.Status = false;
+            }   
+        }
+        Console.WriteLine("Alla bord är stängda.");
+        Console.WriteLine();
+    }
     // metod för att visa borden (listan)
-    public void ShowTables() // isVisible?
+    public static void ShowTables() // isVisible?
     {   
+        //testar admin
+        bool admin = false;
+        //Fyrkantsemoji som får symbolisera ett bord
         string bord = "\u25A0"; // in i Table?
-        bool open = false;
+        Console.WriteLine();
         for(int i = 0; i < tables.Count; i++)
         {   
-            // checkar om bord är open och markerar rött
-            if (!open)
+            // checkar om bord är status och markerar rött
+            if (!tables[i].Status)
             {   
+                if(admin)
+                {
+                    Console.WriteLine($"Bord: {tables[i].Number}, {tables[i].Size}.");
+                }
                 Console.WriteLine($"Bord: {tables[i].Number}.");
             }
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
-            Console.ResetColor();
+            else
+            {
+                //TODO fixa redundans 
+                if (admin)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{bord} Bord: {tables[i].Number}, {tables[i].Size}.");
+                    Console.ResetColor();
+                }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                    Console.ResetColor();
+            }
         }
+        Console.WriteLine();
     }
 
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
-    public void ShowOpenTables(bool open)
+    public static void ShowOpenTables()
     {
         
         for(int i = 0; i < tables.Count; i++)
         {
             string bord = "\u25A0";   
-            // checkar om bord är open och markerar rött
-            if (open)
+            // checkar om bord är status och markerar rött och "bordsemoji"
+            if (tables[i].Status)
             {   
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
                 Console.ResetColor();        
             }
         }
-        
     }
 
     // metod för att "bonga" produkter på bord (send)
@@ -134,31 +309,120 @@ public class TableHandler
     {
 
     }
-
-
-
-
-
+    // meny för att köra tablehandler och testa
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
-    public static void AddTable()
+    public static void AddTable(int number, bool status, int size)
     {
-        Console.WriteLine("Lägg till bordsnr:");
-        int number = int.Parse(Console.ReadLine()); //Fixa tryparse
+        Console.WriteLine();
+        Console.WriteLine("Skapa nytt bord.");
+        Console.WriteLine("Ange bordsnr:");
+        number = int.Parse(Console.ReadLine()); //Fixa tryparse
 
-        Console.WriteLine("Lägg till storlek (antal pers):"); //sittplatser? stolar?
-        int size =int.Parse(Console.ReadLine());
+        Console.WriteLine("Lägg till storlek:"); //sittplatser? stolar?
+        size = int.Parse(Console.ReadLine());
+
+        // Adda funktion för att kolla så inte nr finns
+        Table newTable = new Table(number, status, size);
+        tables.Add(newTable);
 
         //getPosition
-
-        //listOfTables.Add
     }
 
     // adminfunktion för att ta bort bord från lista
-    public static void RemoveTable(){}
+    public static void RemoveTable(int number)
+    {
+            
+        Console.WriteLine();
+        ShowTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du stänga? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill du ta bort bord {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
 
-    // adminfunktion för att redigera bord i lista
-    public static void ChangeTable(){}
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToRemove = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToRemove != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    tables.Remove(tableToRemove);
+                    
+                    Console.WriteLine($"bord: {number}. är borttaget.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+    } 
+
+    // adminfunktion för att redigera bord i lista dvs. ändra storlek
+    public static void EditTable(int number, int size)
+    {
+        Console.WriteLine();
+        ShowTables(); //Lista använda bord
+        Console.WriteLine(); 
+        Console.WriteLine("Vilket bord vill du redigera? Ange bordsnummer:");
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill redigera bord {number}. J/N? ");
+            string? input = Console.ReadLine().ToUpper();
+
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToEdit = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToEdit != null) // checkar så bordet finns
+                {
+                    Console.WriteLine("ange ny storlek.");
+
+                    tableToEdit.Size = int.Parse(Console.ReadLine());
+                    
+                    Console.WriteLine($"bord: {number}. storlek ändrat till {size}.");
+                    
+                    
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }   
+    }
 }
+
+
+// försök till lite grafisk bordskart. Work in progress :)
 
 // public class TableMap : Table//klass för en bordskarta, testar arv
 // {
