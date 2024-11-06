@@ -107,7 +107,7 @@ public static class UserHandler
         }
         catch (Exception e)
         {
-            Console.WriteLine("Ogiltig input!");
+            Console.WriteLine("Ogiltig input!" + e);
 
         }
 
@@ -201,9 +201,6 @@ public static class UserHandler
         }
 
     }
-    public static void AccsessLevelAdmin() { }
-    public static void AccsessLevelHigh() { }
-    public static void AccsessLevelLow() { }
     public static void NotValidInput()
     {
         Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");

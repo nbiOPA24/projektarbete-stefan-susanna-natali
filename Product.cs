@@ -1,5 +1,5 @@
 // Klass för en produkt med div. egenskaper.
-
+//TODO ta bort momsen från konstruktorn så den uppdateras automatiskt
 public class Product
 {
     public enum ProductType // förrätt, varmrätt, dessert? 
@@ -25,6 +25,7 @@ public class Product
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
+    public int Quantity {get; set;}
 
 
     public Product(string name, double price, ProductType menuItem, VatRate vatItem)
@@ -48,7 +49,7 @@ public static class ProductHandler
         foreach (Product p in productList)
         {
 
-            Console.WriteLine(i + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms");
+            Console.WriteLine(i + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
             i++;
 
         }
@@ -120,19 +121,12 @@ public static class ProductHandler
 
     public static void PrintProductType()
     {
-        int moms;
+
 
         foreach (Product.ProductType p in Enum.GetValues(typeof(Product.ProductType)))
         {
-            if (p == Product.ProductType.Alcohol)
-            {
-                moms = 25;
-            }
-            else
-            {
-                moms = 12;
-            }
-            Console.WriteLine((int)p + ". " + " " + p + " " + moms + "% moms");
+            //AdjustVatItem();
+            Console.WriteLine((int)p + ". " + " " + p); //TODO lägg till moms här också?
 
         }
     }
@@ -206,8 +200,9 @@ public static class ProductHandler
                     Console.Write("Välj ny produkttyp, ange siffra: ");
                     int type = int.Parse(Console.ReadLine());
                     // 0 = Food, 1 = alcohol, 2 = beverage
-                    var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type-1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
-                    productList[pickProduct -1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
+                    var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
+                    productList[pickProduct - 1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
+                    AdjustVatItem();
                     //TODO fixa momsen
                     break;
 
@@ -216,7 +211,21 @@ public static class ProductHandler
         }
 
     }
-    
+
+    public static void AdjustVatItem()
+    {
+        for (int i = 0; i < productList.Count; i++)
+        {
+            if (productList[i].MenuItem == Product.ProductType.Alcohol)
+            {
+                productList[i].VatItem = Product.VatRate._25;
+            }
+            else
+            {
+                productList[i].VatItem = Product.VatRate._12;
+            }
+        }
+    }
 
     private static string UppercaseFirst(string str)
     {
