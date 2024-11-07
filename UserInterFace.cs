@@ -2,10 +2,10 @@ public static class UserInterFace
 {
     //TODO kolla status vid bordet, tex de vill ha något mer att dricka, dessert, de är nöjda/missnöjda kompensera? 
     //Sale: Type
-    public static double Pay { get; set; }
-    public static bool Cash { get; set; }
-
-    public static double AmountToPay { get; set; }  //TODO belopp här tillfälligt tills bordslogik finns
+    public static double PaidAmount { get; set; }
+    public static double Change {get;set;}
+     public static double AmountToPay { get; set; }
+    public static bool IsCash { get; set; }
     public static List<Product> orderList = new();
 
     public static void PrintOrderlist()
@@ -22,7 +22,70 @@ public static class UserInterFace
         }
 
     }
-    public static void Payment()
+
+
+    public static void Order() //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    {
+        ProductHandler.PrintProduct();
+        Console.WriteLine();
+
+        while (true)
+        {
+            Console.Write("Skriv in beställning, ange artikelnr. 'Q' för klar: ");
+            string? choice = Console.ReadLine().ToUpper();
+            
+            if (int.TryParse(choice, out int number))
+            {
+                foreach (Product p in ProductHandler.productList)
+                {
+                    if (number - 1 == ProductHandler.productList.IndexOf(p))
+                    {
+
+                        orderList.Add(p);
+                        break;
+                    }
+
+                }
+            }
+            if (choice == "Q")
+            {
+                //TableHandler objekt = new TableHandler();
+                Console.WriteLine("Betala (d)irekt eller lägga order till (b)ord?");
+                string paymentChoice = Console.ReadLine();
+                paymentChoice = UppercaseFirst(paymentChoice); 
+                if (paymentChoice == "D")
+                {
+                    Payment();
+                }
+                else if (paymentChoice == "B")
+                {
+                    TableHandler.Order(number);
+                }
+                else 
+                {
+                    Console.WriteLine("Ogiltig input");
+                }
+
+            }
+            
+            //TableHandler.OpenTable(number); //eller skicka till betalning
+        PrintOrderlist();
+        CountOrder();
+        }
+
+    }
+
+    public static void CountOrder() 
+    {
+        foreach (Product p in orderList)
+        {
+            AmountToPay += p.Price; //p.Quantity *
+
+        }
+        Console.WriteLine("Totalbelopp: " + AmountToPay);
+
+    }
+        public static void Payment()
     {
 
         Console.WriteLine("*******BETALNING********");
@@ -36,14 +99,14 @@ public static class UserInterFace
         {
 
             case 1: // KORT
-                Cash = false;
+                IsCash = false;
                 GetPayment();
                 break;
 
             //TODO stäng bordet
 
             case 2: // KONTANT
-                Cash = true;
+                IsCash = true;
                 GetPayment();
                 break;
                 //TODO stäng bordet
@@ -57,26 +120,29 @@ public static class UserInterFace
         while (true)
         {
             Console.Write("Slå in totalbelopp: ");
-            int payment = int.Parse(Console.ReadLine());
+            PaidAmount = int.Parse(Console.ReadLine());
 
-            if (payment < AmountToPay)
+            if (PaidAmount < AmountToPay)
             {
                 Console.WriteLine("Beloppet är för lågt! Summa att betala är " + AmountToPay);
                 continue;
             }
-            if (Cash == true)
+            if (IsCash == true)
             {
-                double change = payment - AmountToPay;
-                Console.WriteLine("Din växel är " + change + " kr."); //TODO ska den inte dricksa? //If tips AddToSale eller Du dricksade + change
+                Change = PaidAmount - AmountToPay;
+                Console.WriteLine("Din växel är " + Change + " kr."); //TODO ska den inte dricksa? //If tips AddToSale eller Du dricksade + change
                 Console.WriteLine("Tack!");
-                Console.WriteLine("Skriva ut kvitto?"); //TODO fixa
+                Console.WriteLine("Kvitto: ");
+                PrintReceipt();
                 break;
             }
-            else if (payment >= AmountToPay)
-            {
+            else if (PaidAmount >= AmountToPay)
+            {   
+                Change = PaidAmount - AmountToPay;
                 Console.WriteLine("Betalning genomförs..."); // TODO sleep thread så det är en väntetid? 
                 Console.WriteLine("Tack!");
-                Console.WriteLine("Skriva ut kvitto?"); //TODO fixa
+                Console.WriteLine("Kvitto: ");
+                PrintReceipt(); // indata kvittonummer för att hålla reda på? 
                 break;
             }
             else
@@ -91,67 +157,22 @@ public static class UserInterFace
         // Splitta per person
 
     }
-
-    public static void Order() //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
-    {
-        ProductHandler.PrintProduct();
-        // välj bordsnummer OpenTable();
-
-        while (true)
-        {
-            Console.Write("Skriv in beställning, ange siffra. q för klar: ");
-            string choice = Console.ReadLine();
-            if (choice == "q")
-            {
-                break;
-            }
-            if (int.TryParse(choice, out int number))
-            {
-                foreach (Product p in ProductHandler.productList)
-                {
-                    if (number - 1 == ProductHandler.productList.IndexOf(p))
-                    {
-
-                        orderList.Add(p);
-                        break;
-                    }
-
-                }
-                PrintOrderlist();
-                CountOrder();
-            }
-        }
-    }
-
-    public static void CountOrder() 
-    {
-        foreach (Product p in orderList)
-        {
-            AmountToPay += p.Price; //p.Quantity *
-
-        }
-        Console.WriteLine("Totalbelopp: " + AmountToPay);
-
-    }
     public static void PrintReceipt()
     {
         int ReceiptNumber = 1000; //Todo gör till egenskap
         Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber + "\n\n");
         Console.WriteLine(); //Vilken Användare/servis
         Console.WriteLine(); //DateTime från när betalningen gått igenom
-                            //Betalda artiklar
-                            //Betald summa
-                            //Varav dricks(Extra)
-                            //Varav moms
                              
-        foreach (Product food in ProductHandler.productList)
-        {
-            if (food.MenuItem == Product.ProductType.Food)
-            {
-                Console.WriteLine("\t{0, -20} {1, -15} {2}", food.Name, food.Price + "kr ", food.Description);
-                continue;
-            }
+        foreach (Product food in orderList)//Betalda artiklar ta från bordslistan
+        {       
+                Console.WriteLine("\t{0, -20} {1, -15} {2}", food.Name, food.Price + "kr ");
         }
+
+        Console.WriteLine("Betald summa: " + PaidAmount);//Betald summa
+        Console.WriteLine("Varav dricks: " + Change);//Varav dricks(Extra)
+        Console.WriteLine("Varav moms 12%: " );//Varav moms
+        Console.WriteLine("Varav moms 25%: ");
         ReceiptNumber++;
     }
     // public static void AddOrderToTable() { } Ska vara i tablehandler
@@ -244,9 +265,10 @@ public static class UserInterFace
             }
         }
 
-
-
-
+    }
+    public static void UserInterFaceMenu()
+    {
+        Console.WriteLine();
     }
     private static string UppercaseFirst(string str)
     {
