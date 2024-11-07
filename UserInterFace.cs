@@ -42,6 +42,7 @@ public static class UserInterFace
                     if (prouktSomSkaVisas != null)
                     {
                         orderList.Add(prouktSomSkaVisas);
+                        
                     }
                     
                     else 
@@ -67,7 +68,7 @@ public static class UserInterFace
                 }
                 else if (paymentChoice == "B")
                 {
-                    TableHandler.OrderToTable(number);
+                    //TableHandler.OrderToTable(number);
                     break;
                 }
                 else 
@@ -75,8 +76,6 @@ public static class UserInterFace
                     Console.WriteLine("Ogiltig input");
 
                 }
-            
-            //TableHandler.OpenTable(number); //eller skicka till betalning
 
             }
 
@@ -85,14 +84,14 @@ public static class UserInterFace
 
     public static void CountTotal() 
     {
-
+        AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         foreach (Product p in orderList)
         {
             AmountToPay += p.Price; //p.Quantity *
 
         }
-        Console.WriteLine("Totalbelopp: " + AmountToPay);
-        AmountToPay = 0;
+        Console.WriteLine("Summa att betala: " + AmountToPay);
+
 
     }
         public static void Payment()
@@ -102,8 +101,8 @@ public static class UserInterFace
         //TODO skriv in bordsnummer
         Console.Write("1. Kort eller 2. kontant?: ");
         int input = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Summa att betala: " + AmountToPay);
+        CountTotal();
+        //Console.WriteLine("" + AmountToPay);
 
         switch (input)
         {
@@ -112,8 +111,7 @@ public static class UserInterFace
                 IsCash = false;
                 GetPayment();
                 break;
-
-            //TODO stäng bordet
+                //TODO stäng bordet
 
             case 2: // KONTANT
                 IsCash = true;
@@ -131,15 +129,19 @@ public static class UserInterFace
         {
             Console.Write("Slå in totalbelopp: ");
             PaidAmount = int.Parse(Console.ReadLine());
+            Change = 0;
+            Change = PaidAmount - AmountToPay;
 
             if (PaidAmount < AmountToPay)
             {
+                Console.WriteLine(PaidAmount + " Paidamount");
+            Console.WriteLine(AmountToPay + "AmountToPay");
                 Console.WriteLine("Beloppet är för lågt! Summa att betala är " + AmountToPay);
                 continue;
             }
             if (IsCash == true)
             {
-                Change = PaidAmount - AmountToPay;
+                
                 Console.WriteLine("Din växel är " + Change + " kr."); //TODO ska den inte dricksa? //If tips AddToSale eller Du dricksade + change
                 Console.WriteLine("Tack!");
                 Console.WriteLine("Kvitto: ");
@@ -147,12 +149,13 @@ public static class UserInterFace
                 break;
             }
             else if (PaidAmount >= AmountToPay)
-            {   
-                Change = PaidAmount - AmountToPay;
+            {   Console.WriteLine(PaidAmount + " Paidamount");
+            Console.WriteLine(AmountToPay + "AmountToPay");
+                Console.WriteLine("Din växel är " + Change + " kr.");
                 Console.WriteLine("Betalning genomförs..."); // TODO sleep thread så det är en väntetid? 
                 Console.WriteLine("Tack!");
                 Console.WriteLine("Kvitto: ");
-                PrintReceipt(); // indata kvittonummer för att hålla reda på? 
+                PrintReceipt(); //TODO indata kvittonummer för att hålla reda på? 
                 break;
             }
             else
@@ -170,16 +173,11 @@ public static class UserInterFace
     public static void PrintReceipt()
     {
         int ReceiptNumber = 1000; //Todo gör till egenskap
-        Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber + "\n\n");
+        Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber + "\n");
         Console.WriteLine(); //Vilken Användare/servis
         Console.WriteLine(); //DateTime från när betalningen gått igenom
-        
+
         PrintOrderlist();    
-        // foreach (Product p in orderList)//Betalda artiklar ta från bordslistan
-        // {       
-        //     Console.WriteLine("\t{0, -20} {1, -15}", p.Name, p.Price + "kr ");
-        // }
-        
         Console.WriteLine("Betald summa: " + PaidAmount);//Betald summa
         Console.WriteLine("Varav dricks: " + Change);//Varav dricks(Extra)
         CalculateVat();
@@ -189,16 +187,20 @@ public static class UserInterFace
     }
     public static void CalculateVat()
     {
+        double CalcVat12 = 0;
+        double CalcVat25 = 0;
         foreach (Product p in orderList)
         {
             if (p.MenuItem == Product.ProductType.Food|| p.MenuItem == Product.ProductType.Beverage)
             {
-                
-                Vat12 += p.Price;
+
+                CalcVat12 += p.Price;
+                Vat12 = CalcVat12 * 0.12;
             }
             else if (p.MenuItem == Product.ProductType.Alcohol)
             {
-                p.Price += Vat25;
+                CalcVat25 += Vat25;
+                Vat25 = CalcVat25 * 0.25;
             }
         }
         //95 * 0.25
