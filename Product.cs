@@ -22,6 +22,7 @@ public class Product
 
     public string Name { get; set; }
     public double Price { get; set; }
+    public int ProductNumber {get;set;}
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
@@ -44,13 +45,13 @@ public static class ProductHandler
     //Om du bara ska skriva ut produkter är void tillräckligt. 
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
-        int i = 1;
-
+        
         foreach (Product p in productList)
         {
+            //int ProductNumber = p + 1;
+            p.ProductNumber++;
+            Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
 
-            Console.WriteLine(i + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
-            i++;
 
         }
 
@@ -164,7 +165,7 @@ public static class ProductHandler
 
 
     //TODO Generell prisändring på alla produkter inom kategori
-    public static void ModifyProduct(Product product)
+    public static void EditProduct()
     {
         while (true)
         {
@@ -183,14 +184,14 @@ public static class ProductHandler
                 {
                     Console.Write("Ange nytt pris: ");
                     int newPrice = int.Parse(Console.ReadLine());
-                    product.Price = newPrice;
+                    p.Price = newPrice;
                     break;
                 }
                 else if (choice == 2)
                 {
                     Console.Write("Ange nytt namn: ");
                     string? newName = Console.ReadLine();
-                    product.Name = newName;
+                    p.Name = newName;
                     break;
                 }
                 else if (choice == 3)
@@ -219,10 +220,39 @@ public static class ProductHandler
             if (productList[i].MenuItem == Product.ProductType.Alcohol)
             {
                 productList[i].VatItem = Product.VatRate._25;
+                 
             }
             else
             {
                 productList[i].VatItem = Product.VatRate._12;
+                
+            }
+        }
+    }
+    public static void ProductStartMenu()
+    {
+        while (true)
+        {
+            Console.WriteLine("1. Se alla produkter");
+            Console.WriteLine("2. Lägg till produkt");
+            Console.WriteLine("3. Ta bort produkt");
+            Console.WriteLine("4. Ändra en produkt"); 
+
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1: 
+                PrintProduct();
+                    break;
+                case 2: 
+                AddProduct();
+                    break;
+                case 3: 
+                RemoveProduct();
+                    break; 
+                case 4: 
+                EditProduct();
+                    break;
             }
         }
     }

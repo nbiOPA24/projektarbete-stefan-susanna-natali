@@ -17,10 +17,8 @@ public static class UserInterFace
         foreach (Product p in orderList) //TODO plussa på istället för att varje artikel hamnar på en egen rad, tex, 3 öl, 4 pizzor
         {
             // if (p.Quantity > 0)
-            // {
             Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. "); //  + p.Quantity + " st"
-            
-            //}
+        
         }
 
     }
@@ -52,9 +50,7 @@ public static class UserInterFace
             }
             PrintOrderlist();
             CountTotal();
-        
             
-        
             if (choice == "Q")
             {
                 //TableHandler objekt = new TableHandler();
@@ -203,16 +199,14 @@ public static class UserInterFace
                 Vat25 = CalcVat25 * 0.25;
             }
         }
-        //95 * 0.25
-        
 
     }
     // public static void AddOrderToTable() { } Ska vara i tablehandler
     // public static void OpenTable() { } ska vara i tablehandler
     // public static void SendOrder() { } ska vara i tablehandler
     // public static void CancelOrder() { } ska vara i tablehandler
-    public static void CreateMenuDescription()
-    {// OM en produkt inte innehåller en beskriving, fyll i beskrivning
+    public static void CreateMenuDescription() // OM en produkt inte innehåller en beskriving, fyll i beskrivning
+    {
      // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
         int descriptionsToFill = 0;
         foreach (Product p in ProductHandler.productList)
@@ -298,9 +292,31 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu()
+    public static void UserInterFaceStartMenu(Product product)
     {
-        Console.WriteLine("1.");
+        while (true){
+        Console.WriteLine("1. Ny beställning");
+        Console.WriteLine("2. Se meny");
+        Console.WriteLine("3. Skapa meny"); //Todo kanske denna inne i se meny?
+        Console.WriteLine("4. Ändra meny"); //Todo kanske denna inne i se meny?
+
+        int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1: 
+                Order(product);
+                    break;
+                case 2: 
+                DisplayMenu();
+                    break;
+                case 3: 
+                CreateMenuDescription();
+                    break; 
+                case 4: 
+                EditMenuDescription();
+                    break;
+            }
+        }
     }
     private static string UppercaseFirst(string str)
     {

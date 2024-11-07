@@ -83,7 +83,6 @@ public static class UserHandler
     public static void AddUser(User user)
     {
         Console.WriteLine("LÄGG TILL PERSONAL");
-<<<<<<< HEAD
         PrintUserType();
         Console.Write("Behörighet, ange utifrån siffra: ");
         try
@@ -111,15 +110,6 @@ public static class UserHandler
             Console.WriteLine("Ogiltig input!" + e);
 
         }
-=======
-        Console.Write("Personalens namn: "); 
-        string? name = Console.ReadLine(); 
-        Console.WriteLine("Personal " + name + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas kronologisk ordning
-        user.UserId++;
-        User newUser = new(name, user.UserId);
-        
-        userList.Add(newUser);
->>>>>>> Susanna
 
     }
 
@@ -175,7 +165,7 @@ public static class UserHandler
 
     }
 
-    public static void ModifyUser(User user)
+    public static void EditUser(User user) //TODO ändra usertype
     {
         Console.WriteLine("ÄNDRA PERSONAL");
         PrintUser(user);
@@ -210,6 +200,37 @@ public static class UserHandler
 
         }
 
+    }
+        public static void UserStartMenu(User user)
+    {
+        while (true)
+        {
+            Console.WriteLine("1. Se personallista");
+            Console.WriteLine("2. Lägg till personal");
+            Console.WriteLine("3. Ta bort personal");
+            Console.WriteLine("4. Redigera personal");
+            Console.WriteLine("5. Sökning"); 
+
+            int choice = int.Parse(Console.ReadLine());
+            switch (choice)
+            {
+                case 1: 
+                PrintUser(user);
+                    break;
+                case 2: 
+                AddUser(user);
+                    break;
+                case 3: 
+                RemoveUser(user);
+                    break; 
+                case 4: 
+                EditUser(user);
+                    break;
+                case 5: 
+                SearchForUser();
+                    break;
+            }
+        }
     }
     public static void NotValidInput()
     {
