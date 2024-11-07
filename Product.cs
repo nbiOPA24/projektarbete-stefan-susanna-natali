@@ -1,5 +1,5 @@
 // Klass för en produkt med div. egenskaper.
-//TODO ta bort momsen från konstruktorn så den uppdateras automatiskt
+//TODO ta bort momsen från konstruktorn så den uppdateras automatiskt ist
 public class Product
 {
     public enum ProductType // förrätt, varmrätt, dessert? 
@@ -10,8 +10,6 @@ public class Product
 
     }
 
-    //  int[] array = new int[2];
-    //  string[] ProductType = ["food", "Drinks"];
     public enum VatRate //momssatser för produkter 
     {
         _12 = 1,
@@ -23,11 +21,11 @@ public class Product
     public string Name { get; set; }
     public double Price { get; set; }
     public int ProductNumber {get;set;}
+    private static int nextNumber = 1; 
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
     public int Quantity {get; set;}
-
 
     public Product(string name, double price, ProductType menuItem, VatRate vatItem)
     {
@@ -35,11 +33,16 @@ public class Product
         Price = price;
         MenuItem = menuItem;
         VatItem = vatItem;
+
+        ProductNumber += nextNumber; //uppdatera produktnummer efter varje skapat objekt
+        nextNumber++;
+
     }
 }
 public static class ProductHandler
 {
-    public static List<Product> productList { get; set; } = new(); // 
+            
+    public static List<Product> productList { get; set;} = new();
 
     public static void PrintProduct() // varför inte void tex?
     //Om du bara ska skriva ut produkter är void tillräckligt. 
@@ -49,10 +52,8 @@ public static class ProductHandler
         foreach (Product p in productList)
         {
             //int ProductNumber = p + 1;
-            p.ProductNumber++;
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
-
-
+            Console.WriteLine(p.ProductNumber + " "+ p.MenuItem); 
         }
 
     }

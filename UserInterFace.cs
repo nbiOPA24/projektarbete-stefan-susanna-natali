@@ -4,7 +4,7 @@ public static class UserInterFace
     //Sale: Type
     
     public static double PaidAmount { get; set; }
-    public static double Change {get;set;}
+    public static double Tips {get;set;}
     public static double AmountToPay { get; set; }
     public static double Vat12 {get;set;}
     public static double Vat25 {get;set;}
@@ -50,7 +50,7 @@ public static class UserInterFace
             }
             PrintOrderlist();
             CountTotal();
-            
+
             if (choice == "Q")
             {
                 //TableHandler objekt = new TableHandler();
@@ -64,7 +64,8 @@ public static class UserInterFace
                 }
                 else if (paymentChoice == "B")
                 {
-                    //TableHandler.OrderToTable(number);
+                    TableHandler tableHandler = new();
+                    TableHandler.OrderToTable(1,true, product, tableHandler);
                     break;
                 }
                 else 
@@ -123,31 +124,29 @@ public static class UserInterFace
 
         while (true)
         {
-            Console.Write("Slå in totalbelopp: ");
+            Console.Write("Slå in totalbelopp ink. ev. dricks: ");
             PaidAmount = int.Parse(Console.ReadLine());
-            Change = 0;
-            Change = PaidAmount - AmountToPay;
+            Tips = PaidAmount - AmountToPay;
 
             if (PaidAmount < AmountToPay)
             {
-                Console.WriteLine(PaidAmount + " Paidamount");
-            Console.WriteLine(AmountToPay + "AmountToPay");
                 Console.WriteLine("Beloppet är för lågt! Summa att betala är " + AmountToPay);
                 continue;
             }
             if (IsCash == true)
-            {
-                
-                Console.WriteLine("Din växel är " + Change + " kr."); //TODO ska den inte dricksa? //If tips AddToSale eller Du dricksade + change
+            {   Console.Write("Slå in mottagna pengar: ");
+                double givenMoney = int.Parse(Console.ReadLine());
+                double change = givenMoney - PaidAmount;
+                Console.WriteLine("Du dricksade " + Tips + " kr.");
+                Console.WriteLine("Din växel är " + change + " kr.");
                 Console.WriteLine("Tack!");
                 Console.WriteLine("Kvitto: ");
                 PrintReceipt();
                 break;
             }
             else if (PaidAmount >= AmountToPay)
-            {   Console.WriteLine(PaidAmount + " Paidamount");
-            Console.WriteLine(AmountToPay + "AmountToPay");
-                Console.WriteLine("Din växel är " + Change + " kr.");
+            { 
+                Console.WriteLine("Du dricksade " + Tips + " kr.");
                 Console.WriteLine("Betalning genomförs..."); // TODO sleep thread så det är en väntetid? 
                 Console.WriteLine("Tack!");
                 Console.WriteLine("Kvitto: ");
@@ -175,7 +174,7 @@ public static class UserInterFace
 
         PrintOrderlist();    
         Console.WriteLine("Betald summa: " + PaidAmount);//Betald summa
-        Console.WriteLine("Varav dricks: " + Change);//Varav dricks(Extra)
+        Console.WriteLine("Varav dricks: " + Tips);//Varav dricks(Extra)
         CalculateVat();
         Console.WriteLine("Varav moms 12%: " + Vat12);//Varav moms
         Console.WriteLine("Varav moms 25%: " + Vat25);
