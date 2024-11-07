@@ -103,7 +103,7 @@ public class TableHandler
     }
 
     // lite testbord
-    public void TestTables()
+    public static void TestTables()
     {   
         // loop för att skapa lite testobjekt
         for (int i = 0; i < 3; i++)
@@ -114,6 +114,9 @@ public class TableHandler
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);
         }
+        tables.Add(new(4, true, 4));
+        tables.Add(new (5, true, 4));
+        tables.Add(new (6, false, 4));
     }
     // TODO lägga till produkter på ngt sätt.
     // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
@@ -208,6 +211,7 @@ public class TableHandler
     // Metod för att stänga alla bord. Behov vid ex. dagsavslut.
     public static void CloseAllTables()  
     {  
+        
         ShowTables();
         foreach (Table t in tables)
         {
@@ -235,6 +239,12 @@ public class TableHandler
     // metod för att visa borden (listan)
     public static void ShowTables() // isVisible?
     {   
+        // //startvärden
+        // int number = 0;
+        // bool status = false;
+        // int size = 0;
+        //TableHandler table= new Table(0, false, 0);
+        //TestTables();
         //testar admin
         bool admin = false;
         //Fyrkantsemoji som får symbolisera ett bord
@@ -260,9 +270,9 @@ public class TableHandler
                     Console.WriteLine($"{bord} Bord: {tables[i].Number}, {tables[i].Size}.");
                     Console.ResetColor();
                 }
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
-                    Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                Console.ResetColor();
             }
         }
         Console.WriteLine();
@@ -285,10 +295,51 @@ public class TableHandler
         }
     }
 
-    // metod för att "bonga" produkter på bord (send)
-    public void SendToTable()// endast send? eller addtotable?
+    // metod för att visa varor på bord
+    public void DisplayTableContents(int number)// endast send? eller addtotable?
     {
+        Console.Write("välj bordsnummer: ");
+        
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill lägga order på bord {number}. J/N? (Ps. onödigt steg.) ");
+            string? input = Console.ReadLine().ToUpper();
 
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToDisplay = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToDisplay != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    
+                    // här ska ordern skickas ut och in i en lista på bordet
+                    
+                    // foreach (Product j in tableNumberProductList)
+                    // {
+                    //     Console.WriteLine($"");
+                    // }
+                }
+
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }    
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+        Console.WriteLine("Order skickas till kök TODO"); // fixa bong
+    
     }
 
     // metod för att splitta bord (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
@@ -305,10 +356,64 @@ public class TableHandler
 
 
     // metod för att skapa en order
-    public void Order()
+    public static void OrderToTable(int number)
     {
+        
+        // lägger till produkter i en tillfällig lista
+        // find efter bordsid
+        //TestTables();
+        ShowTables();// ska detta va här eller en ny metod i TableHandler?
+        Console.Write("välj bordsnummer: ");
+        
+        string? nr = Console.ReadLine();
+                        
+        if (int.TryParse(nr, out number))
+        {
+            Console.Write($"Vill lägga order på bord {number}. J/N? (Ps. onödigt steg.) ");
+            string? input = Console.ReadLine().ToUpper();
 
-    }
+            if (input == "J")
+            {
+                // söker upp bordet efter bordsnummer
+                Table tableToAddOrder = tables.Find(tables => tables.Number == number); 
+                
+                if (tableToAddOrder != null) // checkar så bordet finns
+                {
+                    //Checkar om status är true
+                    
+                    // här ska ordern skickas ut och in i en lista på bordet
+                    List<Product> tableNumberProductList = new();
+                    foreach (Product p in UserInterFace.orderList)
+                    {
+
+                        tableNumberProductList.Add(p);
+                    
+                    }
+                    foreach (Product j in tableNumberProductList)
+                    {
+                        Console.WriteLine($"");
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
+                }    
+            }
+            else if (input == "N")
+            {
+                Console.WriteLine("Avbruten.");
+            }
+            else
+            {
+                Console.WriteLine("Ogiltigt val.");
+            }
+        }
+        Console.WriteLine("Order skickas till kök TODO"); // fixa bong
+    }   
+    
+
+
     // meny för att köra tablehandler och testa
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
     public static void AddTable(int number, bool status, int size)
