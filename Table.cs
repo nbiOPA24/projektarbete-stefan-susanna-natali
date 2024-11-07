@@ -4,7 +4,6 @@ public class Table
 {
     //int XPosition { get; set; }
     //int YPosition { get; set; }
-    
     // Bordsnummer för bordskarta/lista
     public int Number {get; set;}
 
@@ -13,11 +12,13 @@ public class Table
     
     // Storlek för bordskarta gällande ex. bokningsläge (innebär: antalpers som ryms på bord)
     public int Size {get;set;}
+    // bordsspecifik lista för produkter
     public Table(int number, bool status, int size)
     {
         Number = number;
         Status = status;
         Size = size;
+        //tableProductList = new List<Product>();
     }
     public Table(bool status)
     {
@@ -29,11 +30,15 @@ public class Table
 public class TableHandler
 { 
     // lista med bord
-    public static List<Table> tables { get; set;} //= new();
+    public List<Product> tableProductList { get; set ;} //= new();
+
+    public static List<Table> tables { get; set; }
     public TableHandler()
     {
         tables = new List<Table>();
+        tableProductList = new List <Product>();
     }
+
     public void TableMenu(int number, bool status, int size)
     {
         //startvärden
@@ -106,20 +111,18 @@ public class TableHandler
     public static void TestTables()
     {   
         // loop för att skapa lite testobjekt
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {   
             bool status = false;
             int number = i + 1;
             int size = 4;
+            
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);
         }
-        tables.Add(new(4, true, 4));
-        tables.Add(new (5, true, 4));
-        tables.Add(new (6, false, 4));
     }
     // TODO lägga till produkter på ngt sätt.
-    // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet
+    // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet // onödig funktion??
     public static void OpenTable(int number)
     {
         Console.WriteLine();
@@ -159,7 +162,6 @@ public class TableHandler
             {
                 Console.WriteLine("Ogiltigt val.");
             }
-        
         }
     }
 
@@ -244,7 +246,7 @@ public class TableHandler
         // bool status = false;
         // int size = 0;
         //TableHandler table= new Table(0, false, 0);
-        //TestTables();
+        TestTables();
         //testar admin
         bool admin = false;
         //Fyrkantsemoji som får symbolisera ett bord
@@ -271,7 +273,7 @@ public class TableHandler
                     Console.ResetColor();
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
+                //Console.WriteLine($"{bord} Bord: {tables[i].Number}.{tables[i].TableProductList}");
                 Console.ResetColor();
             }
         }
@@ -296,7 +298,7 @@ public class TableHandler
     }
 
     // metod för att visa varor på bord
-    public void DisplayTableContents(int number)// endast send? eller addtotable?
+    public void ShowTableContents(int number)// endast send? eller addtotable?
     {
         Console.Write("välj bordsnummer: ");
         
@@ -315,12 +317,14 @@ public class TableHandler
                 if (tableToDisplay != null) // checkar så bordet finns
                 {
                     //Checkar om status är true
+
+                    // Leta upp lista Xthistable...
                     
                     // här ska ordern skickas ut och in i en lista på bordet
                     
-                    // foreach (Product j in tableNumberProductList)
+                    // foreach (Product j in tableNumberProductList))
                     // {
-                    //     Console.WriteLine($"");
+                    //     Console.WriteLine($"hallå");
                     // }
                 }
 
@@ -338,7 +342,6 @@ public class TableHandler
                 Console.WriteLine("Ogiltigt val.");
             }
         }
-        Console.WriteLine("Order skickas till kök TODO"); // fixa bong
     
     }
 
@@ -349,14 +352,14 @@ public class TableHandler
     }
 
     // metod för att radera produkter eller tömma bord. (krävs hov/admin? Ange behörighet alt redan inloggad)
-    public void VoidOrder() // oklart namn
+    public void VoidOrder() // oklart namn ta bort varje produkt i listan
     {
 
     }
 
 
-    // metod för att skapa en order
-    public static void OrderToTable(int number)
+    // metod för att lägga en order till ett bord
+    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler)
     {
         
         // lägger till produkter i en tillfällig lista
@@ -380,19 +383,39 @@ public class TableHandler
                 if (tableToAddOrder != null) // checkar så bordet finns
                 {
                     //Checkar om status är true
-                    
-                    // här ska ordern skickas ut och in i en lista på bordet
-                    List<Product> tableNumberProductList = new();
+                    //tableHandler.tableProductList.Add(product); //TODO stämmer denna referens? 
                     foreach (Product p in UserInterFace.orderList)
-                    {
+                            {
+                               tableHandler.tableProductList.Add(p);
+                            }
+                    // här ska ordern skickas ut och in i en lista på bordet... ska bordslistan skapas vid varje bord?
+                  
 
-                        tableNumberProductList.Add(p);
-                    
+                     // bli mer bordsspecifik
+                    if (!status)
+                    {   
+                        Console.WriteLine("Det finns redan produkter på bordet. Vill fortsätta? J/N?");//
+                        string? choice = Console.ReadLine().ToUpper();
+                        if (choice == "J")
+                        {
+                            foreach (Product p in UserInterFace.orderList)
+                            {
+                               tableHandler.tableProductList.Add(p);
+                            }
+                            
+                            // foreach (Product j in tableHandler.tableProductList)
+                            // {
+                            //     Console.WriteLine($"hallå");
+                            // }
+                        }
+                        else
+                        {
+                            {
+                                Console.WriteLine("ajjabajja");
+                            }        
+                        }
                     }
-                    foreach (Product j in tableNumberProductList)
-                    {
-                        Console.WriteLine($"");
-                    }
+                
                 }
 
                 else
@@ -409,6 +432,11 @@ public class TableHandler
                 Console.WriteLine("Ogiltigt val.");
             }
         }
+                    foreach(Product p in tableHandler.tableProductList)
+                    {
+                        Console.WriteLine(p.Name + " "+ p.Price); // varför bara en
+                        Console.WriteLine("TEST");
+                    }
         Console.WriteLine("Order skickas till kök TODO"); // fixa bong
     }   
     
