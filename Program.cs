@@ -18,8 +18,25 @@ class Program
             // UserHandler.PrintUser(UserHandler.userList);
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
-            Product product = new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12);
-            Report report = new Report();
+            List<Product>productList = new List<Product>
+            {
+            /*Product product =*/ 
+            new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12),
+            new Product("Hawaii-pizza",105, Product.ProductType.Food, Product.VatRate._12),
+            new Product("Mozzarella sticks",75, Product.ProductType.Food, Product.VatRate._12),
+            new Product("Boquerones",45, Product.ProductType.Food, Product.VatRate._12),
+            new Product("Marängsviss",55, Product.ProductType.Food, Product.VatRate._12),
+
+            new Product("Karma Cola",25, Product.ProductType.Food, Product.VatRate._12),
+            new Product("Dubbel espresso",25, Product.ProductType.Food, Product.VatRate._12),
+
+            new Product("Pripps",55, Product.ProductType.Drinks, Product.VatRate._25),
+            new Product("Pinot Grigio 125ml",75, Product.ProductType.Drinks, Product.VatRate._25),
+            new Product("Päroncider 5%",45, Product.ProductType.Drinks, Product.VatRate._25),
+            };
+
+            Report salesReport = new Report {ReportNumber = 1, Date = DateTime.Now, Category = Report.ReportCategory.TotalSales};
+            //salesReport.AddSale(product, 5, DateTime.Now);
 
             //ProductHandler.AddProduct(product);
             //ProductHandler.PrintProduct();
@@ -27,8 +44,23 @@ class Program
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
             // List<User>userList = new ();
+            //List<Sales>salesData = new List<Sales>
+            
+                salesReport.AddSale(productList[0], 5, new DateTime(2023, 1, 1));
+                salesReport.AddSale(productList[1], 5, new DateTime(2023, 5, 10));
+                salesReport.AddSale(productList[2], 5, new DateTime(2023, 8, 31));
+                salesReport.AddSale(productList[8], 5, new DateTime(2023, 10, 23));
+                salesReport.AddSale(productList[9], 5, new DateTime(2023, 11, 5));
+
+                salesReport.AddSale(productList[3], 5, new DateTime(2024, 10, 1));
+                salesReport.AddSale(productList[4], 5, new DateTime(2024, 10, 2));
+                salesReport.AddSale(productList[5], 5, new DateTime(2024, 10, 3));
+                salesReport.AddSale(productList[6], 5, new DateTime(2024, 10, 4));
+                salesReport.AddSale(productList[7], 5, new DateTime(2024, 10, 4));
+            
             List<Report> SalesList =  new List<Report>(); 
             ReportHandler.SalesList = new List<Report>();
+            ReportHandler.SalesList.Add(salesReport);
             // List<Table> tablelist = new();
             //ProductHandler.productList.Add(product);
                                
@@ -59,57 +91,46 @@ class Program
                     Console.WriteLine("Tryck 3. För DailySales: ");
                     Console.WriteLine("Tryck 4. För att avsluta: ");
                     string? reportChoice = Console.ReadLine();
-                    string reportCategoryName = reportChoice 
+                    Report.ReportCategory reportCategory = reportChoice 
                     switch  //Added dynamics to menu thru string interpolation in line 77 & 78
                     {
-                        "1" => "TotalSales",   //TODO ändra denna meny - dra index från enum i 'Report' ist?
-                        "2" => "WeeklySales",
-                        "3" => "DailySales",
-                        _   => "Avslutar"
+                        "1" => Report.ReportCategory.TotalSales,   //TODO ändra denna meny - dra index från enum i 'Report' ist?
+                        "2" => Report.ReportCategory.WeeklySales,
+                        "3" => Report.ReportCategory.DailySales,
+                        "4" => Report.ReportCategory.PrintReceipt,
+                        _   => Report.ReportCategory.TotalSales
                     };
-                    if (reportCategoryName == "Avslutar")
+                    if (reportCategory == Report.ReportCategory.PrintReceipt)
                         {
                             Console.WriteLine("Avslutar. Välkommen åter!");
-                            return;
+                            break;
                         }
 
-                    DateTime startDate, endDate;
-                    if (!Report.GetDate($"Inputta startdatum för {reportCategoryName} (YYYY-MM-DD):", out startDate) || //Done! justerat för dynamik från user-input
-                        !Report.GetDate($"Inputta slutdatum för {reportCategoryName} (YYYY-MM-DD): ", out endDate))     // TODO Lägg in exception för inkorrekt datum-format enligt mall YYYY-MM-DD
+                    if (!Report.GetDate($"Ange startdatum för rapporten (YYYY-MM-DD):", out DateTime startDate) || //Done! justerat för dynamik från user-input
+                        !Report.GetDate($"Ange slutdatum för rapporten (YYYY-MM-DD): ", out DateTime endDate))     // TODO Lägg in exception för inkorrekt datum-format enligt mall YYYY-MM-DD
                     {
                         Console.WriteLine("Ogiltig input. Försök igen (YYYY-MM-DD).");
-                        return;
+                        continue;
                     }
                 
+            //Ändrade logik för Reportgenerator-input. Streamlineade för enklare output av rapport-kategori
 
-                    switch (reportChoice)
-                    {
-                        case "1":
-                            decimal TotalSales = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
-                            Console.WriteLine($"Total försäljning för {reportCategoryName} är: {TotalSales}");
-                            break;
-                        case "2":
-                            decimal WeeklySales = ReportHandler.ReportGenerator(Report.ReportCategory.WeeklySales, startDate, endDate);
-                            Console.WriteLine($"Total försäljning för {reportCategoryName} är: {WeeklySales}");
-                            break;
-                        case "3":
-                            decimal DailySales = ReportHandler.ReportGenerator(Report.ReportCategory.DailySales, startDate, endDate);
-                            Console.WriteLine($"Total försäljning för {reportCategoryName} är: {DailySales}");
-                            break;
-                        case "4":
-                            Console.WriteLine("Avslutar.");
-                            return;
-                        default:
-                            Console.WriteLine("Ogiltigt val, försök igen: ");
-                            break;
-                    }
-                break;
-            
-                default:
-                    Console.WriteLine("Ogiltigt val, försök igen: ");
-                break;
+                        decimal reportTotal = ReportHandler.ReportGenerator(reportCategory, startDate, endDate);
+                        Console.WriteLine($"Total försäljning för {reportCategory} är: {reportTotal: C}");
+                        
+                        Console.WriteLine("Vill du generera en annan rapport? (y/n)");
+                        string? anotherReport = Console.ReadLine();
+                        if (anotherReport?.ToLower() != "y")
+                        {
+                            Console.WriteLine("Avslutar. Välkommen åter!");
+                            isRunning = false;
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Ogiltigt val, försök igen!");
+                        break;
+                        
             }
-            break;
     
         
             }
