@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Security.Cryptography;
+
 public class Report
 {
     public enum ReportCategory //ändrade från 'type' till 'category'
@@ -12,7 +15,9 @@ public class Report
     {
         Console.WriteLine(prompt);
         string? dateInput = Console.ReadLine();
-        return DateTime.TryParse(dateInput, out date);
+        return DateTime.TryParseExact(dateInput, "yyyy-MM-dd",
+                                                System.Globalization.CultureInfo.InvariantCulture,
+                                                System.Globalization.DateTimeStyles.None, out date);
     }
 
      public int ReportNumber {get; set;}
@@ -57,35 +62,56 @@ public static class ReportHandler
                                                                                 //TODO integrera maunell datum-input till Table??
                                                                                 //TODO tighta till logiken i R-generator, redundans?
     {
-        if (reportCategory == Report.ReportCategory.TotalSales)
+        return reportCategory switch
         {
-            return TotalSales(startDate, endDate);
-        }
-        else if (reportCategory == Report.ReportCategory.WeeklySales)
-        {
-            return WeeklySales(startDate, endDate);
-        }
-        else if (reportCategory == Report.ReportCategory.DailySales)
-        {
-            return DailySales(startDate, endDate);
-        } 
-        else
-        {
-            return 0;
-        }
+            Report.ReportCategory.TotalSales => TotalSales(startDate, endDate),
+            Report.ReportCategory.WeeklySales => WeeklySales(startDate, endDate),
+            Report.ReportCategory.DailySales => DailySales(startDate, endDate),
+            _ => 0
+        };
     }
-    //TODO refaktorera TotalSales-metod. Redundans och upprepningar i logiken.
     public static decimal TotalSales(DateTime startDate, DateTime endDate)
     {
-        return SalesList.Sum(report=> report.Sales.Sum(sale => sale.TotalAmount)); //ser till att få en rapport-kategori i taget att funka
+        return SalesList
+        .Where(report => report.Date >= startDate && report.Date <= endDate)//sorterar efter valt datum-spann
+        .Sum(report=> report.Sales.Sum(sale => sale.TotalAmount)); //ser till att få en rapport-kategori i taget att funka
     } 
     public static decimal WeeklySales(DateTime startDate, DateTime endDate)
     {
-        return SalesList.Sum(report=> report.Sales.Sum(sale => sale.TotalAmount));
+        return SalesList
+        .Where(report => report.Date >= startDate && report.Date <= endDate)
+        .SelectMany(report => report.Sales)
+        .GroupBy(sale=> CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(sale.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday))
+        .Sum(group=> group.Sum(sale => sale.TotalAmount));
     }
-    public static decimal DailySales(DateTime startdate, DateTime endDate)
+    public static decimal DailySales(DateTime startDate, DateTime endDate)
     {
-        return SalesList.Sum(report=> report.Sales.Sum(sale=> sale.TotalAmount));
+        return SalesList
+        .Where(report => report.Date >= startDate && report.Date <= endDate)
+        .SelectMany(report => report.Sales)
+        .GroupBy(sale=> sale.Date.Date)
+        .Sum(group=> group.Sum(sale => sale.TotalAmount));
+    }
+
+    public static void ProductSalesReport (DateTime startDate, DateTime endDate) //visar Rapport på lista av produkter
+    {
+        var salesReport = SalesList
+            .Where(report => report.Date >= startDate && report.Date <= endDate)
+            .SelectMany(report => report.Sales) //tar sales-listan på alla rapporter
+            .GroupBy(sale => sale.Product.Name) //tar total sales/försäljning per product-namn??? eller?
+            .Select(group => new
+            {
+                ProductName = group.Key,
+                TotalQuantitySold = group.Sum(s => s.Quantity),
+                TotalSalesAmount = group.Sum(s => s.TotalAmount)  
+            })
+            .OrderByDescending(report => report.TotalSalesAmount);
+
+            Console.WriteLine("Försäljningsrapport: ");
+            foreach (var item in salesReport)
+            {
+                Console.WriteLine($"Produkt: {item.ProductName}, Total antal styck sålda: {item.TotalQuantitySold}, Total försäljning summa: {item.TotalSalesAmount:C}");
+            }
     }
     //public static decimal PrintReport(){}
     
