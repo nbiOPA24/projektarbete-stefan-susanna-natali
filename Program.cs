@@ -1,4 +1,6 @@
 ﻿using System.Security.Cryptography;
+using System.Globalization;
+using System.Runtime.InteropServices;
 
 class Program
 // TODO kolla metod för ? 
@@ -6,7 +8,8 @@ class Program
     
         static void Main(string[] args)
         {   
-            
+            CultureInfo.CurrentCulture = new CultureInfo("sv-SE");
+            CultureInfo.CurrentUICulture = new CultureInfo("sv-SE");
             //User user = new User();
             //Product product = new();
             //UserHandler.AddUser(user);
@@ -19,8 +22,7 @@ class Program
             // UserHandler.RemoveUser(user);
             // UserHandler.PrintUser(UserHandler.userList);
             List<Product>productList = new List<Product>
-            {
-            /*Product product =*/ 
+            { 
             new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12),
             new Product("Hawaii-pizza",105, Product.ProductType.Food, Product.VatRate._12),
             new Product("Mozzarella sticks",75, Product.ProductType.Food, Product.VatRate._12),
@@ -33,6 +35,19 @@ class Program
             new Product("Pripps",55, Product.ProductType.Drinks, Product.VatRate._25),
             new Product("Pinot Grigio 125ml",75, Product.ProductType.Drinks, Product.VatRate._25),
             new Product("Päroncider 5%",45, Product.ProductType.Drinks, Product.VatRate._25),
+            };
+
+            //Testkör rapport-funktionen i konsollen:
+            Console.WriteLine("Meny: ");
+            foreach (var product in productList)
+            {
+                Console.WriteLine($"{product.Name} - {product.Price:C} ({product.MenuItem}, VAT: {product.VatItem}%)");
+            }
+            var report = new Report
+            {
+                ReportNumber=1,
+                Date = DateTime.Today,
+                Category = Report.ReportCategory.DailySales
             };
 
             Report salesReport = new Report {ReportNumber = 1, Date = DateTime.Now, Category = Report.ReportCategory.TotalSales};
@@ -61,6 +76,15 @@ class Program
             List<Report> SalesList =  new List<Report>(); 
             ReportHandler.SalesList = new List<Report>();
             ReportHandler.SalesList.Add(salesReport);
+
+            DateTime startDate = DateTime.Today.AddDays(-1);
+            DateTime endDate = DateTime.Today;
+            decimal totalSalesAmount = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
+
+            Console.WriteLine($"\nTotal försäljning för {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}: {totalSalesAmount:C}");
+            
+        
+
             // List<Table> tablelist = new();
             //ProductHandler.productList.Add(product);
                                
@@ -106,8 +130,8 @@ class Program
                             break;
                         }
 
-                    if (!Report.GetDate($"Ange startdatum för rapporten (YYYY-MM-DD):", out DateTime startDate) || //Done! justerat för dynamik från user-input
-                        !Report.GetDate($"Ange slutdatum för rapporten (YYYY-MM-DD): ", out DateTime endDate))     // TODO Lägg in exception för inkorrekt datum-format enligt mall YYYY-MM-DD
+                    if (!Report.GetDate($"Ange startdatum för rapporten (YYYY-MM-DD):", out startDate) || //Done! justerat för dynamik från user-input
+                        !Report.GetDate($"Ange slutdatum för rapporten (YYYY-MM-DD): ", out endDate))     // TODO Lägg in exception för inkorrekt datum-format enligt mall YYYY-MM-DD
                     {
                         Console.WriteLine("Ogiltig input. Försök igen (YYYY-MM-DD).");
                         continue;
@@ -126,7 +150,8 @@ class Program
                             isRunning = false;
                         }
                         break;
-                    default:
+
+                        default:
                         Console.WriteLine("Ogiltigt val, försök igen!");
                         break;
                         
