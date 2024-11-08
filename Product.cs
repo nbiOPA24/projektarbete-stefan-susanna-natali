@@ -38,7 +38,7 @@ public class Product
         nextNumber++;
 
     }
-    public Product() { }
+    public Product() { } //behov??
 }
 public static class ProductHandler
 {
@@ -49,14 +49,7 @@ public static class ProductHandler
     //Om du bara ska skriva ut produkter är void tillräckligt. 
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
-        //Product product = new(name, price, productType, 
-        Product product1 = new("Risotto", 120, Product.ProductType.Food, Product.VatRate._12);
-        Product product2 = new("Carbonara", 100, Product.ProductType.Food, Product.VatRate._12);
-        Product product3 = new("Carlsberg", 60, Product.ProductType.Alcohol, Product.VatRate._25);
-
-        productList.Add(product1);
-        productList.Add(product2);
-        productList.Add(product3);
+       
         foreach (Product p in productList)
         {
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);

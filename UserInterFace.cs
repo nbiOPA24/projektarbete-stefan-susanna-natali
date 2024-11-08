@@ -24,10 +24,10 @@ public static class UserInterFace
 
     }
 
-
-    public static void Order(Product product) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    // Ev. TODO ev. välja nollbong eller funktion för detta? 
+    public static void Order(bool status, Product product) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
     {
-        Console.Clear();
+        Console.WriteLine();
         ProductHandler.PrintProduct();
         Console.WriteLine();
 
@@ -55,7 +55,6 @@ public static class UserInterFace
 
             if (choice == "Q")
             {
-                //TableHandler objekt = new TableHandler();
                 Console.WriteLine("Betala (d)irekt eller lägga order till (b)ord?");
                 string paymentChoice = Console.ReadLine();
                 paymentChoice = UppercaseFirst(paymentChoice);
@@ -66,8 +65,9 @@ public static class UserInterFace
                 }
                 else if (paymentChoice == "B")
                 {
+
                     TableHandler tableHandler = new();
-                    TableHandler.OrderToTable(1, true, product, tableHandler);
+                    TableHandler.OrderToTable(number, status, product, tableHandler);
                     break;
                 }
                 else
@@ -175,6 +175,7 @@ public static class UserInterFace
 
         Console.WriteLine("\t\tRestaurangNamn");
         Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber);
+        //if (blabla tablenr != null)
         Console.WriteLine("Bordsnummer: #");
         Console.WriteLine("Användare: "); //TODO Vilken Användare/servis
         Console.WriteLine("Datum: " + PaymentAccepted); //TODO DateTime från när betalningen gått igenom
@@ -305,34 +306,55 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu(Product product, int number, bool status, int size)
+    public static void UserInterFaceStartMenu(Product product, TableHandler tableHandler, User user, int number, bool status, int size)
     {
         while (true)
         {
-            Console.Clear();
-            Console.WriteLine("1. Ny beställning");
-            Console.WriteLine("2. Se meny");
-            Console.WriteLine("3. Skapa meny"); //Todo kanske denna inne i se meny?
-            Console.WriteLine("4. Ändra meny"); //Todo kanske denna inne i se meny?
-            Console.WriteLine("5. Bordsmeny");
+            // Console.Clear();
+            Console.WriteLine("1. Ny Order");//Ny beställning");
+            Console.WriteLine("2. Hantera Order"); // hämta order på bord
+            Console.WriteLine("3. Se meny");
+            Console.WriteLine("4. Bordsmeny");
+            Console.WriteLine("5. Produktmeny");
+            Console.WriteLine("6. Usermeny");
 
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
                 case 1:
-                    Order(product);
+                    Order(status, product);
                     break;
                 case 2:
-                    DisplayMenu();
+                    TableHandler.ShowOpenTables();
+                    tableHandler.HandleTableContents(number,tableHandler);
                     break;
                 case 3:
-                    CreateMenuDescription();
+                    DisplayMenu();
+                    //if(admin)
+                    Console.WriteLine("1. Skapa meny");
+                    Console.WriteLine("2. Ändra meny");
+                    int menuchoice = int.Parse(Console.ReadLine());
+                    switch (menuchoice)
+                    {
+                        case 1:
+                            CreateMenuDescription();
+                            break;
+                        case 2:
+                            EditMenuDescription();
+                            break;
+                    }
                     break;
                 case 4:
-                    EditMenuDescription();
+                    TableHandler.TableMenu(number, status, size, product);
                     break;
                 case 5:
-                    TableHandler.TableMenu(number, status, size, product);
+                    ProductHandler.ProductStartMenu();
+                    break;
+                case 6:
+                    UserHandler.UserStartMenu(user);
+                    break;
+                case 7:
+
                     break;
             }
         }

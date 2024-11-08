@@ -12,20 +12,25 @@ public class User
     }
     public string? FirstName { get; set; } // TODO fixa ev. lastname!
     public int UserId { get; set; }
+    public static int NextId = 1;
     public TypeOfUser UserType { get; set; }
 
     // TODO göra userId 24 DateTime eller ska det bara vara 2-siffor? //ska det vara en algoritm/beräkninssätt
-    public User(TypeOfUser userType, string firstName, int userId)
+    public User(TypeOfUser userType, string firstName)
     {
         UserType = userType;
         FirstName = firstName;
-        UserId = userId;
+
+
+
 
     }
     public User() // tom konstruktor som sätter default-värden
     {
         FirstName = "N/A";
         UserId = 2400;
+        UserId += NextId;
+        NextId++; //Todo userID fungerar inte, blir 0
     }
 
 }
@@ -99,10 +104,10 @@ public static class UserHandler
                 return;
             }
 
-            user.UserId++;
+            // user.UserId++;
             Console.WriteLine(selectedUserType + " " + firstname + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas id-nummer i kronologisk ordning
 
-            User newUser = new(selectedUserType, firstname, user.UserId);
+            User newUser = new(selectedUserType, firstname);
             userList.Add(newUser);
         }
         catch (Exception e)
@@ -201,7 +206,7 @@ public static class UserHandler
         }
 
     }
-        public static void UserStartMenu(User user)
+    public static void UserStartMenu(User user)
     {
         while (true)
         {
@@ -209,25 +214,25 @@ public static class UserHandler
             Console.WriteLine("2. Lägg till personal");
             Console.WriteLine("3. Ta bort personal");
             Console.WriteLine("4. Redigera personal");
-            Console.WriteLine("5. Sökning"); 
+            Console.WriteLine("5. Sökning");
 
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
-                case 1: 
-                PrintUser(user);
+                case 1:
+                    PrintUser(user);
                     break;
-                case 2: 
-                AddUser(user);
+                case 2:
+                    AddUser(user);
                     break;
-                case 3: 
-                RemoveUser(user);
-                    break; 
-                case 4: 
-                EditUser(user);
+                case 3:
+                    RemoveUser(user);
                     break;
-                case 5: 
-                SearchForUser();
+                case 4:
+                    EditUser(user);
+                    break;
+                case 5:
+                    SearchForUser();
                     break;
             }
         }

@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 // public class Report
 // {
-//     public enum ReportCategory //ändrade från 'type' till 'category'
+//     public enum ReportType
 //     {
 //         TotalSales,
 //         WeeklySales,
@@ -11,51 +10,44 @@
 
 //      public int ReportNumber {get; set;}
 //      public DateTime Date {get; set;}
-//      public ReportCategory Type {get; set;} // Ändrade från 'type' till 'Category'
+//      public ReportType Type {get; set;} // TODO ska den heta type? 
 
-//      public List<Sales> Sales {get; set;} = new(); 
+//      public List<Sale> Sales {get; set;} = new(); 
 
 //      public void AddSale(decimal amount, DateTime date)
 //      {
-//          Sales.Add(new Sales(amount, date));
-//      }
-// }
+//          Sales.Add(new Sale(amount, date));
+//     }
+//  }
 
+//  public class Sales // för att hantera individuella 'sales' inom 'Report'-rapporter
+//                     // TODO en egen SALES-flik...
 
-//  public class Sales // för att hantera individuella 'sales' inom 'Report'-rapporter.
-//                     //TODO gör en egen flik för Sales-klassen?
-//                     //TODO länka Sales och produkt-lista
-//  {
-//      public decimal TotalAmount => Quantity * Product.Price; //kalkylerar total försäljning av 'Product'
-//      public Product Product {get; set;} //länka Sales till Product som säljs
+// {
+//      public decimal Amount {get; set;} //"decimal" för att hantera monetära beräkningar
 //      public DateTime Date {get; set;} //TODO kanske fler egenskaper än summa + tid/datum?
-// //   public int SalesId {get; set;} //?? ett sätt att identifiera varje unik 'sale' tillfälle, dvs 'Table'
 
-//      public int Quantity {get; set;} // 'samlar' antal unika sales-tillfällen
-
-
-//      public Sales(Product product, int quantity, DateTime date)
+//      public Sales(decimal amount, DateTime date)
 //      {
-//          Product = product;
+//          Amount = amount;
 //          Date = date;
-//          Quantity = quantity;
 //      }
 //  }
 // public static class ReportHandler
 // {
-//     public static List<Report> SalesList {get; set;}  =  new(); 
+//     public static List<Report> saleslist {get; set;}  =  new(); 
 
-//     public static decimal ReportGenerator(Report.ReportCategory reportCategory) //generarar sales-rapporter av de slag vi vill ha
+//     public static decimal ReportGenerator(ReportType reportType) //generarar sales-rapporter av de slag vi vill ha
 //     {
-//         if (reportCategory == reportCategory.Total)
+//         if (reportType == reportType.Total)
 //         {
 //             return TotalSales();
 //         }
-//         else if (reportCategory == reportCategory.Weekly)
+//         else if (reportType == reportType.Weekly)
 //         {
 //             return WeeklySales();
 //         }
-//         else if (reportCategory == reportCategory.Daily)
+//         else if (reportType == reportType.Daily)
 //         {
 //             return DailySales();
 //         }
@@ -67,76 +59,6 @@
 //     public static decimal TotalSales(){} 
 //     public static decimal WeeklySales(){}
 //     public static decimal DailySales(){}
-//     public static decimal PrintReport(){}
+//     public static decimal PrintReceipt(){}
     
 // }
-// /* public static string PrintReport(Report report)
-// {
-//     var report = 
-// } */
-=======
-public class Report
-{
-    public enum ReportType
-    {
-        TotalSales,
-        WeeklySales,
-        DailySales,
-        PrintReceipt
-    }
-
-     public int ReportNumber {get; set;}
-     public DateTime Date {get; set;}
-     public ReportType Type {get; set;} // TODO ska den heta type? 
-
-     public List<Sale> Sales {get; set;} = new(); 
-
-     public void AddSale(decimal amount, DateTime date)
-     {
-         Sales.Add(new Sale(amount, date));
-    }
- }
-
- public class Sales // för att hantera individuella 'sales' inom 'Report'-rapporter
-                    // TODO en egen SALES-flik...
-
-{
-     public decimal Amount {get; set;} //"decimal" för att hantera monetära beräkningar
-     public DateTime Date {get; set;} //TODO kanske fler egenskaper än summa + tid/datum?
-
-     public Sales(decimal amount, DateTime date)
-     {
-         Amount = amount;
-         Date = date;
-     }
- }
-public static class ReportHandler
-{
-    public static List<Report> saleslist {get; set;}  =  new(); 
-
-    public static decimal ReportGenerator(ReportType reportType) //generarar sales-rapporter av de slag vi vill ha
-    {
-        if (reportType == reportType.Total)
-        {
-            return TotalSales();
-        }
-        else if (reportType == reportType.Weekly)
-        {
-            return WeeklySales();
-        }
-        else if (reportType == reportType.Daily)
-        {
-            return DailySales();
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    public static decimal TotalSales(){} 
-    public static decimal WeeklySales(){}
-    public static decimal DailySales(){}
-    public static decimal PrintReceipt(){}
-    
-}
->>>>>>> Susanna
