@@ -20,12 +20,12 @@ public class Product
 
     public string Name { get; set; }
     public double Price { get; set; }
-    public int ProductNumber {get;set;}
-    private static int nextNumber = 1; 
+    public int ProductNumber { get; set; }
+    private static int nextNumber = 1;
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
-    public int Quantity {get; set;}
+    public int Quantity { get; set; }
 
     public Product(string name, double price, ProductType menuItem, VatRate vatItem)
     {
@@ -38,23 +38,30 @@ public class Product
         nextNumber++;
 
     }
+    public Product() { }
 }
 public static class ProductHandler
 {
-            
-    public static List<Product> productList { get; set;} = new();
+
+    public static List<Product> productList { get; set; } = new();
 
     public static void PrintProduct() // varför inte void tex?
     //Om du bara ska skriva ut produkter är void tillräckligt. 
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
-        
+        //Product product = new(name, price, productType, 
+        Product product1 = new("Risotto", 120, Product.ProductType.Food, Product.VatRate._12);
+        Product product2 = new("Carbonara", 100, Product.ProductType.Food, Product.VatRate._12);
+        Product product3 = new("Carlsberg", 60, Product.ProductType.Alcohol, Product.VatRate._25);
+
+        productList.Add(product1);
+        productList.Add(product2);
+        productList.Add(product3);
         foreach (Product p in productList)
         {
-            //int ProductNumber = p + 1;
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
-            Console.WriteLine(p.ProductNumber + " "+ p.MenuItem); 
         }
+
 
     }
 
@@ -221,12 +228,12 @@ public static class ProductHandler
             if (productList[i].MenuItem == Product.ProductType.Alcohol)
             {
                 productList[i].VatItem = Product.VatRate._25;
-                 
+
             }
             else
             {
                 productList[i].VatItem = Product.VatRate._12;
-                
+
             }
         }
     }
@@ -237,22 +244,22 @@ public static class ProductHandler
             Console.WriteLine("1. Se alla produkter");
             Console.WriteLine("2. Lägg till produkt");
             Console.WriteLine("3. Ta bort produkt");
-            Console.WriteLine("4. Ändra en produkt"); 
+            Console.WriteLine("4. Ändra en produkt");
 
             int choice = int.Parse(Console.ReadLine());
             switch (choice)
             {
-                case 1: 
-                PrintProduct();
+                case 1:
+                    PrintProduct();
                     break;
-                case 2: 
-                AddProduct();
+                case 2:
+                    AddProduct();
                     break;
-                case 3: 
-                RemoveProduct();
-                    break; 
-                case 4: 
-                EditProduct();
+                case 3:
+                    RemoveProduct();
+                    break;
+                case 4:
+                    EditProduct();
                     break;
             }
         }
