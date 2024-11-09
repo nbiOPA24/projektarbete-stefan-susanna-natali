@@ -20,17 +20,11 @@ public class User
     {
         UserType = userType;
         FirstName = firstName;
-
-
-
-
-    }
-    public User() // tom konstruktor som sätter default-värden
-    {
-        FirstName = "N/A";
         UserId = 2400;
         UserId += NextId;
         NextId++; //Todo userID fungerar inte, blir 0
+
+
     }
 
 }
@@ -41,12 +35,11 @@ public static class UserHandler
     public static void PrintUser(User user)
     {
         Console.WriteLine("Här är personallistan: ");
-        if (userList.Count == 0)
+        if (userList.Count == 0) //TODO(if admin)
         {
             Console.WriteLine("------TOM------");
             Console.Write("Lägga till personal? j/n: ");
-            string? input = Console.ReadLine();
-            input = UserInterFace.UppercaseFirst(input);
+            string? input = Console.ReadLine().ToUpper();
             if (input == "J")
             {
                 AddUser(user);
@@ -104,11 +97,14 @@ public static class UserHandler
                 return;
             }
 
-            // user.UserId++;
-            Console.WriteLine(selectedUserType + " " + firstname + " är tillagd! Tilldelat ID: " + user.UserId); // tilldelas id-nummer i kronologisk ordning
+            // Kanske lambda för att hitta den som matchar firstname och skirva ut dennes ID? 
 
             User newUser = new(selectedUserType, firstname);
             userList.Add(newUser);
+            Product prouktSomSkaVisas = ProductHandler.productList.Find(product => product.ProductNumber == number);
+            User newAddedUser = userList.Find(user => user.FirstName == firstname);
+            Console.WriteLine(selectedUserType + " " + firstname + " är tillagd! Tilldelat ID: " + newAddedUser.UserId); // tilldelas id-nummer i kronologisk ordning
+
         }
         catch (Exception e)
         {
