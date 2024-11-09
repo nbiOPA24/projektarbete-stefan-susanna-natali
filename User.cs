@@ -46,7 +46,7 @@ public static class UserHandler
             Console.WriteLine("------TOM------");
             Console.Write("Lägga till personal? j/n: ");
             string? input = Console.ReadLine();
-            input = UppercaseFirst(input);
+            input = UserInterFace.UppercaseFirst(input);
             if (input == "J")
             {
                 AddUser(user);
@@ -97,7 +97,7 @@ public static class UserHandler
             User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar produkttypen efter angivet heltal ??
 
             Console.Write("Personalens förnamn: ");
-            string? firstname = UppercaseFirst(Console.ReadLine());
+            string? firstname = UserInterFace.UppercaseFirst(Console.ReadLine());
             if (int.TryParse(firstname, out int number))
             {
                 Console.WriteLine("Ogilitg input, enbart bokstäver är tillåtna!");
@@ -146,7 +146,7 @@ public static class UserHandler
         List<User> searchList = new();
         Console.Write("Skriv in sökning: ");
         string? search = Console.ReadLine();
-        search = UppercaseFirst(search);
+        search = UserInterFace.UppercaseFirst(search);
         foreach (User u in userList)
         {//om u.Usertype.ToString (namn på enum. ToString: konverterar alla värden till sträng) Equals: jämför resultatet med search
             if (search == u.FirstName || u.UserType.ToString().Equals(search))
@@ -241,12 +241,6 @@ public static class UserHandler
     {
         Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");
 
-    }
-    private static string UppercaseFirst(string str) // TODO gör denna universal till hela programmet
-    {
-        if (string.IsNullOrEmpty(str))
-            return string.Empty;
-        return char.ToUpper(str[0]) + str.Substring(1).ToLower();
     }
 
 }

@@ -4,7 +4,7 @@
 
     static void Main(string[] args)
     {
-        //Console.Clear();
+        Console.Clear();
 
         Product product = new();
         User user = new(User.TypeOfUser.Admin, "Natali");

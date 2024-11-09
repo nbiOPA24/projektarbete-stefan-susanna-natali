@@ -233,9 +233,13 @@ public static class UserInterFace
         {
             if (ProductHandler.productList[i].Description == null)
             {
-                Console.Write("Beskriv produkten " + ProductHandler.productList[i].Name + ": ");
+                Console.Write("Q för tillbaka. Beskriv produkten " + ProductHandler.productList[i].Name + ": ");
                 string answer = Console.ReadLine();
                 answer = UppercaseFirst(answer);
+                if (Back(answer))
+                {
+                    break;
+                }
                 ProductHandler.productList[i].Description += answer;
                 descriptionsToFill--;
                 if (descriptionsToFill == 0)
@@ -246,8 +250,7 @@ public static class UserInterFace
                 while (true)
                 {
                     Console.Write("Vill du fortsätta? Du har " + descriptionsToFill + " kvar att fylla i. j/n: ");
-                    string input = Console.ReadLine();
-                    input = UppercaseFirst(input);
+                    string input = Console.ReadLine().ToUpper();
                     if (input == "J")
                     {
                         break;
@@ -269,18 +272,23 @@ public static class UserInterFace
     public static void EditMenuDescription()
     {
         ProductHandler.PrintProduct();
-        Console.Write("Vilken artikel ska ändras? Ange siffra: ");
-        int number = int.Parse(Console.ReadLine());
-
-        for (int i = 0; i < ProductHandler.productList.Count; i++)
+        Console.Write("Q För tillbaka. Vilken artikel ska ändras? Ange siffra: ");
+        string? answer = Console.ReadLine();
+        if (Back(answer))
         {
-            if (number - 1 == i)
-            {
-                Console.Write("Skriv in ny beskrivning: ");
-                string newDescription = Console.ReadLine();
-                ProductHandler.productList[i].Description = newDescription;
-            }
+            return;
         }
+        if (int.TryParse(answer, out int number))
+            for (int i = 0; i < ProductHandler.productList.Count; i++)
+            {
+                if (number - 1 == i)
+                {
+                    Console.Write("Skriv in ny beskrivning: ");
+                    string newDescription = Console.ReadLine();
+                    ProductHandler.productList[i].Description = newDescription;
+                }
+            }
+
     }
     public static void DisplayMenu()
     {
@@ -310,59 +318,76 @@ public static class UserInterFace
     {
         while (true)
         {
-            // Console.Clear();
             Console.WriteLine("1. Ny Order");//Ny beställning");
             Console.WriteLine("2. Hantera Order"); // hämta order på bord
-            Console.WriteLine("3. Se meny");
-            Console.WriteLine("4. Bordsmeny");
-            Console.WriteLine("5. Produktmeny");
-            Console.WriteLine("6. Usermeny");
+            Console.WriteLine("3. Se restaurangmeny");
+            Console.WriteLine("4. Bordshantering");
+            Console.WriteLine("5. Produkthantering");
+            Console.WriteLine("6. Personalhantering");
 
-            int choice = int.Parse(Console.ReadLine());
+            string? choice = Console.ReadLine().ToUpper();
             switch (choice)
             {
-                case 1:
+                case "1":
                     Order(status, product);
                     break;
-                case 2:
+                case "2":
                     TableHandler.ShowOpenTables();
-                    tableHandler.HandleTableContents(number,tableHandler);
+                    tableHandler.HandleTableContents(number, tableHandler);
                     break;
-                case 3:
+                case "3":
                     DisplayMenu();
                     //if(admin)
                     Console.WriteLine("1. Skapa meny");
                     Console.WriteLine("2. Ändra meny");
-                    int menuchoice = int.Parse(Console.ReadLine());
+                    Console.Write("Q för att avsluta: ");
+                    string? menuchoice = Console.ReadLine().ToUpper();
                     switch (menuchoice)
                     {
-                        case 1:
+                        case "1":
                             CreateMenuDescription();
                             break;
-                        case 2:
+                        case "2":
                             EditMenuDescription();
                             break;
+                        case "Q":
+                            return;
                     }
                     break;
-                case 4:
+                case "4":
                     TableHandler.TableMenu(number, status, size, product);
                     break;
-                case 5:
+                case "5":
                     ProductHandler.ProductStartMenu();
                     break;
-                case 6:
+                case "6":
                     UserHandler.UserStartMenu(user);
                     break;
-                case 7:
-
+                case "7":
+                    break;
+                case "Q":
+                    Back(choice);
                     break;
             }
         }
     }
-    private static string UppercaseFirst(string str)
+    public static bool Back(string input)
+    {
+        if (input == "Q")
+        {
+            Console.WriteLine("Tas tillbaka");
+            return true;
+        }
+
+        return false;
+
+    }
+
+    public static string UppercaseFirst(string str)
     {
         if (string.IsNullOrEmpty(str))
             return string.Empty;
         return char.ToUpper(str[0]) + str.Substring(1).ToLower();
     }
+
 }

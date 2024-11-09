@@ -124,7 +124,6 @@ public class TableHandler
 
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);
-            Console.WriteLine("Skrivs jag ut?");
         }
     }
     // TODO lägga till produkter på ngt sätt.

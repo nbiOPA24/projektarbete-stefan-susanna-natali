@@ -49,7 +49,7 @@ public static class ProductHandler
     //Om du bara ska skriva ut produkter är void tillräckligt. 
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
-       
+
         foreach (Product p in productList)
         {
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
@@ -67,7 +67,7 @@ public static class ProductHandler
         var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array  
         var vatarray = Enum.GetValues(typeof(Product.VatRate)); // gör om vatItem till array 
         string input = Console.ReadLine(); // användare lägger till typ och moms genom att ange heltal
-        input = UppercaseFirst(input);
+        input = UserInterFace.UppercaseFirst(input);
 
         // If-sats
         bool addmeny = true;
@@ -96,7 +96,7 @@ public static class ProductHandler
                     }
 
                     Console.Write("Produktens namn: ");
-                    string? name = UppercaseFirst(Console.ReadLine());
+                    string? name = UserInterFace.UppercaseFirst(Console.ReadLine());
                     Console.Write("Pris: ");
                     double price = double.Parse(Console.ReadLine());
                     Product newProduct = new(name, price, selectedItemType, selectedVatType);
@@ -145,7 +145,7 @@ public static class ProductHandler
             productList.RemoveAt(remove - 1);
             Console.Write("Vill du fortsätta ta bort produkter? j/n: ");
             string answer = Console.ReadLine();
-            answer = UppercaseFirst(answer);
+            answer = UserInterFace.UppercaseFirst(answer);
 
             if (answer == "J")
             {
@@ -168,51 +168,49 @@ public static class ProductHandler
     //TODO Generell prisändring på alla produkter inom kategori
     public static void EditProduct()
     {
-        while (true)
+        PrintProduct();
+        Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
+        int pickProduct = int.Parse(Console.ReadLine());
+
+        Console.WriteLine("1. Pris");
+        Console.WriteLine("2. Namn");
+        Console.WriteLine("3. Produkttyp & moms");
+        Console.Write("Välj vad som ska ändras, ange siffa: ");
+        int choice = int.Parse(Console.ReadLine());
+        foreach (Product p in productList)
         {
-            PrintProduct();
-            Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
-            int pickProduct = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("1. Pris");
-            Console.WriteLine("2. Namn");
-            Console.WriteLine("3. Produkttyp & moms");
-            Console.Write("Välj vad som ska ändras, ange siffa: ");
-            int choice = int.Parse(Console.ReadLine());
-            foreach (Product p in productList)
+            if (choice == 1)
             {
-                if (choice == 1)
-                {
-                    Console.Write("Ange nytt pris: ");
-                    int newPrice = int.Parse(Console.ReadLine());
-                    p.Price = newPrice;
-                    break;
-                }
-                else if (choice == 2)
-                {
-                    Console.Write("Ange nytt namn: ");
-                    string? newName = Console.ReadLine();
-                    p.Name = newName;
-                    break;
-                }
-                else if (choice == 3)
-                {
+                Console.Write("Ange nytt pris: ");
+                int newPrice = int.Parse(Console.ReadLine());
+                p.Price = newPrice;
+                break;
+            }
+            else if (choice == 2)
+            {
+                Console.Write("Ange nytt namn: ");
+                string? newName = Console.ReadLine();
+                p.Name = newName;
+                break;
+            }
+            else if (choice == 3)
+            {
 
-                    PrintProductType();
-                    Console.Write("Välj ny produkttyp, ange siffra: ");
-                    int type = int.Parse(Console.ReadLine());
-                    // 0 = Food, 1 = alcohol, 2 = beverage
-                    var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
-                    productList[pickProduct - 1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
-                    AdjustVatItem();
-                    //TODO fixa momsen
-                    break;
+                PrintProductType();
+                Console.Write("Välj ny produkttyp, ange siffra: ");
+                int type = int.Parse(Console.ReadLine());
+                // 0 = Food, 1 = alcohol, 2 = beverage
+                var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
+                productList[pickProduct - 1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
+                AdjustVatItem();
+                //TODO fixa momsen
+                break;
 
-                }
             }
         }
-
     }
+
+
 
     public static void AdjustVatItem()
     {
@@ -256,13 +254,6 @@ public static class ProductHandler
                     break;
             }
         }
-    }
-
-    private static string UppercaseFirst(string str)
-    {
-        if (string.IsNullOrEmpty(str))
-            return string.Empty;
-        return char.ToUpper(str[0]) + str.Substring(1).ToLower();
     }
 
 }
