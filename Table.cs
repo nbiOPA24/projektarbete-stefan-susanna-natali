@@ -124,6 +124,7 @@ public class TableHandler
 
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);
+
         }
     }
     // TODO lägga till produkter på ngt sätt.
@@ -332,6 +333,7 @@ public class TableHandler
         {
             //här ska aktuella produkter skickas till betalning
             UserInterFace.Payment();
+            //TODO stäng bordet
 
 
         }
@@ -438,7 +440,6 @@ public class TableHandler
         foreach (Product p in tableHandler.tableProductList)
         {
             Console.WriteLine(p.Name + " " + p.Price); // varför bara en
-            Console.WriteLine("TEST tableproductlist");
         }
         Console.WriteLine("Order skickas till kök TODO");
         //UserInterFace.Order(product); // fixa bong

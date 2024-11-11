@@ -101,7 +101,6 @@ public static class UserHandler
 
             User newUser = new(selectedUserType, firstname);
             userList.Add(newUser);
-            Product prouktSomSkaVisas = ProductHandler.productList.Find(product => product.ProductNumber == number);
             User newAddedUser = userList.Find(user => user.FirstName == firstname);
             Console.WriteLine(selectedUserType + " " + firstname + " är tillagd! Tilldelat ID: " + newAddedUser.UserId); // tilldelas id-nummer i kronologisk ordning
 
