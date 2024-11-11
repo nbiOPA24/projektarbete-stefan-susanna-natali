@@ -4,7 +4,9 @@
 
     static void Main(string[] args)
     {
-        Console.Clear();
+        //Console.Clear()
+        
+
 
         Product product = new();
         User user = new(User.TypeOfUser.Admin, "Natali");
@@ -20,15 +22,20 @@
         ProductHandler.productList.Add(product1);
         ProductHandler.productList.Add(product2);
         ProductHandler.productList.Add(product3);
-        UserHandler.userList.Add(user);
-        UserHandler.userList.Add(user01);
+        // UserHandler.userList.Add(user);
+        // UserHandler.userList.Add(user01);
 
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
         // UserHandler.userList.Add(user01);
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
+        
         // TableHandler.TestTables();
+        // foreach (Table t in TableHandler.tables)
+        // {
+        //     Console.WriteLine($"{t.Number}");
+        // }
 
         while (true)
         {
@@ -36,3 +43,5 @@
         }
     }
 }
+
+//Spectre för konsol

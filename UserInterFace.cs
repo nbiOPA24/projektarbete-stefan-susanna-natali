@@ -25,7 +25,7 @@ public static class UserInterFace
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(bool status, Product product) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    public static void Order(bool status, Product product, TableHandler tablehandler) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -68,8 +68,9 @@ public static class UserInterFace
                 else if (paymentChoice == "B")
                 {
 
-                    TableHandler tableHandler = new();
-                    TableHandler.OrderToTable(number, status, product, tableHandler);
+                    //TableHandler tableHandler = new();
+                    TableHandler.ShowTables();
+                    TableHandler.OrderToTable(number, status, product, tableHandler, tablehandler);
                     //TODO lägg i rapport-lista
                     orderList.Clear();
                     break;
@@ -87,8 +88,9 @@ public static class UserInterFace
 
     public static void CountTotal()
     {
+        TableHandler tableHandler = new();
         AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
-        foreach (Product p in orderList)
+        foreach (Product p in tableHandler.tableProductList)
         {
             AmountToPay += p.Price; //p.Quantity *
 
@@ -345,6 +347,7 @@ public static class UserInterFace
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
         // Console.Write("Välj användare, ange ID-nummer: ");
+        TableHandler.GenerateTables();
         UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
         {

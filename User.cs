@@ -182,6 +182,7 @@ public static class UserHandler
                 string? newName = Console.ReadLine();
                 u.FirstName = newName;
                 Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+                break;
             }
             else if (choice == 2)
             {
@@ -191,6 +192,7 @@ public static class UserHandler
                     int newId = int.Parse(Console.ReadLine());
                     u.UserId = newId;
                     Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+                    break;
                 }
             }
             else
@@ -203,6 +205,10 @@ public static class UserHandler
     }
     public static void UserStartMenu(User user)
     {
+        DataContainer data = new DataContainer { };
+        string filePath = "data.json";
+        //DataContainer.LoadJson(filePath);
+
         while (true)
         {
             Console.WriteLine("1. Se personallista");
@@ -219,12 +225,15 @@ public static class UserHandler
                     break;
                 case 2:
                     AddUser(user);
+                    data.SaveOrderAsJson("order.json");
                     break;
                 case 3:
                     RemoveUser(user);
+                    data.SaveOrderAsJson("order.json");
                     break;
                 case 4:
                     EditUser(user);
+                    data.SaveOrderAsJson("order.json");
                     break;
                 case 5:
                     SearchForUser();

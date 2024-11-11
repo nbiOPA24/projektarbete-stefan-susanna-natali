@@ -33,6 +33,16 @@ public class TableHandler
     public List<Product> tableProductList { get; set; } //= new();
 
     public static List<Table> tables { get; set; }
+    public static List<Table> tablelist1 { get; set; }
+
+    public static List<Table> tablelist2 { get; set; }
+
+    public static List<Table> tablelist3 { get; set; }
+
+    public static List<Table> tablelist4 { get; set; }
+
+    public static List<Table> tablelist5 { get; set; }
+
     public TableHandler()
     {
         tables = new List<Table>();
@@ -55,7 +65,6 @@ public class TableHandler
             Console.WriteLine("2. Öppna bord.");
             Console.WriteLine("3. Stänga bord.");
             Console.WriteLine("4. Stänga alla bord.");
-            Console.WriteLine("8 tillbaks till ORDER"); // fixa ordning osv.
 
             // dessa kräver adminlevel typ
             if (admin)
@@ -65,6 +74,7 @@ public class TableHandler
                 Console.WriteLine("7. Redigera bord.");
             }
             Console.WriteLine("Q. Avsluta.");
+
             string? choice = Console.ReadLine().ToUpper(); // tryparse senare
 
             if (choice == "1")
@@ -113,7 +123,7 @@ public class TableHandler
     }
 
     // lite testbord ska finnas i ev. Json
-    public static void TestTables()
+    public static void GenerateTables()
     {
         // loop för att skapa lite testobjekt
         for (int i = 0; i < 5; i++)
@@ -121,6 +131,7 @@ public class TableHandler
             bool status = false;
             int number = i + 1;
             int size = 4;
+            Console.WriteLine("HEJ");
 
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);
@@ -252,7 +263,7 @@ public class TableHandler
         // bool status = false;
         // int size = 0;
         //TableHandler table= new Table(0, false, 0);
-        TestTables();
+        //TestTables();
         //testar admin
         bool admin = false;
         //Fyrkantsemoji som får symbolisera ett bord
@@ -279,7 +290,7 @@ public class TableHandler
                     Console.ResetColor();
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
-                //Console.WriteLine($"{bord} Bord: {tables[i].Number}.{tables[i].TableProductList}");
+                Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
                 Console.ResetColor();
             }
         }
@@ -361,12 +372,12 @@ public class TableHandler
 
 
     // metod för att lägga en order till ett bord
-    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler)
+    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler, TableHandler tableProductList)
     {
 
         // lägger till produkter i en tillfällig lista
         // find efter bordsid
-        //TestTables();
+        //GenerateTables();
         ShowTables();// ska detta va här eller en ny metod i TableHandler?
         Console.Write("välj bordsnummer: ");
 
@@ -375,6 +386,7 @@ public class TableHandler
         if (int.TryParse(nr, out number))
         {
             Console.Write($"Vill lägga order på bord {number}. J/N? (Ps. onödigt steg.) ");
+            Console.WriteLine();
             string? input = Console.ReadLine().ToUpper();
 
             if (input == "J")
@@ -391,8 +403,6 @@ public class TableHandler
                     {
                         tableHandler.tableProductList.Add(p);
                     }
-                    // här ska ordern skickas ut och in i en lista på bordet... ska bordslistan skapas vid varje bord?
-
 
                     // bli mer bordsspecifik
                     if (status)
@@ -412,10 +422,13 @@ public class TableHandler
                             //     Console.WriteLine($"hallå");
                             // }
                         }
-                        else
+                        else if (choice == "N")
+                        {
+                            Console.WriteLine("Återgår till order.");
+                        }
                         {
 
-                            Console.WriteLine("ajjabajja");
+                            Console.WriteLine("Ogiltigt val.");
 
                         }
                     }
@@ -437,11 +450,28 @@ public class TableHandler
                 Console.WriteLine("Ogiltigt val.");
             }
         }
+        // skapar en Dict med stringKey och intKey
+        Dictionary<string, int> productAntal = new Dictionary<string, int>();
+
+        // Söker upp alla matchande produkter och räknar
         foreach (Product p in tableHandler.tableProductList)
         {
-            Console.WriteLine(p.Name + " " + p.Price); // varför bara en
+            if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+            {
+                productAntal[p.Name]++; // Räknar antal träffar av samma name
+            }
+            else
+            {
+                productAntal[p.Name] = 1; // om bara en träff så = 1
+            }
         }
-        Console.WriteLine("Order skickas till kök TODO");
+        foreach (var p in productAntal)
+        {
+            Console.WriteLine($"{p.Value} st {p.Key}");
+        }
+        Console.WriteLine();
+        Console.WriteLine("Order skickas till köksprinter.");//TODO (bara mat till köket.)
+        Console.WriteLine();
         //UserInterFace.Order(product); // fixa bong
     }
 
