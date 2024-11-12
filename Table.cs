@@ -131,7 +131,6 @@ public class TableHandler
             bool status = false;
             int number = i + 1;
             int size = 4;
-            Console.WriteLine("HEJ");
 
             Table newTable = new Table(number, status, size);
             tables.Add(newTable);

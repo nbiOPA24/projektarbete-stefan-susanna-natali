@@ -25,7 +25,7 @@ public static class UserInterFace
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(bool status, Product product, TableHandler tablehandler) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    public static void Order(bool status, Product product, TableHandler tablehandler, TableHandler tableHandler) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -55,7 +55,7 @@ public static class UserInterFace
 
             if (choice == "Q")
             {
-                Console.WriteLine("Betala (d)irekt eller lägga order till (b)ord?");
+                Console.WriteLine("Betala (D)irekt eller lägga order till (B)ord?");
                 string paymentChoice = Console.ReadLine();
                 paymentChoice = UppercaseFirst(paymentChoice);
                 if (paymentChoice == "D")
@@ -70,7 +70,7 @@ public static class UserInterFace
 
                     //TableHandler tableHandler = new();
                     TableHandler.ShowTables();
-                    TableHandler.OrderToTable(number, status, product, tableHandler, tablehandler);
+                    TableHandler.OrderToTable(number, status, product, tablehandler, tableHandler);
                     //TODO lägg i rapport-lista
                     orderList.Clear();
                     break;
@@ -347,7 +347,7 @@ public static class UserInterFace
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
         // Console.Write("Välj användare, ange ID-nummer: ");
-        TableHandler.GenerateTables();
+        //TableHandler.GenerateTables();
         UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
         {
@@ -363,7 +363,7 @@ public static class UserInterFace
             switch (choice)
             {
                 case "1":
-                    Order(status, product);
+                    Order(status, product, tableHandler, tableHandler);
                     break;
                 case "2":
                     TableHandler.ShowOpenTables();

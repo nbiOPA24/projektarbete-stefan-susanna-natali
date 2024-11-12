@@ -4,7 +4,7 @@
 
     static void Main(string[] args)
     {
-        //Console.Clear()
+        Console.Clear();
         
 
 
@@ -31,7 +31,7 @@
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
         
-        // TableHandler.TestTables();
+        TableHandler.GenerateTables();
         // foreach (Table t in TableHandler.tables)
         // {
         //     Console.WriteLine($"{t.Number}");
