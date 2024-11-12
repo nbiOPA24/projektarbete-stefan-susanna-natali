@@ -1,7 +1,10 @@
 // Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
+using System.Diagnostics;
+
 public class Table
 {
+    public List<Product> TableList { get; set; } //= new();
     //int XPosition { get; set; }
     //int YPosition { get; set; }
     // Bordsnummer för bordskarta/lista
@@ -18,7 +21,8 @@ public class Table
         Number = number;
         Status = status;
         Size = size;
-        //tableProductList = new List<Product>();
+        TableList = new List<Product>();
+        
     }
     public Table(bool status)
     {
@@ -30,26 +34,16 @@ public class Table
 public class TableHandler
 {
     // lista med bord
-    public List<Product> tableProductList { get; set; } //= new();
 
     public static List<Table> tables { get; set; }
-    public static List<Table> tablelist1 { get; set; }
 
-    public static List<Table> tablelist2 { get; set; }
-
-    public static List<Table> tablelist3 { get; set; }
-
-    public static List<Table> tablelist4 { get; set; }
-
-    public static List<Table> tablelist5 { get; set; }
 
     public TableHandler()
     {
         tables = new List<Table>();
-        tableProductList = new List<Product>();
     }
 
-    public static void TableMenu(int number, bool status, int size, Product product)
+    public static void TableMenu(int number, bool status, int size)
     {
         //startvärden
         //int number = 0;
@@ -62,7 +56,7 @@ public class TableHandler
             bool admin = true;
 
             Console.WriteLine("1. Visa bordslista.");
-            Console.WriteLine("2. Öppna bord.");
+            Console.WriteLine("2. Visa öppna bord.");
             Console.WriteLine("3. Stänga bord.");
             Console.WriteLine("4. Stänga alla bord.");
 
@@ -73,7 +67,7 @@ public class TableHandler
                 Console.WriteLine("6. Ta bort bord.");
                 Console.WriteLine("7. Redigera bord.");
             }
-            Console.WriteLine("Q. Avsluta.");
+            Console.WriteLine("Q. Tillbaks till startmenyn.");
 
             string? choice = Console.ReadLine().ToUpper(); // tryparse senare
 
@@ -83,7 +77,8 @@ public class TableHandler
             }
             else if (choice == "2")
             {
-                OpenTable(number);
+                ShowOpenTables();//oklart behov :)
+                //ShowTableProducts(number);
             }
             else if (choice == "3")
             {
@@ -91,11 +86,12 @@ public class TableHandler
             }
             else if (choice == "4")
             {
-                CloseAllTables();
+                CloseAllTables(); // kolla så den checkar produkter osv.
+                //CheckoutTable(number);
             }
             else if (choice == "5" && admin)
             {
-                AddTable(number, status, size);
+                AddTable(status);
             }
             else if (choice == "6" && admin)
             {
@@ -132,7 +128,7 @@ public class TableHandler
             int number = i + 1;
             int size = 4;
 
-            Table newTable = new Table(number, status, size);
+            Table newTable = new Table (number, status, size);
             tables.Add(newTable);
 
         }
@@ -294,7 +290,7 @@ public class TableHandler
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
     public static void ShowOpenTables()
     {
-        //TestTables();
+        
         for (int i = 0; i < tables.Count; i++)
         {
             string bord = "\u25A0";
@@ -305,60 +301,88 @@ public class TableHandler
                 Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
                 Console.ResetColor();
             }
+            
         }
     }
 
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
-    public void HandleTableContents(int number, TableHandler tableHandler)// endast send? eller addtotable?
+    public void HandleTableContents()// endast send? eller addtotable?
     {   
         // if (inga bord har status... tebax)
         {
-            Console.Write("välj bordsnummer: ");
-
+            Console.Write("Välj bordsnummer: ");
             string? nr = Console.ReadLine();
-
-            if (int.TryParse(nr, out number))
+            Console.WriteLine("1. Betalning.");
+            Console.WriteLine("2. Dela articklar.");
+            Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
+            string? choice = Console.ReadLine().ToUpper();
+            while(true)
             {
-                Table tableToDisplay = tables.Find(tables => tables.Number == number);
-
-                if (tableToDisplay != null && tableToDisplay.Status) // checkar så bordet finns och att det är öppet
-                {
-                    //ska det checkas om status är true?
-                    
-                    // Får bygga en meny för ex. splitta nota osv1
-                    foreach (Product p in tableHandler.tableProductList)
+                    if (choice == "1")
+                    if (int.TryParse(nr, out int number))
                     {
-                        Console.WriteLine(p.Name + " " + p.Price);
+                        Table tableToHandle = tables.Find(tables => tables.Number == number);
 
+                        if (tableToHandle != null && tableToHandle.Status) // checkar så bordet finns och att det är öppet
+                        {
+                            //ska det checkas om status är true?
+                            
+                            // Får bygga en meny för ex. splitta nota osv1
+                            foreach (Product p in tableToHandle.TableList)
+                            {
+                                Console.WriteLine(p.Name + " " + p.Price);
+                            }
+                            Console.Write($"Vill du skicka order till betalning? J/N?");
+                            //cw skicka vissa articklar till betalnng
+                            //cw markera vissa och skicka till betalning eller annat bord?
+                            string? input = Console.ReadLine().ToUpper();
+
+                            if (input == "J")
+                            {
+                                //måste markera status som stängd
+                                //status = false;
+
+                                //här ska aktuella produkter skickas till betalning
+                                // skickar tillbaks prod till orderlist för moms osv.
+                                foreach (Product p in tableToHandle.TableList)
+                                {
+                                    UserInterFace.orderList.Add(p);
+                                }
+
+                                UserInterFace.Payment(tableToHandle);
+
+                            }
+                            else if (input == "N")
+                            {
+                                Console.WriteLine("Avbruten.");
+                                break;
+                                //UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size, table); // kanske skickas till splitta osv.
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ogiltigt val.");
+                            }
+                            tableToHandle.TableList.Clear();//TODO stäng bordet
+                            tableToHandle.Status = false;
+                            break;
+                        }
                     }
-                    Console.Write($"Vill lägga skicka order till betalning? J/N?");
-                    //cw skicka vissa articklar till betalnng
-                    //cw markera vissa och skicka till betalning eller annat bord?
-                    string? input = Console.ReadLine().ToUpper();
-
-                    if (input == "J")
+                    else if(choice == "2")
                     {
-                        //måste markera status som stängd
-                        //status = false;
-                        //här ska aktuella produkter skickas till betalning
-                        UserInterFace.Payment(tableHandler);
-
+                        Console.WriteLine("Delbetala.");
                     }
-                    else if (input == "N")
+                    else if(choice == "3")
                     {
-                        Console.WriteLine("Avbruten.");
-                        UserInterFace.DisplayMenu(); // kanske skickas till splitta osv.
+                        Console.WriteLine("Rensa?");
                     }
                     else
                     {
-                        Console.WriteLine("Ogiltigt val.");
+                        Console.WriteLine("FEL");
                     }
-                tableProductList.Clear();//TODO stäng bordet
-                tableToDisplay.Status = false;
-                }
             }
         }
     }
+
 
     // metod för att splitta bord (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
     public void SplitTable()// Split, splitCheck?
@@ -374,12 +398,8 @@ public class TableHandler
 
 
     // metod för att lägga en order till ett bord
-    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler, TableHandler tableProductList)
+    public static void OrderToTable(int number)
     {
-
-        // lägger till produkter i en tillfällig lista
-        // find efter bordsid
-        //GenerateTables();
         ShowTables();// ska detta va här eller en ny metod i TableHandler?
         Console.Write("välj bordsnummer: ");
 
@@ -409,7 +429,7 @@ public class TableHandler
                         {
                             foreach (Product p in UserInterFace.orderList)
                             {
-                                tableHandler.tableProductList.Add(p);
+                                tableToAddOrder.TableList.Add(p);
                             }
                             Console.WriteLine("Dina produkter har lagts till på bordet");
 
@@ -427,24 +447,23 @@ public class TableHandler
                     }
                     if (tableToAddOrder.Status == false)
                     {
-                         tableToAddOrder.Status = true;
+                        tableToAddOrder.Status = true;
                      
                         foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
                         {
-                            tableHandler.tableProductList.Add(p);
+                            tableToAddOrder.TableList.Add(p);    
                         }
                     }
                 }
                 else
                 {
-
                     Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
                 }
                 // skapar en Dict med stringKey och intKey
                 Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
                 // Söker upp alla matchande produkter och räknar
-                foreach (Product p in tableHandler.tableProductList)
+                foreach (Product p in tableToAddOrder.TableList)
                 {
                     if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
                     {
@@ -475,19 +494,16 @@ public class TableHandler
         //UserInterFace.Order(product); // fixa bong
     }
 
-
-
-
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
-    public static void AddTable(int number, bool status, int size)
+    public static void AddTable(bool status)
     {
         Console.WriteLine();
         Console.WriteLine("Skapa nytt bord.");
         Console.WriteLine("Ange bordsnr:");
-        number = int.Parse(Console.ReadLine()); //Fixa tryparse
+        int number = int.Parse(Console.ReadLine()); //Fixa tryparse
 
         Console.WriteLine("Lägg till storlek:"); //sittplatser? stolar?
-        size = int.Parse(Console.ReadLine());
+        int size = int.Parse(Console.ReadLine());
 
         // Adda funktion för att kolla så inte nr finns
         Table newTable = new Table(number, status, size);
@@ -587,6 +603,60 @@ public class TableHandler
             }
         }
     }
+    // public static void ShowTableProducts(int number)
+    // {
+    //     Console.WriteLine("Ange bordsnummer: ");
+    //     number = int.Parse(Console.ReadLine().ToUpper());
+    //     Table tableToShow = tables.Find(t => t.Number == number);
+
+    //     if (tableToShow != null)
+    //     {
+    //         Console.WriteLine($"Produkter på bord {tableToShow.Number}:");
+
+    //         if (tableToShow.TableList.Count > 0)
+    //         {
+    //             foreach (Product p in tableToShow.TableList)
+    //             {
+    //                 Console.WriteLine($"- {p.Name}: {p.Price:C}"); // göra antal prod osv. c?
+    //             }
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("Inga produkter på bordet.");
+    //         }
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("Ogiltigt bordsnummer! Försök igen.");
+    //     }
+    // }
+    // public static void CheckoutTable(int number)
+    // {
+    //     Console.WriteLine("bordnr");
+    //     number = int.Parse(Console.ReadLine().ToUpper());
+    // Table tableToCheckout = tables.Find(t => t.Number == number);
+
+    // if (tableToCheckout != null && tableToCheckout.TableList.Count > 0)
+    // {
+    //     Console.WriteLine($"Skickar följande produkter från bord {number} till betalning:");
+    //     foreach (Product p in tableToCheckout.TableList)
+    //     {
+    //         Console.WriteLine($"- {p.Name}: {p.Price:C}");
+    //     }
+
+    //     // Skicka till betalning (simulerad här)
+    //     UserInterFace.Payment(tableToCheckout);
+
+    //     // Töm bordet
+    //     tableToCheckout.TableList.Clear();
+    //     tableToCheckout.Status = false; // Stäng bordet
+    //     Console.WriteLine($"Bord {number} är nu stängt och redo för nya beställningar.");
+    // }
+    // else
+    // {
+    //     Console.WriteLine($"Bord {number} har inga produkter att betala för eller är redan tomt.");
+    // }
+    // }
 }
 
 

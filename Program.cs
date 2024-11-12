@@ -31,10 +31,10 @@
         // UserHandler.userList.Add(user01);
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
-        
+        Table table = new(number, status, size);
         while (true)
         {
-            UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size);
+            UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size, table);
         }
         // foreach (Table t in TableHandler.tables)
         // {

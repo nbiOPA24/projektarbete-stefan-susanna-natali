@@ -25,7 +25,7 @@ public static class UserInterFace
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(bool status, Product product, TableHandler tablehandler, TableHandler tableHandler) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    public static void Order(Table table) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -42,7 +42,6 @@ public static class UserInterFace
                 if (productsToAdd != null)
                 {
                     orderList.Add(productsToAdd);
-
                 }
 
                 else
@@ -51,7 +50,7 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
-            CountTotal(tableHandler);
+            CountTotal(table);
 
             if (choice == "Q")
             {
@@ -60,7 +59,7 @@ public static class UserInterFace
                 //paymentChoice = UppercaseFirst(paymentChoice);
                 if (paymentChoice == "D")
                 {
-                    Payment(tableHandler);
+                    Payment(table);
                     orderList.Clear();// för tidigt?
                     //TODO lägg i rapport-lista
                     break;
@@ -72,7 +71,7 @@ public static class UserInterFace
                     //TableHandler tableHandler = new();
                     //TableHandler.ShowTables();
 
-                    TableHandler.OrderToTable(number, status, product, tablehandler, tableHandler);
+                    TableHandler.OrderToTable(number);
                     //TODO lägg i rapport-lista
                     orderList.Clear();// oklart
                     break;
@@ -88,7 +87,7 @@ public static class UserInterFace
         }
     }
 
-    public static void CountTotal(TableHandler tableHandler)// denna räknar ju inte med bordsprodukterna
+    public static void CountTotal(Table table)// denna räknar ju inte med bordsprodukterna
     {
         //TableHandler tableHandler = new(); //Whut?? HÄR
         AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
@@ -102,7 +101,7 @@ public static class UserInterFace
         }
         else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
         {
-            foreach(Product p in tableHandler.tableProductList)
+            foreach(Product p in table.TableList)
             {
                 AmountToPay += p.Price;
             }
@@ -112,7 +111,7 @@ public static class UserInterFace
 
 
     }
-    public static void Payment(TableHandler tableHandler)
+    public static void Payment(Table table)
     {
 
         if (AmountToPay > 0)
@@ -120,7 +119,7 @@ public static class UserInterFace
             Console.WriteLine("*******BETALNING********");
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
-            CountTotal(tableHandler);
+            CountTotal(table);
             switch (input)
             {
 
@@ -351,7 +350,7 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu(Product product, TableHandler tableHandler, User user, int number, bool status, int size)
+    public static void UserInterFaceStartMenu(Product product, TableHandler tableHandler, User user, int number, bool status, int size, Table table)
     {
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
@@ -372,18 +371,18 @@ public static class UserInterFace
             switch (choice)
             {
                 case "1":
-                    Order(status, product, tableHandler, tableHandler);
+                    Order(table);
                     break;
                 case "2":
                     TableHandler.ShowOpenTables();
-                    tableHandler.HandleTableContents(number, tableHandler);
+                    tableHandler.HandleTableContents();
                     break;
                 case "3":
                     DisplayMenu();
                     //if(admin)
                     Console.WriteLine("1. Skapa meny");
                     Console.WriteLine("2. Ändra meny");
-                    Console.Write("Q för att avsluta: ");
+                    Console.Write("Q. för att avsluta.");
                     string? menuchoice = Console.ReadLine().ToUpper();
                     switch (menuchoice)
                     {
@@ -398,7 +397,7 @@ public static class UserInterFace
                     }
                     break;
                 case "4":
-                    TableHandler.TableMenu(number, status, size, product);
+                    TableHandler.TableMenu(number, status, size);
                     break;
                 case "5":
                     ProductHandler.ProductStartMenu(tableHandler);
