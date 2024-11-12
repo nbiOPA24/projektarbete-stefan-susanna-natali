@@ -693,7 +693,7 @@ public class TableHandler
 
 //         }
 //     }
-//     public void AddTableToMap(int width, int height, string? name) // DockTable, GetTable? bättre namn asap:)
+//     public void AddTableToMap(int width, int height, string? name) // DockTable, GetTable? bättre namn asap:) No funk :(
 //     {
 //         // kolla doom? spelet för inspiration
 //         // kunna lägga in emoji-bord
