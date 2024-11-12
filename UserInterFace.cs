@@ -142,7 +142,7 @@ public static class UserInterFace
         }
 
     }
-    public static void GetPayment()
+    public static void GetPayment() // Payment är META nu. vi ska inte betala och dricksa
     {
 
 
@@ -162,7 +162,7 @@ public static class UserInterFace
                 Console.Write("Slå in mottagna pengar: ");
                 double givenMoney = int.Parse(Console.ReadLine());
                 double change = givenMoney - PaidAmount;
-                Console.WriteLine("Du dricksade " + Tips + " kr.");
+                Console.WriteLine("Du dricksade " + Tips + " kr."); // användaren är servitör och ska inte pay eller tip
                 Console.WriteLine("Din växel är " + change + " kr.");
                 Console.WriteLine("Tack!");
                 Thread.Sleep(1000);

@@ -311,7 +311,7 @@ public class TableHandler
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public void HandleTableContents(int number, TableHandler tableHandler)// endast send? eller addtotable?
     {   
-        if (tables.Count != 0)
+        // if (inga bord har status... tebax)
         {
             Console.Write("välj bordsnummer: ");
 
@@ -320,7 +320,8 @@ public class TableHandler
             if (int.TryParse(nr, out number))
             {
                 Table tableToDisplay = tables.Find(tables => tables.Number == number);
-                if (tableToDisplay != null && tableToDisplay.Status) // checkar så bordet finns
+
+                if (tableToDisplay != null && tableToDisplay.Status) // checkar så bordet finns och att det är öppet
                 {
                     //ska det checkas om status är true?
                     
@@ -398,17 +399,11 @@ public class TableHandler
 
                 if (tableToAddOrder != null) // checkar så bordet finns
                 {
-                    tableToAddOrder.Status = true;
-                     
-                    foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
-                    {
-                        tableHandler.tableProductList.Add(p);
-                    }
 
-                    // bli mer bordsspecifik
-                    if (status)
+                    // checkar om de finns grejjer på bordet
+                    if (tableToAddOrder.Status == true)
                     {
-                        Console.WriteLine("Det finns redan produkter på bordet. Vill fortsätta? J/N?");//
+                        Console.WriteLine("Det finns redan produkter på bordet. Vill addera din order till dessa? J/N?");//n
                         string? choice = Console.ReadLine().ToUpper();
                         if (choice == "J")
                         {
@@ -416,20 +411,29 @@ public class TableHandler
                             {
                                 tableHandler.tableProductList.Add(p);
                             }
-                            Console.WriteLine("Du har lagt följande produkter på bord");
+                            Console.WriteLine("Dina produkter har lagts till på bordet");
 
                         }
                         else if (choice == "N")
                         {
                             Console.WriteLine("Återgår till order.");
                         }
+                        else
                         {
 
                             Console.WriteLine("Ogiltigt val.");
 
                         }
                     }
-
+                    if (tableToAddOrder.Status == false)
+                    {
+                         tableToAddOrder.Status = true;
+                     
+                        foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
+                        {
+                            tableHandler.tableProductList.Add(p);
+                        }
+                    }
                 }
                 else
                 {
