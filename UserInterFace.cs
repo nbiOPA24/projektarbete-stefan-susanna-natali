@@ -51,28 +51,30 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
-            CountTotal();
+            CountTotal(tableHandler);
 
             if (choice == "Q")
             {
                 Console.WriteLine("Betala (D)irekt eller lägga order till (B)ord?");
-                string paymentChoice = Console.ReadLine();
-                paymentChoice = UppercaseFirst(paymentChoice);
+                string? paymentChoice = Console.ReadLine().ToUpper();
+                //paymentChoice = UppercaseFirst(paymentChoice);
                 if (paymentChoice == "D")
                 {
-                    Payment();
-                    orderList.Clear();
+                    Payment(tableHandler);
+                    orderList.Clear();// för tidigt?
                     //TODO lägg i rapport-lista
                     break;
                 }
                 else if (paymentChoice == "B")
                 {
 
+                    //TableHandler.ShowTables();
                     //TableHandler tableHandler = new();
-                    TableHandler.ShowTables();
+                    //TableHandler.ShowTables();
+
                     TableHandler.OrderToTable(number, status, product, tablehandler, tableHandler);
                     //TODO lägg i rapport-lista
-                    orderList.Clear();
+                    orderList.Clear();// oklart
                     break;
                 }
                 else
@@ -86,20 +88,31 @@ public static class UserInterFace
         }
     }
 
-    public static void CountTotal()
+    public static void CountTotal(TableHandler tableHandler)// denna räknar ju inte med bordsprodukterna
     {
-        TableHandler tableHandler = new();
+        //TableHandler tableHandler = new(); //Whut?? HÄR
         AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
-        foreach (Product p in tableHandler.tableProductList)
+        if (orderList.Count != 0)
         {
-            AmountToPay += p.Price; //p.Quantity *
+            foreach (Product p in orderList) 
+            {
+                AmountToPay += p.Price; //p.Quantity *
 
+            }    
         }
-        Console.WriteLine("Summa att betala: " + AmountToPay);
+        else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
+        {
+            foreach(Product p in tableHandler.tableProductList)
+            {
+                AmountToPay += p.Price;
+            }
+        }
+        
+        Console.WriteLine("Summa att betala: " + AmountToPay); //nollas varför?
 
 
     }
-    public static void Payment()
+    public static void Payment(TableHandler tableHandler)
     {
 
         if (AmountToPay > 0)
@@ -107,7 +120,7 @@ public static class UserInterFace
             Console.WriteLine("*******BETALNING********");
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
-            CountTotal();
+            CountTotal(tableHandler);
             switch (input)
             {
 
@@ -121,19 +134,17 @@ public static class UserInterFace
                     IsCash = true;
                     GetPayment();
                     break;
-
-
-
             }
         }
         else
         {
             Console.WriteLine("Finns inga produkter att ta betalt för!");
         }
+
     }
     public static void GetPayment()
     {
-        TableHandler tableHandler = new();
+
 
         while (true)
         {
@@ -174,10 +185,8 @@ public static class UserInterFace
                 PrintReceipt(); //TODO indata kvittonummer för att hålla reda på? 
 
 
-                //Stäng bordet och töm bordslistan
-                // foreach(Product p in tableHandler.tableProductList)
-                // {
-                //orderList.Clear();
+                
+                orderList.Clear();
 
                 break;
             }
@@ -203,7 +212,7 @@ public static class UserInterFace
         //if (blabla tablenr != null)
         Console.WriteLine("Bordsnummer: #");
         User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
-        Console.WriteLine("Användare: " + currentUser.FirstName + " - " + currentUser.UserId); //Vilken Användare/servis
+        //Console.WriteLine("Användare: " + currentUser.FirstName + " - " + currentUser.UserId); //Vilken Användare/servis
         Console.WriteLine("Datum: " + PaymentAccepted); //TODO DateTime från när betalningen gått igenom
         Console.WriteLine("Beställda artiklar: ");
         PrintOrderlist();
@@ -347,7 +356,7 @@ public static class UserInterFace
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
         // Console.Write("Välj användare, ange ID-nummer: ");
-        //TableHandler.GenerateTables();
+        
         UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
         {
@@ -392,7 +401,7 @@ public static class UserInterFace
                     TableHandler.TableMenu(number, status, size, product);
                     break;
                 case "5":
-                    ProductHandler.ProductStartMenu();
+                    ProductHandler.ProductStartMenu(tableHandler);
                     break;
                 case "6":
                     UserHandler.UserStartMenu(user);

@@ -4,17 +4,18 @@
 
     static void Main(string[] args)
     {
-        Console.Clear();
+        //Console.Clear();
+        int number = 0;
+        bool status = false;
+        int size = 0;
         
 
+        TableHandler tableHandler = new();
+        TableHandler.GenerateTables();
 
         Product product = new();
         User user = new(User.TypeOfUser.Admin, "Natali");
         User user01 = new(User.TypeOfUser.Bartender, "Simon");
-        TableHandler tableHandler = new();
-        int number = 0;
-        bool status = false;
-        int size = 0;
         Product product1 = new("Risotto", 120, Product.ProductType.Food, Product.VatRate._12);
         Product product2 = new("Carbonara", 100, Product.ProductType.Food, Product.VatRate._12);
         Product product3 = new("Carlsberg", 60, Product.ProductType.Alcohol, Product.VatRate._25);
@@ -31,16 +32,15 @@
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
         
-        TableHandler.GenerateTables();
+        while (true)
+        {
+            UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size);
+        }
         // foreach (Table t in TableHandler.tables)
         // {
         //     Console.WriteLine($"{t.Number}");
         // }
 
-        while (true)
-        {
-            UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size);
-        }
     }
 }
 

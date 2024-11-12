@@ -45,7 +45,7 @@ public static class ProductHandler
 
     public static List<Product> productList { get; set; } = new();
 
-    public static void PrintProduct() // varför inte void tex?
+    public static void PrintProduct() // ska product oxå va mä?
     //Om du bara ska skriva ut produkter är void tillräckligt. 
     //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
     {
@@ -58,7 +58,7 @@ public static class ProductHandler
 
     }
 
-    public static void AddProduct() //  If food == vatRate._12
+    public static void AddProduct(TableHandler tableHandler) //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
         Console.WriteLine("q för quit");
@@ -134,7 +134,7 @@ public static class ProductHandler
     }
 
 
-    public static void RemoveProduct()
+    public static void RemoveProduct(TableHandler tableHandler)
     {
         while (true)
         {
@@ -166,7 +166,7 @@ public static class ProductHandler
 
 
     //TODO Generell prisändring på alla produkter inom kategori
-    public static void EditProduct()
+    public static void EditProduct(TableHandler tableHandler)
     {
         PrintProduct();
         Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
@@ -228,7 +228,7 @@ public static class ProductHandler
             }
         }
     }
-    public static void ProductStartMenu()
+    public static void ProductStartMenu(TableHandler tableHandler)
     {
         while (true)
         {
@@ -244,13 +244,13 @@ public static class ProductHandler
                     PrintProduct();
                     break;
                 case 2:
-                    AddProduct();
+                    AddProduct(tableHandler);
                     break;
                 case 3:
-                    RemoveProduct();
+                    RemoveProduct(tableHandler);
                     break;
                 case 4:
-                    EditProduct();
+                    EditProduct(tableHandler);
                     break;
             }
         }
