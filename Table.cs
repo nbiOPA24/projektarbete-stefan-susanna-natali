@@ -603,60 +603,6 @@ public class TableHandler
             }
         }
     }
-    // public static void ShowTableProducts(int number)
-    // {
-    //     Console.WriteLine("Ange bordsnummer: ");
-    //     number = int.Parse(Console.ReadLine().ToUpper());
-    //     Table tableToShow = tables.Find(t => t.Number == number);
-
-    //     if (tableToShow != null)
-    //     {
-    //         Console.WriteLine($"Produkter på bord {tableToShow.Number}:");
-
-    //         if (tableToShow.TableList.Count > 0)
-    //         {
-    //             foreach (Product p in tableToShow.TableList)
-    //             {
-    //                 Console.WriteLine($"- {p.Name}: {p.Price:C}"); // göra antal prod osv. c?
-    //             }
-    //         }
-    //         else
-    //         {
-    //             Console.WriteLine("Inga produkter på bordet.");
-    //         }
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("Ogiltigt bordsnummer! Försök igen.");
-    //     }
-    // }
-    // public static void CheckoutTable(int number)
-    // {
-    //     Console.WriteLine("bordnr");
-    //     number = int.Parse(Console.ReadLine().ToUpper());
-    // Table tableToCheckout = tables.Find(t => t.Number == number);
-
-    // if (tableToCheckout != null && tableToCheckout.TableList.Count > 0)
-    // {
-    //     Console.WriteLine($"Skickar följande produkter från bord {number} till betalning:");
-    //     foreach (Product p in tableToCheckout.TableList)
-    //     {
-    //         Console.WriteLine($"- {p.Name}: {p.Price:C}");
-    //     }
-
-    //     // Skicka till betalning (simulerad här)
-    //     UserInterFace.Payment(tableToCheckout);
-
-    //     // Töm bordet
-    //     tableToCheckout.TableList.Clear();
-    //     tableToCheckout.Status = false; // Stäng bordet
-    //     Console.WriteLine($"Bord {number} är nu stängt och redo för nya beställningar.");
-    // }
-    // else
-    // {
-    //     Console.WriteLine($"Bord {number} har inga produkter att betala för eller är redan tomt.");
-    // }
-    // }
 }
 
 
