@@ -21,7 +21,7 @@ public class User
         FirstName = firstName;
         UserId = 2400;
         UserId += NextId;
-        NextId++; 
+        NextId++;
 
 
     }

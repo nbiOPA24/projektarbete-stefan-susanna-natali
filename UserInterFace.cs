@@ -14,9 +14,9 @@ public static class UserInterFace
     public static void PrintOrderlist()
     {
 
-        foreach (Product p in orderList) 
+        foreach (Product p in orderList)
         {
-            
+
             Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. "); //  + p.Quantity + " st"
 
         }
@@ -55,7 +55,7 @@ public static class UserInterFace
             {
                 Console.WriteLine("Betala (D)irekt eller lägga order till (B)ord?");
                 string? paymentChoice = Console.ReadLine().ToUpper();
-  
+
                 if (paymentChoice == "D")
                 {
                     Payment(table);
@@ -92,20 +92,20 @@ public static class UserInterFace
         AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
-            foreach (Product p in orderList) 
+            foreach (Product p in orderList)
             {
                 AmountToPay += p.Price; //p.Quantity *
 
-            }    
+            }
         }
         else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
         {
-            foreach(Product p in table.TableList)
+            foreach (Product p in table.TableList)
             {
                 AmountToPay += p.Price;
             }
         }
-        
+
         Console.WriteLine("Summa att betala: " + AmountToPay); //nollas varför?
 
 
@@ -183,7 +183,7 @@ public static class UserInterFace
                 PrintReceipt(); //TODO indata kvittonummer för att hålla reda på? 
 
 
-                
+
                 orderList.Clear();
 
                 break;
@@ -350,7 +350,7 @@ public static class UserInterFace
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
         // Console.Write("Välj användare, ange ID-nummer: ");
-        
+
         UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
         {

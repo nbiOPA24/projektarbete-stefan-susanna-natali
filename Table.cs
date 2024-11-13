@@ -22,7 +22,7 @@ public class Table
         Status = status;
         Size = size;
         TableList = new List<Product>();
-        
+
     }
     public Table(bool status)
     {
@@ -128,7 +128,7 @@ public class TableHandler
             int number = i + 1;
             int size = 4;
 
-            Table newTable = new Table (number, status, size);
+            Table newTable = new Table(number, status, size);
             tables.Add(newTable);
 
         }
@@ -290,7 +290,7 @@ public class TableHandler
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
     public static void ShowOpenTables()
     {
-        
+
         for (int i = 0; i < tables.Count; i++)
         {
             string bord = "\u25A0";
@@ -301,13 +301,13 @@ public class TableHandler
                 Console.WriteLine($"{bord} Bord: {tables[i].Number}.");
                 Console.ResetColor();
             }
-            
+
         }
     }
 
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public void HandleTableContents()// endast send? eller addtotable?
-    {   
+    {
         // if (inga bord har status... tebax)
         {
             Console.Write("Välj bordsnummer: ");
@@ -316,9 +316,9 @@ public class TableHandler
             Console.WriteLine("2. Dela artiklar.");
             Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
             string? choice = Console.ReadLine().ToUpper();
-            while(true)
+            while (true)
             {
-                    if (choice == "1")
+                if (choice == "1")
                     if (int.TryParse(nr, out int number))
                     {
                         Table tableToHandle = tables.Find(tables => tables.Number == number);
@@ -326,7 +326,7 @@ public class TableHandler
                         if (tableToHandle != null && tableToHandle.Status) // checkar så bordet finns och att det är öppet
                         {
                             //ska det checkas om status är true?
-                            
+
                             // Får bygga en meny för ex. splitta nota osv1
                             foreach (Product p in tableToHandle.TableList)
                             {
@@ -367,11 +367,11 @@ public class TableHandler
                             break;
                         }
                     }
-                    else if(choice == "2")
+                    else if (choice == "2")
                     {
                         Console.WriteLine("Delbetala.");
                     }
-                    else if(choice == "3")
+                    else if (choice == "3")
                     {
                         Console.WriteLine("Rensa?");
                     }
@@ -448,10 +448,10 @@ public class TableHandler
                     if (tableToAddOrder.Status == false)
                     {
                         tableToAddOrder.Status = true;
-                     
+
                         foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
                         {
-                            tableToAddOrder.TableList.Add(p);    
+                            tableToAddOrder.TableList.Add(p);
                         }
                     }
                 }

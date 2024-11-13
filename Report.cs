@@ -60,5 +60,5 @@
 //     public static decimal WeeklySales(){}
 //     public static decimal DailySales(){}
 //     public static decimal PrintReceipt(){}
-    
+
 // }

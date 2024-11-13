@@ -8,7 +8,7 @@
         int number = 0;
         bool status = false;
         int size = 0;
-        
+
 
         TableHandler tableHandler = new();
         TableHandler.GenerateTables();
@@ -34,7 +34,7 @@
         Table table = new(number, status, size);
         while (true)
         {
-            UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size, table);
+            UserInterFace.UserInterFaceStartMenu(tableHandler, number, status, size, table);
         }
 
     }

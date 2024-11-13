@@ -45,7 +45,7 @@ public static class ProductHandler
 
     public static List<Product> productList { get; set; } = new();
 
-    public static void PrintProduct() 
+    public static void PrintProduct()
     {
         foreach (Product p in productList)
         {
