@@ -15,14 +15,13 @@ public class User
     public static int NextId = 1;
     public TypeOfUser UserType { get; set; }
 
-    // TODO göra userId 24 DateTime eller ska det bara vara 2-siffor? //ska det vara en algoritm/beräkninssätt
     public User(TypeOfUser userType, string firstName)
     {
         UserType = userType;
         FirstName = firstName;
         UserId = 2400;
         UserId += NextId;
-        NextId++; //Todo userID fungerar inte, blir 0
+        NextId++; 
 
 
     }
@@ -32,7 +31,7 @@ public static class UserHandler
 {
     public static List<User> userList = new();
 
-    public static void PrintUser(User user)
+    public static void PrintUser()
     {
         Console.WriteLine("Här är personallistan: ");
         if (userList.Count == 0) //TODO(if admin)
@@ -42,7 +41,7 @@ public static class UserHandler
             string? input = Console.ReadLine().ToUpper();
             if (input == "J")
             {
-                AddUser(user);
+                AddUser();
             }
             else if (input == "N")
             {
@@ -75,10 +74,9 @@ public static class UserHandler
         {
             Console.WriteLine((int)u + ". " + u);
         }
-        //TODO om behörighetslistan är tom "Finns ingen behöriget"?? 
 
     }
-    public static void AddUser(User user)
+    public static void AddUser()
     {
         Console.WriteLine("LÄGG TILL PERSONAL");
         PrintUserType();
@@ -114,10 +112,10 @@ public static class UserHandler
     }
 
 
-    public static void RemoveUser(User user)
+    public static void RemoveUser()
     {
         Console.WriteLine("TA BORT PERSONAL");
-        PrintUser(user);
+        PrintUser();
         Console.Write("Skriv in ID-nummer för personal du vill ta bort: ");
         int id = int.Parse(Console.ReadLine());
 
@@ -165,10 +163,10 @@ public static class UserHandler
 
     }
 
-    public static void EditUser(User user) //TODO ändra usertype
+    public static void EditUser()
     {
         Console.WriteLine("ÄNDRA PERSONAL");
-        PrintUser(user);
+        PrintUser();
         Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
 
         int id = int.Parse(Console.ReadLine());
@@ -221,18 +219,18 @@ public static class UserHandler
             switch (choice)
             {
                 case 1:
-                    PrintUser(user);
+                    PrintUser();
                     break;
                 case 2:
-                    AddUser(user);
+                    AddUser();
                     data.SaveOrderAsJson("order.json");
                     break;
                 case 3:
-                    RemoveUser(user);
+                    RemoveUser();
                     data.SaveOrderAsJson("order.json");
                     break;
                 case 4:
-                    EditUser(user);
+                    EditUser();
                     data.SaveOrderAsJson("order.json");
                     break;
                 case 5:

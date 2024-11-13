@@ -1,7 +1,6 @@
 public static class UserInterFace
 {
-    //TODO kolla status vid bordet, tex de vill ha något mer att dricka, dessert, de är nöjda/missnöjda kompensera? 
-    //Sale: Type
+
     public static int UserChoice { get; set; }
     public static double PaidAmount { get; set; }
     public static double Tips { get; set; }
@@ -15,9 +14,9 @@ public static class UserInterFace
     public static void PrintOrderlist()
     {
 
-        foreach (Product p in orderList) //TODO plussa på istället för att varje artikel hamnar på en egen rad, tex, 3 öl, 4 pizzor
+        foreach (Product p in orderList) 
         {
-            // if (p.Quantity > 0)
+            
             Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. "); //  + p.Quantity + " st"
 
         }
@@ -56,7 +55,7 @@ public static class UserInterFace
             {
                 Console.WriteLine("Betala (D)irekt eller lägga order till (B)ord?");
                 string? paymentChoice = Console.ReadLine().ToUpper();
-                //paymentChoice = UppercaseFirst(paymentChoice);
+  
                 if (paymentChoice == "D")
                 {
                     Payment(table);
@@ -89,7 +88,7 @@ public static class UserInterFace
 
     public static void CountTotal(Table table)// denna räknar ju inte med bordsprodukterna
     {
-        //TableHandler tableHandler = new(); //Whut?? HÄR
+
         AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
@@ -172,15 +171,15 @@ public static class UserInterFace
             {
                 Console.WriteLine("Du dricksade " + Tips + " kr.");
                 Console.WriteLine("Betalning genomförs");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.WriteLine(" Tack!");
-                // Thread.Sleep(1000);
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.WriteLine(" Tack!");
+                Thread.Sleep(1000);
                 PrintReceipt(); //TODO indata kvittonummer för att hålla reda på? 
 
 
@@ -251,10 +250,6 @@ public static class UserInterFace
 
 
     }
-    // public static void AddOrderToTable() { } Ska vara i tablehandler
-    // public static void OpenTable() { } ska vara i tablehandler
-    // public static void SendOrder() { } ska vara i tablehandler
-    // public static void CancelOrder() { } ska vara i tablehandler
     public static void CreateMenuDescription() // OM en produkt inte innehåller en beskriving, fyll i beskrivning
     {
         // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
@@ -400,7 +395,7 @@ public static class UserInterFace
                     TableHandler.TableMenu(number, status, size);
                     break;
                 case "5":
-                    ProductHandler.ProductStartMenu(tableHandler);
+                    ProductHandler.ProductStartMenu();
                     break;
                 case "6":
                     UserHandler.UserStartMenu(user);

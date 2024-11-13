@@ -4,7 +4,7 @@
 
     static void Main(string[] args)
     {
-        //Console.Clear();
+        Console.Clear();
         int number = 0;
         bool status = false;
         int size = 0;
@@ -23,8 +23,8 @@
         ProductHandler.productList.Add(product1);
         ProductHandler.productList.Add(product2);
         ProductHandler.productList.Add(product3);
-        // UserHandler.userList.Add(user);
-        // UserHandler.userList.Add(user01);
+        UserHandler.userList.Add(user);
+        UserHandler.userList.Add(user01);
 
         // UserHandler.AddUser(user);
         // UserHandler.PrintUser(user);
@@ -36,10 +36,6 @@
         {
             UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size, table);
         }
-        // foreach (Table t in TableHandler.tables)
-        // {
-        //     Console.WriteLine($"{t.Number}");
-        // }
 
     }
 }

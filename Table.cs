@@ -313,7 +313,7 @@ public class TableHandler
             Console.Write("Välj bordsnummer: ");
             string? nr = Console.ReadLine();
             Console.WriteLine("1. Betalning.");
-            Console.WriteLine("2. Dela articklar.");
+            Console.WriteLine("2. Dela artiklar.");
             Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
             string? choice = Console.ReadLine().ToUpper();
             while(true)

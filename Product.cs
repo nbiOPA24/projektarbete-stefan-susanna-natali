@@ -45,20 +45,16 @@ public static class ProductHandler
 
     public static List<Product> productList { get; set; } = new();
 
-    public static void PrintProduct() // ska product oxå va mä?
-    //Om du bara ska skriva ut produkter är void tillräckligt. 
-    //Om du vill att metoden också ska "passa vidare" listan kan List<Product> som returtyp vara ett bra alternativ.
+    public static void PrintProduct() 
     {
-
         foreach (Product p in productList)
         {
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
         }
 
-
     }
 
-    public static void AddProduct(TableHandler tableHandler) //  If food == vatRate._12
+    public static void AddProduct() //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
         Console.WriteLine("q för quit");
@@ -88,7 +84,7 @@ public static class ProductHandler
                     //OM input = 2, 25% = 1
                     //OM input = 3, 12% = 0
 
-                    Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal ??
+                    Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal
                     Product.VatRate selectedVatType = Product.VatRate._12; //Standard 12%, alkohol 25  
                     if (intinput == 2) // om input = 2, 25%
                     {
@@ -134,7 +130,7 @@ public static class ProductHandler
     }
 
 
-    public static void RemoveProduct(TableHandler tableHandler)
+    public static void RemoveProduct()
     {
         while (true)
         {
@@ -164,9 +160,8 @@ public static class ProductHandler
 
     }
 
-
     //TODO Generell prisändring på alla produkter inom kategori
-    public static void EditProduct(TableHandler tableHandler)
+    public static void EditProduct()
     {
         PrintProduct();
         Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
@@ -228,7 +223,7 @@ public static class ProductHandler
             }
         }
     }
-    public static void ProductStartMenu(TableHandler tableHandler)
+    public static void ProductStartMenu()
     {
         while (true)
         {
@@ -244,13 +239,13 @@ public static class ProductHandler
                     PrintProduct();
                     break;
                 case 2:
-                    AddProduct(tableHandler);
+                    AddProduct();
                     break;
                 case 3:
-                    RemoveProduct(tableHandler);
+                    RemoveProduct();
                     break;
                 case 4:
-                    EditProduct(tableHandler);
+                    EditProduct();
                     break;
             }
         }
