@@ -349,7 +349,7 @@ public class TableHandler
                                     UserInterFace.orderList.Add(p);
                                 }
 
-                                UserInterFace.Payment(tableToHandle);
+                                Payment.StartPayment(tableToHandle);
 
                             }
                             else if (input == "N")
@@ -366,6 +366,15 @@ public class TableHandler
                             tableToHandle.Status = false;
                             break;
                         }
+                        else
+                        {
+                            Console.WriteLine("Finns inga produkter på det bordet!");
+                            break; 
+                        }
+                    }
+                    else if (Payment.AmountToPay <= 0)
+                    {
+                        Console.WriteLine("Summan är noll!");
                     }
                     else if (choice == "2")
                     {
