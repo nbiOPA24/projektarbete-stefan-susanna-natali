@@ -24,7 +24,7 @@ public static class UserInterFace
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(Table table) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
+    public static void Order(Table table)
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -245,9 +245,7 @@ public static class UserInterFace
                 CalcVat25 += p.Price;
                 Vat25 = CalcVat25 * 0.25;
             }
-
         }
-
 
     }
     public static void CreateMenuDescription() // OM en produkt inte innehåller en beskriving, fyll i beskrivning

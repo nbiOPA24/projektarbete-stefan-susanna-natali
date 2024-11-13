@@ -27,12 +27,11 @@ public class Product
     public string Description { get; set; }
     public int Quantity { get; set; }
 
-    public Product(string name, double price, ProductType menuItem, VatRate vatItem)
+    public Product(string name, double price, ProductType menuItem)
     {
         Name = name;
         Price = price;
         MenuItem = menuItem;
-        VatItem = vatItem;
 
         ProductNumber += nextNumber; //uppdatera produktnummer efter varje skapat objekt
         nextNumber++;
@@ -47,6 +46,8 @@ public static class ProductHandler
 
     public static void PrintProduct()
     {
+        AdjustVatItem();
+
         foreach (Product p in productList)
         {
             Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
@@ -65,7 +66,7 @@ public static class ProductHandler
         string input = Console.ReadLine(); // användare lägger till typ och moms genom att ange heltal
         input = UserInterFace.UppercaseFirst(input);
 
-        // If-sats
+        // If-sats  
         bool addmeny = true;
         while (addmeny)
         {
@@ -95,7 +96,7 @@ public static class ProductHandler
                     string? name = UserInterFace.UppercaseFirst(Console.ReadLine());
                     Console.Write("Pris: ");
                     double price = double.Parse(Console.ReadLine());
-                    Product newProduct = new(name, price, selectedItemType, selectedVatType);
+                    Product newProduct = new(name, price, selectedItemType);
                     productList.Add(newProduct);
                     PrintProduct();
                     addmeny = false;
@@ -123,7 +124,6 @@ public static class ProductHandler
 
         foreach (Product.ProductType p in Enum.GetValues(typeof(Product.ProductType)))
         {
-            //AdjustVatItem();
             Console.WriteLine((int)p + ". " + " " + p); //TODO lägg till moms här också?
 
         }
