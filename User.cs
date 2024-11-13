@@ -1,3 +1,8 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 public class User
 
 {
@@ -203,9 +208,8 @@ public static class UserHandler
     }
     public static void UserStartMenu()
     {
-        DataContainer data = new DataContainer { };
-        string filePath = "data.json";
-        //DataContainer.LoadJson(filePath);
+        //string filePath = "data.json";
+        //Data.LoadJson(filePath);
 
         while (true)
         {
@@ -223,26 +227,23 @@ public static class UserHandler
                     break;
                 case 2:
                     AddUser();
-                    data.SaveOrderAsJson("order.json");
+                    //Data.SaveJson(filePath);
                     break;
                 case 3:
                     RemoveUser();
-                    data.SaveOrderAsJson("order.json");
+                    //Data.SaveJson(filePath);
                     break;
                 case 4:
                     EditUser();
-                    data.SaveOrderAsJson("order.json");
+                    //Data.SaveJson(filePath);
                     break;
                 case 5:
                     SearchForUser();
                     break;
+                default:
+                    break;
             }
         }
-    }
-    public static void NotValidInput()
-    {
-        Console.WriteLine("Ogiltig input! Tas tillbaka till startmeny..");
-
     }
 
 }

@@ -25,13 +25,14 @@
         UserHandler.userList.Add(user01);
         Table table = new(number, status, size);
 
-        ProductHandler.PrintProduct();
+       // ProductHandler.EditProduct();
         
 
-        // while (true)
-        // {
-        //     UserInterFace.UserInterFaceStartMenu(tableHandler, number, status, size, table);
-        // }
+        while (true)
+        {
+            UserHandler.UserStartMenu();
+            //UserInterFace.UserInterFaceStartMenu(tableHandler, number, status, size, table);
+        }
 
     }
 }

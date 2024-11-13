@@ -1,5 +1,4 @@
-// Klass för en produkt med div. egenskaper.
-//TODO ta bort momsen från konstruktorn så den uppdateras automatiskt ist
+
 public class Product
 {
     public enum ProductType // förrätt, varmrätt, dessert? 
@@ -70,7 +69,7 @@ public static class ProductHandler
         bool addmeny = true;
         while (addmeny)
         {
-            if (int.TryParse(input, out int intinput)) //TODO kolla upp varför int input funkade utan -1 i array
+            if (int.TryParse(input, out int intinput)) 
             {
                 if (intinput != 1 && intinput != 2 && intinput != 3)
                 {
@@ -124,7 +123,7 @@ public static class ProductHandler
 
         foreach (Product.ProductType p in Enum.GetValues(typeof(Product.ProductType)))
         {
-            Console.WriteLine((int)p + ". " + " " + p); //TODO lägg till moms här också?
+            Console.WriteLine((int)p + ". " + " " + p);
 
         }
     }
@@ -198,10 +197,10 @@ public static class ProductHandler
                 var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
                 productList[pickProduct - 1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
                 AdjustVatItem();
-                //TODO fixa momsen
                 break;
 
             }
+
         }
     }
 
