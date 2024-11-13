@@ -70,7 +70,7 @@ public static class UserInterFace
 
                     //TableHandler tableHandler = new();
                     TableHandler.ShowTables();
-                    TableHandler.OrderToTable(number, status, product, tableHandler, tablehandler);
+                    TableHandler.OrderToTable(number, status, product, tablehandler);
                     //TODO lägg i rapport-lista
                     orderList.Clear();
                     break;
@@ -363,7 +363,7 @@ public static class UserInterFace
             switch (choice)
             {
                 case "1":
-                    Order(status, product);
+                    Order(status, product, tableHandler);
                     break;
                 case "2":
                     TableHandler.ShowOpenTables();

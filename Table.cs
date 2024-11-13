@@ -372,7 +372,7 @@ public class TableHandler
 
 
     // metod för att lägga en order till ett bord
-    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler, TableHandler tableProductList)
+    public static void OrderToTable(int number, bool status, Product product, TableHandler tableHandler)
     {
 
         // lägger till produkter i en tillfällig lista
