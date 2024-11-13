@@ -345,7 +345,7 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu(Product product, TableHandler tableHandler, User user, int number, bool status, int size, Table table)
+    public static void UserInterFaceStartMenu(TableHandler tableHandler, int number, bool status, int size, Table table)
     {
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
@@ -398,7 +398,7 @@ public static class UserInterFace
                     ProductHandler.ProductStartMenu();
                     break;
                 case "6":
-                    UserHandler.UserStartMenu(user);
+                    UserHandler.UserStartMenu();
                     break;
                 case "7":
                     break;

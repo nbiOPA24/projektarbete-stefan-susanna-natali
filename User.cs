@@ -201,7 +201,7 @@ public static class UserHandler
         }
 
     }
-    public static void UserStartMenu(User user)
+    public static void UserStartMenu()
     {
         DataContainer data = new DataContainer { };
         string filePath = "data.json";
