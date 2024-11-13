@@ -22,85 +22,6 @@ public static class UserInterFace
         }
 
     }
-<<<<<<< Updated upstream
-=======
-
-    // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(bool status, Product product, TableHandler tablehandler) //TODO kan den plussa istället för att lägga samma artikel på ny rad? 
-    {
-        Console.WriteLine();
-        ProductHandler.PrintProduct();
-        Console.WriteLine();
-
-        while (true)
-        {
-            Console.Write("Skriv in beställning, ange artikelnr. 'Q' för klar: ");
-            string? choice = Console.ReadLine().ToUpper();
-
-            if (int.TryParse(choice, out int number))
-            {
-                Product productsToAdd = ProductHandler.productList.Find(product => product.ProductNumber == number);
-                if (productsToAdd != null)
-                {
-                    orderList.Add(productsToAdd);
-
-                }
-
-                else
-                {
-                    Console.WriteLine("Ogiltig input");
-                }
-            }
-            PrintOrderlist();
-            CountTotal();
-
-            if (choice == "Q")
-            {
-                Console.WriteLine("Betala (d)irekt eller lägga order till (b)ord?");
-                string paymentChoice = Console.ReadLine();
-                paymentChoice = UppercaseFirst(paymentChoice);
-                if (paymentChoice == "D")
-                {
-                    Payment();
-                    orderList.Clear();
-                    //TODO lägg i rapport-lista
-                    break;
-                }
-                else if (paymentChoice == "B")
-                {
-
-                    /*TableHandler tableHandler = new();
-                    TableHandler.ShowTables();
-                    TableHandler.OrderToTable(number, status, product, tableHandler, tablehandler);
-                    //TODO lägg i rapport-lista*/
-                    orderList.Clear();
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Ogiltig input");
-
-                }
-
-            }
-
-        }
-    }
-
-    public static void CountTotal()
-    {
-        TableHandler tableHandler = new();
-        AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
-        foreach (Product p in tableHandler.tableProductList)
-        {
-            AmountToPay += p.Price; //p.Quantity *
-
-        }
-        Console.WriteLine("Summa att betala: " + AmountToPay);
-
-
-    }
->>>>>>> Stashed changes
     public static void Payment()
     {
 
@@ -323,9 +244,6 @@ public static class UserInterFace
             }
         }
 
-<<<<<<< Updated upstream
-
-=======
     }
     public static void UserInterFaceStartMenu(Product product, TableHandler tableHandler, User user, int number, bool status, int size)
     {
@@ -402,7 +320,6 @@ public static class UserInterFace
             Console.WriteLine("Tas tillbaka");
             return true;
         }
->>>>>>> Stashed changes
 
 
     }

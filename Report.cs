@@ -3,11 +3,7 @@ using System.Security.Cryptography;
 
 public class Report
 {
-<<<<<<< Updated upstream
-    public enum ReportCategory //ändrade från 'type' till 'category'
-=======
     public enum ReportCategory
->>>>>>> Stashed changes
     {
         TotalSales,
         WeeklySales,
@@ -15,12 +11,8 @@ public class Report
         PrintReceipt
     }
 
-<<<<<<< Updated upstream
-    public static bool GetDate(string prompt, out DateTime date) //TODO fixa så att den tar emot datum i formatet YYYY-MM-DD
-=======
 //tar emot datum-input i formatet YYYY-MM-DD för rapporter. TODO ta 'dagens datum' för dailyrapport
     public static bool GetDate(string prompt, out DateTime date)
->>>>>>> Stashed changes
     {
         Console.WriteLine(prompt);
         string? dateInput = Console.ReadLine();
@@ -31,11 +23,7 @@ public class Report
 
      public int ReportNumber {get; set;}
      public DateTime Date {get; set;}
-<<<<<<< Updated upstream
-     public ReportCategory Category {get; set;} // Ändrade från 'type' till 'Category'
-=======
      public ReportCategory Category {get; set;} 
->>>>>>> Stashed changes
 
      public List<Sales> Sales {get; set;} = new(); 
 
@@ -65,80 +53,11 @@ public class Report
      }
  }
 
-<<<<<<< Updated upstream
-
-=======
 //här hanteras Rapport-val med meny-logik via user input (huvudmenyn från UserInterFace)
->>>>>>> Stashed changes
 public static class ReportHandler
 {
     public static List<Report> SalesList {get; set;}  =  new(); 
 
-<<<<<<< Updated upstream
-    public static decimal ReportGenerator(Report.ReportCategory reportCategory, DateTime startDate, DateTime endDate) //generarar sales-rapporter av de slag vi vill ha
-                                                                                //lade till manuell DateTime-filtrering for now baserat på user input
-                                                                                //TODO integrera maunell datum-input till Table??
-                                                                                //TODO tighta till logiken i R-generator, redundans?
-    {
-        return reportCategory switch
-        {
-            Report.ReportCategory.TotalSales => TotalSales(startDate, endDate),
-            Report.ReportCategory.WeeklySales => WeeklySales(startDate, endDate),
-            Report.ReportCategory.DailySales => DailySales(startDate, endDate),
-            _ => 0
-        };
-    }
-    public static decimal TotalSales(DateTime startDate, DateTime endDate)
-    {
-        return SalesList
-        .Where(report => report.Date >= startDate && report.Date <= endDate)//sorterar efter valt datum-spann
-        .Sum(report=> report.Sales.Sum(sale => sale.TotalAmount)); //ser till att få en rapport-kategori i taget att funka
-    } 
-    public static decimal WeeklySales(DateTime startDate, DateTime endDate)
-    {
-        return SalesList
-        .Where(report => report.Date >= startDate && report.Date <= endDate)
-        .SelectMany(report => report.Sales)
-        .GroupBy(sale=> CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(sale.Date, CalendarWeekRule.FirstDay, DayOfWeek.Monday))
-        .Sum(group=> group.Sum(sale => sale.TotalAmount));
-    }
-    public static decimal DailySales(DateTime startDate, DateTime endDate)
-    {
-        return SalesList
-        .Where(report => report.Date >= startDate && report.Date <= endDate)
-        .SelectMany(report => report.Sales)
-        .GroupBy(sale=> sale.Date.Date)
-        .Sum(group=> group.Sum(sale => sale.TotalAmount));
-    }
-
-    public static void ProductSalesReport (DateTime startDate, DateTime endDate) //visar Rapport på lista av produkter
-    {
-        var salesReport = SalesList
-            .Where(report => report.Date >= startDate && report.Date <= endDate)
-            .SelectMany(report => report.Sales) //tar sales-listan på alla rapporter
-            .GroupBy(sale => sale.Product.Name) //tar total sales/försäljning per product-namn??? eller?
-            .Select(group => new
-            {
-                ProductName = group.Key,
-                TotalQuantitySold = group.Sum(s => s.Quantity),
-                TotalSalesAmount = group.Sum(s => s.TotalAmount)  
-            })
-            .OrderByDescending(report => report.TotalSalesAmount);
-
-            Console.WriteLine("Försäljningsrapport: ");
-            foreach (var item in salesReport)
-            {
-                Console.WriteLine($"Produkt: {item.ProductName}, Total antal styck sålda: {item.TotalQuantitySold}, Total försäljning summa: {item.TotalSalesAmount:C}");
-            }
-    }
-    //public static decimal PrintReport(){}
-    
-}
-/* public static string PrintReport(Report report) {}
-{
-    var report = 
-} */
-=======
     public static void ReportMenu()
     {
             
@@ -256,4 +175,3 @@ public static class ReportHandler
 {
     var report = 
 } */
->>>>>>> Stashed changes
