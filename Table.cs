@@ -15,6 +15,7 @@ public class Table
 
     // Storlek för bordskarta gällande ex. bokningsläge (innebär: antalpers som ryms på bord)
     public int Size { get; set; }
+
     // bordsspecifik lista för produkter
     public Table(int number, bool status, int size)
     {
@@ -24,36 +25,36 @@ public class Table
         TableList = new List<Product>();
 
     }
-    public Table(bool status)
-    {
-        Status = status;
-    }
 }
 
 // Bordslistan och metoder för att hantera bord
 public class TableHandler
 {
     // lista med bord
-
+    public static int CurrentTable { get; set; }
     public static List<Table> tables { get; set; }
 
 
     public TableHandler()
     {
-        tables = new List<Table>();
+        tables = new List<Table>(); // ska den ha konstruktor?
     }
 
-    public static void TableMenu(int number, bool status, int size)
+    public static void TableMenu(int number, bool status, int size, User user)
     {
         //startvärden
         //int number = 0;
         //bool status = false;
         //TestTables();
         // Console.Clear();
+        
+        //UserHandler.IsAdmin();// kallar på metod IsAdmin och checkar Admin bool för inloggad user
+
+        UserHandler.IsAdmin();
         while (true)
         {
             // TODO lägga till TypeOfUser från user sen
-            bool admin = true;
+            //bool admin = true;
 
             Console.WriteLine("1. Visa bordslista.");
             Console.WriteLine("2. Visa öppna bord.");
@@ -61,7 +62,7 @@ public class TableHandler
             Console.WriteLine("4. Stänga alla bord.");
 
             // dessa kräver adminlevel typ
-            if (admin)
+            if (User.Admin)
             {
                 Console.WriteLine("5. Skapa nytt bord.");
                 Console.WriteLine("6. Ta bort bord.");
@@ -89,15 +90,15 @@ public class TableHandler
                 CloseAllTables(); // kolla så den checkar produkter osv.
                 //CheckoutTable(number);
             }
-            else if (choice == "5" && admin)
+            else if (choice == "5" && User.Admin)
             {
                 AddTable(status);
             }
-            else if (choice == "6" && admin)
+            else if (choice == "6" && User.Admin)
             {
                 RemoveTable(number);
             }
-            else if (choice == "7" && admin)
+            else if (choice == "7" && User.Admin)
             {
                 EditTable(number, size);
             }
@@ -322,6 +323,7 @@ public class TableHandler
                     if (int.TryParse(nr, out int number))
                     {
                         Table tableToHandle = tables.Find(tables => tables.Number == number);
+                        CurrentTable = number;
 
                         if (tableToHandle != null && tableToHandle.Status) // checkar så bordet finns och att det är öppet
                         {
@@ -343,12 +345,11 @@ public class TableHandler
                                 //status = false;
 
                                 //här ska aktuella produkter skickas till betalning
-                                // skickar tillbaks prod till orderlist för moms osv.
+                                // skickar tillbaks produkter till orderlist för moms osv.
                                 foreach (Product p in tableToHandle.TableList)
                                 {
                                     UserInterFace.orderList.Add(p);
                                 }
-
                                 Payment.StartPayment(tableToHandle, receipt);
 
                             }
@@ -369,7 +370,7 @@ public class TableHandler
                         else
                         {
                             Console.WriteLine("Finns inga produkter på det bordet!");
-                            break; 
+                            break;
                         }
                     }
                     else if (receipt.AmountToPay <= 0)

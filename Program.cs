@@ -6,7 +6,7 @@
 
     static void Main(string[] args)
     {
-        Console.Clear();
+        //Console.Clear();
         int number = 0;
         bool status = false;
         int size = 0;
@@ -15,8 +15,9 @@
 
         TableHandler tableHandler = new();
         TableHandler.GenerateTables();
-        User user = new(User.TypeOfUser.Admin, "Natali");
-        User user01 = new(User.TypeOfUser.Bartender, "Simon");
+        User user = new(User.TypeOfUser.Bartender, "Natali");
+        User user01 = new(User.TypeOfUser.Manager, "Stefan");
+        User user02 = new(User.TypeOfUser.Manager, "Susanna");
         Product product1 = new("Risotto", 120, Product.ProductType.Food);
         Product product2 = new("Carbonara", 100, Product.ProductType.Food);
         Product product3 = new("Carlsberg", 60, Product.ProductType.Alcohol);
@@ -26,6 +27,7 @@
         ProductHandler.productList.Add(product3);
         UserHandler.userList.Add(user);
         UserHandler.userList.Add(user01);
+        UserHandler.userList.Add(user02);
 
         //Testkör rapport-funktionen i konsollen:
         ProductHandler.PrintProduct();
@@ -58,12 +60,12 @@
         decimal totalSalesAmount = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
 
         Console.WriteLine($"\nTotal försäljning för {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}: {totalSalesAmount:C}");
-        Receipt newReceipt = new(0,0,0,0,0,0,0,true,nu);
+        Receipt newReceipt = new(0,0,0,0,0,0,0,true,nu,0,"Namn",00000);
         Table table = new(number,status,size);
         
             
-            UserInterFace.UserInterFaceStartMenu(newReceipt,tableHandler, number, status, size, table);
-            Payment.PrintReceipt(newReceipt);
+            UserInterFace.UserInterFaceStartMenu(newReceipt,tableHandler, number, status, size, table, user);
+
         
 
     }

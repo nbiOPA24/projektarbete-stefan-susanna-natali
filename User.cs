@@ -8,13 +8,13 @@ public class User
 {
     public enum TypeOfUser
     {
-        Admin = 1,
-        Manager,
-        HeadWaiter,
+        Manager = 1, // ha admin true
+        Headwaiter,
         Sommelier,
         Waiter,
         Bartender
     }
+    public static bool Admin { get; set; } //acceslevel
     public string? FirstName { get; set; } // TODO fixa ev. lastname!
     public int UserId { get; set; }
     public static int NextId = 1;
@@ -27,15 +27,29 @@ public class User
         UserId = 2400;
         UserId += NextId;
         NextId++;
-
-
     }
+
 
 }
 public static class UserHandler
 {
     public static List<User> userList = new();
+    public static void IsAdmin()
+    {
+        // foreach (User u in userList) User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
+        // {
+        User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
 
+        if (currentUser.UserType == User.TypeOfUser.Manager || currentUser.UserType == User.TypeOfUser.Headwaiter || currentUser.UserType == User.TypeOfUser.Sommelier)
+        {
+            User.Admin = true;
+        }
+        else
+        {
+            User.Admin = false;
+        }
+
+    }
     public static void PrintUser()
     {
         Console.WriteLine("Här är personallistan: ");
@@ -90,7 +104,7 @@ public static class UserHandler
         {
             int input = int.Parse(Console.ReadLine());
             var userArray = Enum.GetValues(typeof(User.TypeOfUser));
-            User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar produkttypen efter angivet heltal ??
+            User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar usertypen efter angivet heltal 
 
             Console.Write("Personalens förnamn: ");
             string? firstname = UserInterFace.UppercaseFirst(Console.ReadLine());
@@ -213,6 +227,7 @@ public static class UserHandler
 
         while (true)
         {
+            // lägg till en tillbaka knapp
             Console.WriteLine("1. Se personallista");
             Console.WriteLine("2. Lägg till personal");
             Console.WriteLine("3. Ta bort personal");
