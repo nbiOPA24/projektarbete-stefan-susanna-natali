@@ -17,7 +17,7 @@ public static class UserInterFace
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(Table table)
+    public static void Order(Table table, Receipt receipt)
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -42,7 +42,7 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
-            CountTotal(table);
+            CountTotal(table, receipt);
 
             if (choice == "Q")
             {
@@ -51,7 +51,7 @@ public static class UserInterFace
 
                 if (paymentChoice == "D")
                 {
-                    Payment.StartPayment(table);
+                    Payment.StartPayment(table, receipt);
                     orderList.Clear();// för tidigt?
                     //TODO lägg i rapport-lista
                     break;
@@ -79,15 +79,15 @@ public static class UserInterFace
         }
     }
 
-    public static void CountTotal(Table table)// denna räknar ju inte med bordsprodukterna
+    public static void CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
 
-        Payment.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
+        receipt.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
             foreach (Product p in orderList)
             {
-                Payment.AmountToPay += p.Price; //p.Quantity *
+                receipt.AmountToPay += p.Price; //p.Quantity *
 
             }
         }
@@ -95,11 +95,11 @@ public static class UserInterFace
         {
             foreach (Product p in table.TableList)
             {
-                Payment.AmountToPay += p.Price;
+                receipt.AmountToPay += p.Price;
             }
         }
 
-        Console.WriteLine("Summa att betala: " + Payment.AmountToPay); 
+        Console.WriteLine("Summa att betala: " + receipt.AmountToPay); 
 
 
     }
@@ -199,7 +199,7 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu(TableHandler tableHandler, int number, bool status, int size, Table table)
+    public static void UserInterFaceStartMenu(Receipt receipt,TableHandler tableHandler, int number, bool status, int size, Table table)
     {
         // Console.WriteLine("Välkommen!");
         // UserHandler.PrintUser(user);
@@ -207,7 +207,8 @@ public static class UserInterFace
 
         UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
-        {
+        { 
+
             Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
             Console.WriteLine("1. Ny Order");//Ny beställning");
             Console.WriteLine("2. Hantera Order"); // hämta order på bord
@@ -215,16 +216,17 @@ public static class UserInterFace
             Console.WriteLine("4. Bordshantering");
             Console.WriteLine("5. Produktmeny");
             Console.WriteLine("6. Personalmeny");
+            Console.WriteLine("7. Skriv ut alla kvitton");
 
             string? choice = Console.ReadLine().ToUpper();
             switch (choice)
             {
                 case "1":
-                    Order(table);
+                    Order(table, receipt);
                     break;
                 case "2":
                     TableHandler.ShowOpenTables();
-                    tableHandler.HandleTableContents();
+                    tableHandler.HandleTableContents(receipt);
                     break;
                 case "3":
                     DisplayMenu();
@@ -255,6 +257,7 @@ public static class UserInterFace
                     UserHandler.UserStartMenu();
                     break;
                 case "7":
+                    Payment.PrintReceiptList();
                     break;
                 case "Q":
                     Back(choice);

@@ -306,7 +306,7 @@ public class TableHandler
     }
 
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
-    public void HandleTableContents()// endast send? eller addtotable?
+    public void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
     {
         // if (inga bord har status... tebax)
         {
@@ -349,7 +349,7 @@ public class TableHandler
                                     UserInterFace.orderList.Add(p);
                                 }
 
-                                Payment.StartPayment(tableToHandle);
+                                Payment.StartPayment(tableToHandle, receipt);
 
                             }
                             else if (input == "N")
@@ -372,7 +372,7 @@ public class TableHandler
                             break; 
                         }
                     }
-                    else if (Payment.AmountToPay <= 0)
+                    else if (receipt.AmountToPay <= 0)
                     {
                         Console.WriteLine("Summan är noll!");
                     }
