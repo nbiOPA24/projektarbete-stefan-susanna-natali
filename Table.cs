@@ -1,8 +1,6 @@
 // Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
-using System.Linq.Expressions;
-using System.Reflection.Metadata.Ecma335;
-
+#region Table
 public class Table
 {   
     // Bordsspecifik lista för produkter
@@ -29,7 +27,8 @@ public class Table
 
     }
 }
-
+#endregion
+#region TableHandler
 // Bordslistan och metoder för att hantera bord och ordrar med produkter
 public class TableHandler
 {
@@ -40,7 +39,8 @@ public class TableHandler
     {
         tables = new List<Table>(); // ska den ha konstruktor?
     }
-
+#endregion
+#region TableMenu
     public static void TableMenu(int number, bool status, int size, User user)
     {
         //startvärden
@@ -86,7 +86,7 @@ public class TableHandler
             }
             else if (choice == "4")
             {
-                //CloseAllTables(); // TODO kolla så den checkar om bordet har produkter kvar
+                CloseAllTables(number); // TODO kolla så den checkar om bordet har produkter kvar
 
             }
             else if (choice == "5" && User.Admin)
@@ -113,7 +113,8 @@ public class TableHandler
             }
         }
     }
-
+#region
+#region GenerateTables
     // En metod som loopar fram lite testbord till bordslistan 
     public static void GenerateTables()
     {
@@ -129,7 +130,8 @@ public class TableHandler
 
         }
     }
-    
+#endregion    
+#region OpenTable
     // Metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet // överflödig metod. 
     public static void OpenTable(int number)
     {
@@ -171,6 +173,8 @@ public class TableHandler
             }
         }
     }
+#endregion
+#region CloseTable
     // Metod för att stänga ett bord tex. vid dagsavslut (oklart behov)
     public static void CloseTable(int number)
     {
@@ -215,19 +219,21 @@ public class TableHandler
             }
         }
     }
+#endregion
+#region CloseAllTables
     // Metod för att stänga alla bord. Behov vid ex. dagsavslut.
-    public static void CloseAllTables(Table table, int number)
+    public static void CloseAllTables(int number)
     {
         ShowTables();
         foreach (Table t in tables) //Ska man skapa en 
         {
-            //Table tableToClear = tables.Find(tables => tables.Number == number);
+            Table tableToClear = tables.Find(tables => tables.Number == number);
             //Table tableToHandle = tables.Find(tables => tables.Number == number);
 
             if (t.Status) // checkar om bord är öppna
             {
                 // kollar om de finns produkter kvar på bordet
-                foreach (Product p in table.TableList)
+                foreach (Product p in tableToClear.TableList)
                 {
                     if (p != null)
                     {
@@ -248,6 +254,8 @@ public class TableHandler
         Console.WriteLine("Alla bord är stängda.");
         Console.WriteLine();
     }
+    #endregion
+    #region ShowTables
     // metod för att visa borden (listan)
     public static void ShowTables() // isVisible?
     {
@@ -284,7 +292,8 @@ public class TableHandler
         }
         Console.WriteLine();
     }
-
+#endregion
+#region ShowOpenTables
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
     public static void ShowOpenTables()
     {
@@ -302,7 +311,8 @@ public class TableHandler
 
         }
     }
-
+#endregion
+#region HandleTableContents
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
     {
@@ -377,6 +387,7 @@ public class TableHandler
                     else if (choice == "2")
                     {
                         Console.WriteLine("Delbetala.");
+                        
                     }
                     else if (choice == "3")
                     {
@@ -389,21 +400,23 @@ public class TableHandler
             }
         }
     }
+#endregion
+#region SplitTable
 
-
-    // metod för att splitta bord (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
-    public void SplitTable()// Split, splitCheck?
+    // metod för att splitta bordsnota (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
+    public void SplitTable()// Split, splitCheck? 
     {
 
     }
-
+#endregion
+#region VoidOrder
     // metod för att radera produkter eller tömma bord. (krävs hov/admin? Ange behörighet alt redan inloggad)
     public void VoidOrder() // oklart namn ta bort varje produkt i listan
     {
 
     }
-
-
+#endregion
+#region OrderToTable
     // metod för att lägga en order till ett bord
     public static void OrderToTable(int number)
     {
@@ -500,7 +513,8 @@ public class TableHandler
         }
         //UserInterFace.Order(product); // fixa bong
     }
-
+#endregion
+#region AddTable
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
     public static void AddTable(bool status)
     {
@@ -564,7 +578,8 @@ public class TableHandler
             }
         }
     }
-
+#endregion
+#region EditTable
     // adminfunktion för att redigera bord i lista dvs. ändra storlek
     public static void EditTable(int number, int size)
     {
@@ -610,8 +625,9 @@ public class TableHandler
             }
         }
     }
+    #endregion
 }
-
+#endregion
 
 // försök till lite grafisk bordskart. Work in progress :)
 
@@ -793,3 +809,4 @@ public class TableHandler
 
 
 
+#endregion
