@@ -1,6 +1,8 @@
 ﻿using System.Security.Cryptography;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json;
+using System.IO;
 
 class Program
 // TODO kolla metod för ? 
@@ -10,6 +12,8 @@ class Program
         {   
             CultureInfo.CurrentCulture = new CultureInfo("sv-SE");
             CultureInfo.CurrentUICulture = new CultureInfo("sv-SE");
+            DataContainer.SaveProductJson(ProductHandler.productList);
+            DataContainer.SaveSalesJson(ReportHandler.Report);
             //User user = new User();
             //Product product = new();
             //UserHandler.AddUser(user);

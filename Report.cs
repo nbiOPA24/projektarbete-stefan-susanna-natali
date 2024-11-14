@@ -1,5 +1,7 @@
 using System.Globalization;
 using System.Security.Cryptography;
+using Newtonsoft.Json;
+using System.IO;
 
 public class Report
 {
@@ -97,7 +99,11 @@ public static class ReportHandler
             //TODO lägga till fler rapport-kategorier samt kanske kolumner för rapport?
 
             decimal reportTotal = ReportGenerator(reportCategory, startDate, endDate);
-            Console.WriteLine($"Total försäljning för {reportCategory} är: {reportTotal: C}");
+            Console.WriteLine($"\n\n\t\t{reportCategory}\n\n");
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine($"Fro.m: {startDate} t.om: {endDate}");
+            Console.WriteLine($"Total försäljning: {reportTotal: C}");
+            Console.WriteLine($"Total  {reportCategory} är: {reportTotal: C}");
     }
 
     
