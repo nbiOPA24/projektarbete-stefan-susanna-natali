@@ -321,12 +321,14 @@ public class TableHandler
             Console.Write("Välj bordsnummer: ");
             string? nr = Console.ReadLine();
             Console.WriteLine("1. Betalning.");
-            Console.WriteLine("2. Dela artiklar.");
+            Console.WriteLine("2. Dela");
+
             Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
             string? choice = Console.ReadLine().ToUpper();
             while (true)
             {
-                if (choice == "1")
+                        Table tableToHandle = tables.Find(tables => tables.Number == number);
+                    if (choice == "1")
                     if (int.TryParse(nr, out int number))
                     {
                         Table tableToHandle = tables.Find(tables => tables.Number == number);
@@ -388,6 +390,13 @@ public class TableHandler
                     {
                         Console.WriteLine("Delbetala.");
                         
+                        foreach (Product p in tableToHandle.TableList)
+                        {
+                            
+                        }
+
+
+
                     }
                     else if (choice == "3")
                     {
