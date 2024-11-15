@@ -13,7 +13,25 @@ public static class UserInterFace
             Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. ");
 
         }
+        //TODO
+        // Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
+        //             // Söker upp alla matchande produkter och räknar
+        //             foreach (Product p in tableToAddOrder.TableList)
+        //             {
+        //                 if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+        //                 {
+        //                     productAntal[p.Name]++; // Räknar antal träffar av samma name
+        //                 }
+        //                 else
+        //                 {
+        //                     productAntal[p.Name] = 1; // om bara en träff så = 1
+        //                 }
+        //             }
+        //             foreach (var p in productAntal)
+        //             {
+        //                 Console.WriteLine($"{p.Value} st {p.Key}");
+        //             }
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
@@ -33,7 +51,8 @@ public static class UserInterFace
                 Product productsToAdd = ProductHandler.productList.Find(product => product.ProductNumber == number);
                 if (productsToAdd != null)
                 {
-                    orderList.Add(productsToAdd);
+                    orderList.Add(productsToAdd);// orderlista för att skickas till betalning eller bord
+                    
                 }
 
                 else
@@ -45,9 +64,8 @@ public static class UserInterFace
             double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
             double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
-            Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
-            receipt.Vat25 = vat25;
-            receipt.Vat12 = vat12;
+            receipt.Vat25 = vat25; //Tilldela momsen
+            receipt.Vat12 = vat12; //Tilldela momsen
             receipt.AmountToPay = totalSum;
             
 
@@ -72,7 +90,7 @@ public static class UserInterFace
                     //TableHandler tableHandler = new();
                     //TableHandler.ShowTables();
 
-                    TableHandler.OrderToTable(number);
+                    TableHandler.OrderToTable();
                     //TODO lägg i rapport-lista
                     orderList.Clear();// oklart
                     break;
@@ -215,6 +233,8 @@ public static class UserInterFace
     {
         while (true)
         {
+            Data.LoadUserList("user.json");
+
             Console.WriteLine("Välkommen!");
             UserHandler.PrintUser();
             Console.Write("Välj användare, ange ID-nummer: "); // "AnvändarId:" 
@@ -222,7 +242,12 @@ public static class UserInterFace
             UserHandler.IsAdmin();
             bool innerMenu = true;
             while (innerMenu)
+            
             {
+                Data.LoadUserList("user.json");
+                Data.LoadProductList("product.json");
+                // Data.LoadReceiptList("receipt.json");
+                //Data.LoadTableList("table.json");           
                 Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
                 Console.WriteLine("1. Ny Order");//Ny beställning");
                 Console.WriteLine("2. Hantera Order"); // hämta order på bord
@@ -275,7 +300,7 @@ public static class UserInterFace
                         TableHandler.TableMenu(number, status, size, user);
                         break;
                     case "5":
-                        Payment.PrintReceiptList();
+                        Payment.PrintReceiptList(receipt);
                         break;
                     case "6":
                         ProductHandler.ProductStartMenu();

@@ -1,94 +1,86 @@
 using System.Text.Json.Serialization;
 using System.Xml;
 using Newtonsoft.Json;
-<<<<<<< HEAD:Data.cs
-using System;
-using System.Collections.Generic;
-using System.IO;
-=======
-using System.IO;
-public class DataContainer
-{    //Lägg in listorna
-    public static List<User> userList = new();
-public void SaveOrderAsJson(string filePath)
-{
-    string json = JsonConvert.SerializeObject(userList);
-    File.WriteAllText(filePath, json);
-}
->>>>>>> d4ef7b1 (merge med upstream main):DataContainer.cs
 
 public static class Data
 {    //Lägg in listorna
 
-public static void SaveJson(string filePath)
-{
-    string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented);
-    File.WriteAllText(filePath, json);
-}
+    public static void SaveUserList(string filePath) //string filePath = ger oss möjligheten att referea till en .jsonfil som vi har i file explorer
+    {
+        string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented); //konverterat userlist till json-språk/i json-filen
+        File.WriteAllText(filePath, json);
+    }
 
-    public static void LoadJson(string filePath)
+    public static void LoadUserList(string filePath)
     {
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-
-            User user = JsonConvert.DeserializeObject<User>(json);
-            UserHandler.userList = new List<User> { user };
+            UserHandler.userList = JsonConvert.DeserializeObject<List<User>>(json) ?? new List<User>();
         }
-        else 
+        else
         {
-            Console.WriteLine("Inga objekt hittade!");
+            Console.WriteLine("No user data found. Creating a new empty list.");
+            UserHandler.userList = new List<User>();
         }
     }
-<<<<<<< HEAD:Data.cs
-=======
-}
+    public static void SaveProductList(string filePath)
+    {
+        string json = JsonConvert.SerializeObject(ProductHandler.productList, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+    }
 
-public static void SaveProductJson(List<Product>productList)
-{
-    string productJson = JsonConvert.SerializeObject(productList);
-    File.WriteAllText("product.json", productJson);
-}
+    public static void LoadProductList(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            ProductHandler.productList = JsonConvert.DeserializeObject<List<Product>>(json) ?? new List<Product>();
+        }
+        else
+        {
+            Console.WriteLine("No product data found. Creating a new empty list.");
+            ProductHandler.productList = new List<Product>();
+        }
+    }
+    public static void SaveReceiptList(string filePath)
+    {
+        string json = JsonConvert.SerializeObject(Payment.receiptList, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+    }
 
-public static void SaveSalesJson(List<Sales> Sales)
-{
-    string salesJson = JsonConvert.SerializeObject(Sales);
-    File.WriteAllText("sales.json", salesJson);
-}
->>>>>>> d4ef7b1 (merge med upstream main):DataContainer.cs
-    // public static void SaveJson(string filePath, DataContainer dataContainer)
-    // {
-    //     try
-    //     {
-    //         string json = JsonConvert.SerializeObject(dataContainer, Formatting.Indented);
-    //         File.WriteAllText(filePath, json);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"An error occurred while saving the file: {ex.Message}");
-    //     }
-    // }
+    public static void LoadReceiptList(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            Payment.receiptList = JsonConvert.DeserializeObject<List<Receipt>>(json) ?? new List<Receipt>();
+        }
+        else
+        {
+            Console.WriteLine("No product data found. Creating a new empty list.");
+            Payment.receiptList = new List<Receipt>();
+        }
+    }
+    public static void SaveTableList(string filePath)
+    {
+        string json = JsonConvert.SerializeObject(TableHandler.tables, Formatting.Indented);
+        File.WriteAllText(filePath, json);
+    }
 
-    // public static DataContainer LoadJson(string filePath)
-    // {
-    //     try
-    //     {
-    //         if (File.Exists(filePath))
-    //         {
-    //             string json = File.ReadAllText(filePath);
-    //             return JsonConvert.DeserializeObject<DataContainer>(json) ?? new DataContainer();
-    //         }
-    //         else
-    //         {
-    //             Console.WriteLine("File not found.");
-    //             return new DataContainer();
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         Console.WriteLine($"An error occurred while loading the file: {ex.Message}");
-    //         return new DataContainer();
-    //     }
-    // }
+    public static void LoadTableList(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            TableHandler.tables = JsonConvert.DeserializeObject<List<Table>>(json) ?? new List<Table>();
+        }
+        else
+        {
+            Console.WriteLine("No product data found. Creating a new empty list.");
+            TableHandler.tables = new List<Table>();
+        }
+    }
+
 
 }

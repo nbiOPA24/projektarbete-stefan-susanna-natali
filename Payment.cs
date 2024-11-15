@@ -13,6 +13,9 @@ public class Receipt
     public int CurrentTable { get; set; }
     public string CurrentFirstName { get; set; }
     public int CurrentUserId { get; set; }
+        public List<Product> paidProductList {get;set;}
+
+
     //int receiptNumber, double paidAmount, double tips, double amountToPay, double vat12, double vat25, double netto, bool isCash, DateTime paymentAccepted, int currentTable, string currentFirstName, int currentUserId
     public Receipt(Receipt receipt, int currentTable, User user)
     {
@@ -32,6 +35,11 @@ public class Receipt
 
         ReceiptNumber += NextNumber;
         NextNumber++;
+        paidProductList = new List<Product>();
+    }
+    public void GetRef()
+    {
+    //Receipt temp = paidProductList.Find(paidProductlist => paidProductlist.ReceiptNumber == currentReceiptNumber);
     }
     public Receipt()
     {
@@ -44,11 +52,12 @@ public static class Payment
 {
 
     public static List<Receipt> receiptList = new();
-
-    public static void PrintReceiptList()
+    public static void PrintReceiptList(Receipt receipt)
     {
+        Data.LoadReceiptList("receipt.json");
         foreach (Receipt r in receiptList)
         {
+            
             Console.WriteLine("\t\tRestaurangNamn");
             Console.WriteLine("\t\tKvittonummer: " + r.ReceiptNumber);
             //if (blabla tablenr != null)
@@ -56,7 +65,15 @@ public static class Payment
             Console.WriteLine("Användare: " + r.CurrentFirstName + " - " + r.CurrentUserId); //Vilken Användare/servis
             Console.WriteLine("Datum: " + r.PaymentAccepted); 
             Console.WriteLine("Beställda artiklar: ");
-            UserInterFace.PrintOrderlist(); //TODO Skriva ut lista från rätt bord
+           // UserInterFace.PrintOrderlist();
+           int receiptNumber = 1000;
+Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
+
+            foreach (Product p in temp.paidProductList)
+            {
+                Console.WriteLine("Skrivs jag ut?");
+                Console.WriteLine(p.Name +"  "+ p.Price);
+            }
             Console.WriteLine("------------------------");
             Console.WriteLine("Betald summa: " + Math.Round(r.PaidAmount, 3));//Betald summa
             Console.WriteLine("Varav dricks: " + Math.Round(r.Tips));//Varav dricks(Extra)
@@ -73,7 +90,8 @@ public static class Payment
             Console.WriteLine("*******BETALNING********");
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
-            UserInterFace.CountTotal(table, receipt);
+            double totalSum = UserInterFace.CountTotal(table, receipt);
+            Console.WriteLine("Summa att betala: " + totalSum);
             switch (input)
             {
 
@@ -95,10 +113,8 @@ public static class Payment
         }
 
     }
-    public static void GetPayment(Receipt receipt) // Payment är META nu. vi ska inte betala och dricksa
+    public static void GetPayment(Receipt receipt) // Product product, Table table 
     {
-
-
         while (true)
         {
             Console.Write("Slå in totalbelopp ink. ev. dricks: ");
@@ -132,7 +148,7 @@ public static class Payment
                 // Thread.Sleep(1000);
                 // Console.WriteLine(" Tack!");
                 // Thread.Sleep(1000);
-                PrintReceipt(receipt); //TODO indata kvittonummer för att hålla reda på? 
+                PrintReceipt(receipt); //TODO indata kvittonummer för att hålla reda på?
                 UserInterFace.orderList.Clear();
 
                 break;
@@ -168,16 +184,17 @@ public static class Payment
         UserInterFace.PrintOrderlist();
         Console.WriteLine("------------------------");
 
-        Console.WriteLine("Betald summa: " + Math.Round(receipt.PaidAmount, 3));//Betald summa
-        Console.WriteLine("Varav dricks: " + Math.Round(receipt.Tips, 3));//Varav dricks(Extra)
+        Console.WriteLine("Betald summa: " + Math.Round(receipt.PaidAmount, 2));//Betald summa
+        Console.WriteLine("Varav dricks: " + Math.Round(receipt.Tips, 2));//Varav dricks(Extra)
         //CalculateVat(table,receipt);
         receipt.Netto = receipt.AmountToPay - receipt.Vat12 - receipt.Vat25;
-        Console.WriteLine("Netto: " + Math.Round(receipt.Netto, 3));
-        Console.WriteLine("Varav moms 12%: " + Math.Round(receipt.Vat12, 3));//Varav moms
-        Console.WriteLine("Varav moms 25%: " + Math.Round(receipt.Vat25, 3));
+        Console.WriteLine("Netto: " + Math.Round(receipt.Netto, 2));
+        Console.WriteLine("Varav moms 12%: " + Math.Round(receipt.Vat12, 2));//Varav moms
+        Console.WriteLine("Varav moms 25%: " + Math.Round(receipt.Vat25, 2));
         //ReportHandler.AddToReport(ReceiptNumber, currentUser, )
         Receipt newReceipt = new(receipt, TableHandler.CurrentTable, currentUser);// nu behövs inte detta: ReceiptNumber, receipt.PaidAmount, receipt.Tips, receipt.AmountToPay, receipt.Vat12, receipt.Vat25, receipt.Netto, receipt.IsCash, receipt.PaymentAccepted, TableHandler.CurrentTable, currentUser.FirstName, currentUser.UserId);
         receiptList.Add(newReceipt);
+        //Data.SaveReceiptList("receipt.json");
         //TODO lägg in allt detta i en rapportlista
         // placeholder kortuppgifter
     }
@@ -186,30 +203,18 @@ public static class Payment
     {
         double totalVat12 = 0;
         totalVat25 = 0;
-
-        //LOOPA
-
-        //total += table.TableList
-
-        // double CalcVat12 = 0;
-        // double CalcVat25 = 0;
         foreach (Product p in UserInterFace.orderList)
         {
             if (p.MenuItem == Product.ProductType.Food || p.MenuItem == Product.ProductType.Beverage)
             {
                 totalVat12 += p.Price;
                 totalVat12 = totalVat12 * 0.12;
-                // CalcVat12 += p.Price;
-                // receipt.Vat12 = CalcVat12 * 0.12;
-
             }
 
             else if (p.MenuItem == Product.ProductType.Alcohol)
             {
                 totalVat25 += p.Price;
                 totalVat25 = totalVat25 * 0.25;
-                // CalcVat25 += p.Price;
-                // receipt.Vat25 = CalcVat25 * 0.25;
             }
         }
         return totalVat12;

@@ -1,0 +1,17 @@
+[
+  {
+    "ReceiptNumber": 1001,
+    "PaidAmount": 120.0,
+    "Tips": 0.0,
+    "AmountToPay": 120.0,
+    "Vat12": 14.399999999999999,
+    "Vat25": 0.0,
+    "Netto": 105.6,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-15T13:12:05.0788358+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": []
+  }
+]
