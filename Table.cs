@@ -1,22 +1,23 @@
 // Klass för ett bord med egenskaper Obs! cw på svenska för test. 
 
-using System.Diagnostics;
-
+#region Table
 public class Table
-{
+{   
+    // Bordsspecifik lista för produkter
     public List<Product> TableList { get; set; } //= new();
+
+    // Positioner för ev. framtida bordskarta 
     //int XPosition { get; set; }
     //int YPosition { get; set; }
+
     // Bordsnummer för bordskarta/lista
     public int Number { get; set; }
 
-    // testar en bool för att visa öppna bord
-    public bool Status { get; set; } // status/closed? ska man göra lång set med if som skriver ut open/closed?
+    // Bool för att visa bordets status öppet/stängt
+    public bool Status { get; set; } // 
 
-    // Storlek för bordskarta gällande ex. bokningsläge (innebär: antalpers som ryms på bord)
+    // Storlek på bord för bordskarta/bokningsprogram
     public int Size { get; set; }
-
-    // bordsspecifik lista för produkter
     public Table(int number, bool status, int size)
     {
         Number = number;
@@ -26,20 +27,20 @@ public class Table
 
     }
 }
-
-// Bordslistan och metoder för att hantera bord
+#endregion
+#region TableHandler
+// Bordslistan och metoder för att hantera bord och ordrar med produkter
 public class TableHandler
 {
     // lista med bord
     public static int CurrentTable { get; set; }
     public static List<Table> tables { get; set; }
-
-
     public TableHandler()
     {
         tables = new List<Table>(); // ska den ha konstruktor?
     }
-
+#endregion
+#region TableMenu
     public static void TableMenu(int number, bool status, int size, User user)
     {
         //startvärden
@@ -69,8 +70,7 @@ public class TableHandler
                 Console.WriteLine("7. Redigera bord.");
             }
             Console.WriteLine("Q. Tillbaks till startmenyn.");
-
-            string? choice = Console.ReadLine().ToUpper(); // tryparse senare
+            string? choice = Console.ReadLine().ToUpper();
 
             if (choice == "1")
             {
@@ -78,8 +78,7 @@ public class TableHandler
             }
             else if (choice == "2")
             {
-                ShowOpenTables();//oklart behov :)
-                //ShowTableProducts(number);
+                ShowOpenTables(); // Oklart behov :)
             }
             else if (choice == "3")
             {
@@ -87,8 +86,8 @@ public class TableHandler
             }
             else if (choice == "4")
             {
-                CloseAllTables(); // kolla så den checkar produkter osv.
-                //CheckoutTable(number);
+                CloseAllTables(number); // TODO kolla så den checkar om bordet har produkter kvar
+
             }
             else if (choice == "5" && User.Admin)
             {
@@ -102,10 +101,6 @@ public class TableHandler
             {
                 EditTable(number, size);
             }
-            else if (choice == "8")
-            {
-                //UserInterFace.Order(product);
-            }
             else if (choice == "Q")
             {
                 Console.WriteLine("Valfri tangent för att avsluta.");
@@ -118,11 +113,12 @@ public class TableHandler
             }
         }
     }
-
-    // lite testbord ska finnas i ev. Json
+#region
+#region GenerateTables
+    // En metod som loopar fram lite testbord till bordslistan 
     public static void GenerateTables()
     {
-        // loop för att skapa lite testobjekt
+        
         for (int i = 0; i < 5; i++)
         {
             bool status = false;
@@ -134,32 +130,32 @@ public class TableHandler
 
         }
     }
-    // TODO lägga till produkter på ngt sätt.
-    // metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet // onödig funktion??
+#endregion    
+#region OpenTable
+    // Metod för att öppna bord (söka upp i lista för vidare instruktioner), registrerar bord som öppet // överflödig metod. 
     public static void OpenTable(int number)
     {
         Console.WriteLine();
         Console.WriteLine("Ange bordsnummer:");
-
+        // tar in bordsnumret
         string? nr = Console.ReadLine();
-
+        // konverterar till int
         if (int.TryParse(nr, out number))
         {
-            Console.Write($"Vill du öppna {number}. J/N? ");
+            Console.Write($"Vill du öppna {number}. J/N? "); // Extra steg i felhanteringssyfte
             string? input = Console.ReadLine().ToUpper();
 
             if (input == "J")
-            {
+            {   
+                // Söker upp bord efter dess number
                 Table tableToOpen = tables.Find(tables => tables.Number == number);
 
-                if (tableToOpen != null) // behövs null?
+                // Checkar Så bordet finns
+                if (tableToOpen != null)
                 {
                     //Checkar om status är true
                     tableToOpen.Status = true;
-
                     Console.WriteLine($"bord: {number}. är öppnat.");
-
-
                     Console.WriteLine();
                 }
                 else
@@ -177,11 +173,11 @@ public class TableHandler
             }
         }
     }
-
-    // Metod för att stänga ALLA bord
-    public static void CloseTable(int number) // close ALL tables
+#endregion
+#region CloseTable
+    // Metod för att stänga ett bord tex. vid dagsavslut (oklart behov)
+    public static void CloseTable(int number)
     {
-
         Console.WriteLine();
         ShowOpenTables(); //Lista använda bord
         Console.WriteLine();
@@ -223,34 +219,43 @@ public class TableHandler
             }
         }
     }
+#endregion
+#region CloseAllTables
     // Metod för att stänga alla bord. Behov vid ex. dagsavslut.
-    public static void CloseAllTables()
+    public static void CloseAllTables(int number)
     {
-
         ShowTables();
-        foreach (Table t in tables)
+        foreach (Table t in tables) //Ska man skapa en 
         {
-            if (t.Status) // måste nog söka fram borden som e öppna
-            {
-                // TODO kolla om de finns bongade produkter på bordet
-                int products = 0;
-                if (products != 0)
-                {
-                    Console.WriteLine(t.Number + "Har produkter kvar! Vill du ändå stänga bordet? J/N?");
-                    string? input = Console.ReadLine();
-                    if (input == "J")
-                    {
-                        //TODO voida produkter typ
+            Table tableToClear = tables.Find(tables => tables.Number == number);
+            //Table tableToHandle = tables.Find(tables => tables.Number == number);
 
+            if (t.Status) // checkar om bord är öppna
+            {
+                // kollar om de finns produkter kvar på bordet
+                foreach (Product p in tableToClear.TableList)
+                {
+                    if (p != null)
+                    {
+                        Console.WriteLine(t.Number + "Har produkter kvar! Vill du ändå stänga bordet? J/N?");
+                        string? input = Console.ReadLine();
+                        if (input == "J")
+                        {
+                            //TODO voida produkter typ clear()
+
+                        }
+                        break;//? continue? return?
                     }
-                    break;//? continue? return?
+                    t.Status = false;
+
                 }
-                t.Status = false;
             }
         }
         Console.WriteLine("Alla bord är stängda.");
         Console.WriteLine();
     }
+    #endregion
+    #region ShowTables
     // metod för att visa borden (listan)
     public static void ShowTables() // isVisible?
     {
@@ -287,7 +292,8 @@ public class TableHandler
         }
         Console.WriteLine();
     }
-
+#endregion
+#region ShowOpenTables
     // metod för att visa alla öppna bord (även tomma) OBS! Kanske räcker med föregående metod
     public static void ShowOpenTables()
     {
@@ -305,7 +311,8 @@ public class TableHandler
 
         }
     }
-
+#endregion
+#region HandleTableContents
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
     {
@@ -314,12 +321,14 @@ public class TableHandler
             Console.Write("Välj bordsnummer: ");
             string? nr = Console.ReadLine();
             Console.WriteLine("1. Betalning.");
-            Console.WriteLine("2. Dela artiklar.");
+            Console.WriteLine("2. Dela");
+
             Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
             string? choice = Console.ReadLine().ToUpper();
             while (true)
             {
-                if (choice == "1")
+                        
+                    if (choice == "1")
                     if (int.TryParse(nr, out int number))
                     {
                         Table tableToHandle = tables.Find(tables => tables.Number == number);
@@ -380,6 +389,14 @@ public class TableHandler
                     else if (choice == "2")
                     {
                         Console.WriteLine("Delbetala.");
+                        
+                        //foreach (Product p in tableToHandle.TableList)
+                        {
+                            
+                        }
+
+
+
                     }
                     else if (choice == "3")
                     {
@@ -392,21 +409,23 @@ public class TableHandler
             }
         }
     }
+#endregion
+#region SplitTable
 
-
-    // metod för att splitta bord (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
-    public void SplitTable()// Split, splitCheck?
+    // metod för att splitta bordsnota (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
+    public void SplitTable()// Split, splitCheck? 
     {
 
     }
-
+#endregion
+#region VoidOrder
     // metod för att radera produkter eller tömma bord. (krävs hov/admin? Ange behörighet alt redan inloggad)
     public void VoidOrder() // oklart namn ta bort varje produkt i listan
     {
 
     }
-
-
+#endregion
+#region OrderToTable
     // metod för att lägga en order till ett bord
     public static void OrderToTable(int number)
     {
@@ -503,7 +522,8 @@ public class TableHandler
         }
         //UserInterFace.Order(product); // fixa bong
     }
-
+#endregion
+#region AddTable
     // Funktion för ex. hov/admin där man skapar borden till sin restaurang/avdelning (relaterar mest till bokningsfunktioner)
     public static void AddTable(bool status)
     {
@@ -567,7 +587,8 @@ public class TableHandler
             }
         }
     }
-
+#endregion
+#region EditTable
     // adminfunktion för att redigera bord i lista dvs. ändra storlek
     public static void EditTable(int number, int size)
     {
@@ -613,8 +634,9 @@ public class TableHandler
             }
         }
     }
+    #endregion
 }
-
+#endregion
 
 // försök till lite grafisk bordskart. Work in progress :)
 
@@ -796,3 +818,4 @@ public class TableHandler
 
 
 
+#endregion
