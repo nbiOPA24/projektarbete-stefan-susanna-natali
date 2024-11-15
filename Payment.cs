@@ -65,9 +65,9 @@ public static class Payment
             Console.WriteLine("Användare: " + r.CurrentFirstName + " - " + r.CurrentUserId); //Vilken Användare/servis
             Console.WriteLine("Datum: " + r.PaymentAccepted); 
             Console.WriteLine("Beställda artiklar: ");
-           // UserInterFace.PrintOrderlist();
-           int receiptNumber = 1000;
-Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
+            // UserInterFace.PrintOrderlist();
+            int receiptNumber = 1000;
+            Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
 
             foreach (Product p in temp.paidProductList)
             {
