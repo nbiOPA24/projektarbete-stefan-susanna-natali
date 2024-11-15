@@ -327,7 +327,7 @@ public class TableHandler
             string? choice = Console.ReadLine().ToUpper();
             while (true)
             {
-                        Table tableToHandle = tables.Find(tables => tables.Number == number);
+                        
                     if (choice == "1")
                     if (int.TryParse(nr, out int number))
                     {
@@ -390,7 +390,7 @@ public class TableHandler
                     {
                         Console.WriteLine("Delbetala.");
                         
-                        foreach (Product p in tableToHandle.TableList)
+                        //foreach (Product p in tableToHandle.TableList)
                         {
                             
                         }
