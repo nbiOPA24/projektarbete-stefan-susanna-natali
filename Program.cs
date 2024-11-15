@@ -60,13 +60,13 @@
         decimal totalSalesAmount = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
 
         Console.WriteLine($"\nTotal försäljning för {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}: {totalSalesAmount:C}");
-        Receipt newReceipt = new(0,0,0,0,0,0,0,true,nu,0,"Namn",00000);
-        Table table = new(number,status,size);
-        
-            
-            UserInterFace.UserInterFaceStartMenu(newReceipt,tableHandler, number, status, size, table, user);
+        Receipt newReceipt = new();
+        Table table = new(number, status, size);
 
-        
+        UserHandler.UserStartMenu();
+        //UserInterFace.UserInterFaceStartMenu(newReceipt, tableHandler, number, status, size, table, user);
+
+
 
     }
 }

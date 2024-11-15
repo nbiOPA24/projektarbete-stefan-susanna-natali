@@ -13,5 +13,10 @@
     "FirstName": "Susanna",
     "UserId": 2406,
     "UserType": 1
+  },
+  {
+    "FirstName": "Pelle",
+    "UserId": 2408,
+    "UserType": 4
   }
 ]

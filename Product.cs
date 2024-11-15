@@ -173,7 +173,7 @@ public static class ProductHandler
         int choice = int.Parse(Console.ReadLine());
         foreach (Product p in productList)
         {
-            if (choice == 1)
+            if (choice == 1) //TODO fungerar denna ens?
             {
                 Console.Write("Ange nytt pris: ");
                 int newPrice = int.Parse(Console.ReadLine());

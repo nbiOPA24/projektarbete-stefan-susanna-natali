@@ -42,7 +42,16 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
-            CountTotal(table, receipt);
+            double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
+            double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
+            Console.WriteLine("Summa att betala: " + totalSum);
+            Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
+            receipt.Vat25 = vat25;
+            receipt.Vat12 = vat12;
+            receipt.AmountToPay = totalSum;
+            
+
+            
 
             if (choice == "Q")
             {
@@ -79,15 +88,17 @@ public static class UserInterFace
         }
     }
 
-    public static void CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
+    public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
-
-        receipt.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
+        //double totalVat = Payment.CalculateVat(table, receipt);
+        double temptotal = 0;
+        //receipt.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
             foreach (Product p in orderList)
             {
-                receipt.AmountToPay += p.Price; //p.Quantity *
+                temptotal += p.Price;
+                //receipt.AmountToPay += p.Price; //p.Quantity *
 
             }
         }
@@ -95,11 +106,12 @@ public static class UserInterFace
         {
             foreach (Product p in table.TableList)
             {
-                receipt.AmountToPay += p.Price;
+                temptotal += p.Price;
+                //receipt.AmountToPay += p.Price;
             }
         }
-
-        Console.WriteLine("Summa att betala: " + receipt.AmountToPay);
+        return temptotal;
+        //Console.WriteLine("Summa att betala: " + receipt.AmountToPay);
 
 
     }
@@ -206,7 +218,7 @@ public static class UserInterFace
             Console.WriteLine("Välkommen!");
             UserHandler.PrintUser();
             Console.Write("Välj användare, ange ID-nummer: "); // "AnvändarId:" 
-            UserChoice = int.Parse(Console.ReadLine());
+            UserChoice = 2402;//int.Parse(Console.ReadLine()); //Pausad så man slipper logga in
             UserHandler.IsAdmin();
             bool innerMenu = true;
             while (innerMenu)

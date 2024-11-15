@@ -189,41 +189,43 @@ public static class UserHandler
         Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
 
         int id = int.Parse(Console.ReadLine());
+
         Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
         int choice = int.Parse(Console.ReadLine());
         foreach (User u in userList)
         {
-            if (choice == 1)
+            if (choice == 1 && id == u.UserId)
             {
                 Console.Write("Namn valt. Skriv in nytt: ");
                 string? newName = Console.ReadLine();
+
                 u.FirstName = newName;
                 Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                 break;
+
+
+
             }
-            else if (choice == 2)
+            else if (choice == 2 && id == u.UserId)
             {
-                if (id == u.UserId)
-                {
+                
                     Console.Write("ID-nummer valt. Skriv in nytt: ");
                     int newId = int.Parse(Console.ReadLine());
                     u.UserId = newId;
                     Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                     break;
-                }
+                
             }
-            else
-            {
-                Console.WriteLine("Ogilig input!");
-            }
-
+           
         }
 
     }
+
+
     public static void UserStartMenu()
     {
-        //string filePath = "data.json";
-        //Data.LoadJson(filePath);
+        string filePath = "data.json";
+        Data.LoadJson(filePath);
 
         while (true)
         {
@@ -242,15 +244,15 @@ public static class UserHandler
                     break;
                 case 2:
                     AddUser();
-                    //Data.SaveJson(filePath);
+                    Data.SaveJson(filePath);
                     break;
                 case 3:
                     RemoveUser();
-                    //Data.SaveJson(filePath);
+                    Data.SaveJson(filePath);
                     break;
                 case 4:
                     EditUser();
-                    //Data.SaveJson(filePath);
+                    Data.SaveJson(filePath);
                     break;
                 case 5:
                     SearchForUser();

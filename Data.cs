@@ -6,26 +6,24 @@ using System.IO;
 public static class Data
 {    //Lägg in listorna
 
-    public static void SaveJson(string filePath)
-    {
-        string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented);
-        File.WriteAllText(filePath, json);
-    }
+public static void SaveJson(string filePath)
+{
+    string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented);
+    File.WriteAllText(filePath, json);
+}
 
-    public static void LoadJson(string filePath)
+public static void LoadJson(string filePath)
+{
+    if (File.Exists(filePath))
     {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-
-            User user = JsonConvert.DeserializeObject<User>(json);
-            UserHandler.userList = new List<User> { user };
-        }
-        else 
-        {
-            Console.WriteLine("Inga objekt hittade!");
-        }
+        string json = File.ReadAllText(filePath);
+        UserHandler.userList = JsonConvert.DeserializeObject<List<User>>(json);
     }
+    else 
+    {
+        Console.WriteLine("Inga objekt hittade!");
+    }
+}
     // public static void SaveJson(string filePath, DataContainer dataContainer)
     // {
     //     try
