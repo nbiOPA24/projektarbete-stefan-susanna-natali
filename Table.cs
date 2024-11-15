@@ -389,12 +389,12 @@ public class TableHandler
                     else if (choice == "2")
                     {
                         Console.WriteLine("Delbetala.");
-                        
-                        //foreach (Product p in tableToHandle.TableList)
+                        Table tableToHandle = tables.Find(tables => tables.Number == number);
+                        foreach (Product p in tableToHandle.TableList)
                         {
-                            
+                          Console.WriteLine(p);  
                         }
-
+                        
 
 
                     }
