@@ -208,15 +208,15 @@ public static class UserHandler
             }
             else if (choice == 2 && id == u.UserId)
             {
-                
-                    Console.Write("ID-nummer valt. Skriv in nytt: ");
-                    int newId = int.Parse(Console.ReadLine());
-                    u.UserId = newId;
-                    Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
-                    break;
-                
+
+                Console.Write("ID-nummer valt. Skriv in nytt: ");
+                int newId = int.Parse(Console.ReadLine());
+                u.UserId = newId;
+                Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+                break;
+
             }
-           
+
         }
 
     }
@@ -224,9 +224,7 @@ public static class UserHandler
 
     public static void UserStartMenu()
     {
-        string filePath = "data.json";
-        Data.LoadJson(filePath);
-
+        Data.LoadUserList("user.json");
         while (true)
         {
             // lägg till en tillbaka knapp
@@ -244,15 +242,15 @@ public static class UserHandler
                     break;
                 case 2:
                     AddUser();
-                    Data.SaveJson(filePath);
+                    Data.SaveUserList("user.json");
                     break;
                 case 3:
                     RemoveUser();
-                    Data.SaveJson(filePath);
+                    Data.SaveUserList("user.json");
                     break;
                 case 4:
                     EditUser();
-                    Data.SaveJson(filePath);
+                    Data.SaveUserList("user.json");
                     break;
                 case 5:
                     SearchForUser();

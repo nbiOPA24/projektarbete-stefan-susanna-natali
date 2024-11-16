@@ -45,7 +45,7 @@ public static class UserInterFace
             double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
             double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
-            Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
+            //Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
             receipt.Vat25 = vat25;
             receipt.Vat12 = vat12;
             receipt.AmountToPay = totalSum;
@@ -90,7 +90,7 @@ public static class UserInterFace
 
     public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
-        //double totalVat = Payment.CalculateVat(table, receipt);
+
         double temptotal = 0;
         //receipt.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)

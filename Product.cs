@@ -226,6 +226,7 @@ public static class ProductHandler
     {
         while (true)
         {
+            Data.LoadProductList("product.json");
             Console.WriteLine("1. Se alla produkter");
             Console.WriteLine("2. Lägg till produkt");
             Console.WriteLine("3. Ta bort produkt");
@@ -236,15 +237,19 @@ public static class ProductHandler
             {
                 case 1:
                     PrintProduct();
+                    Data.SaveProductList("product.json");
                     break;
                 case 2:
                     AddProduct();
+                    Data.SaveProductList("product.json");
                     break;
                 case 3:
                     RemoveProduct();
+                    Data.SaveProductList("product.json");
                     break;
                 case 4:
                     EditProduct();
+                    Data.SaveProductList("product.json");
                     break;
             }
         }
