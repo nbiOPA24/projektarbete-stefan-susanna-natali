@@ -24,7 +24,6 @@ public class Product
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
-    public int Quantity { get; set; }
 
     public Product(string name, double price, ProductType menuItem)
     {

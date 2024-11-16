@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 public static class Data
 {    //Lägg in listorna
 
-    public static void SaveUserList(string filePath)
+    public static void SaveUserList(string filePath) //string filePath = ger oss möjligheten att referea till en .jsonfil som vi har i file explorer
     {
-        string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(UserHandler.userList, Formatting.Indented); //konverterat userlist till json-språk/i json-filen
         File.WriteAllText(filePath, json);
     }
 

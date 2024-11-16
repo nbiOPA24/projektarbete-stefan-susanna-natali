@@ -29,7 +29,7 @@ public class User
         NextId++;
     }
 
-
+    public User(){} // Tom konstruktor för att kunna lägga till utan indata i main.
 }
 public static class UserHandler
 {
@@ -38,6 +38,7 @@ public static class UserHandler
     {
         // foreach (User u in userList) User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
         // {
+        
         User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
 
         if (currentUser.UserType == User.TypeOfUser.Manager || currentUser.UserType == User.TypeOfUser.Headwaiter || currentUser.UserType == User.TypeOfUser.Sommelier)
@@ -56,20 +57,6 @@ public static class UserHandler
         if (userList.Count == 0) //TODO(if admin)
         {
             Console.WriteLine("------TOM------");
-            Console.Write("Lägga till personal? j/n: ");
-            string? input = Console.ReadLine().ToUpper();
-            if (input == "J")
-            {
-                AddUser();
-            }
-            else if (input == "N")
-            {
-                Console.WriteLine("Bekräftar, lägger inte till personal");
-            }
-            else
-            {
-                Console.WriteLine("Ogilig input!");
-            }
 
         }
         else

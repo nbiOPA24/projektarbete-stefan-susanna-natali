@@ -1,22 +1,22 @@
 [
   {
-    "FirstName": "Natali",
-    "UserId": 2404,
-    "UserType": 1
-  },
-  {
     "FirstName": "Stefan",
-    "UserId": 2405,
+    "UserId": 2401,
     "UserType": 1
-  },
-  {
-    "FirstName": "Pelle",
-    "UserId": 2406,
-    "UserType": 3
   },
   {
     "FirstName": "Susanna",
-    "UserId": 2407,
+    "UserId": 2402,
     "UserType": 1
+  },
+  {
+    "FirstName": "Natali",
+    "UserId": 2403,
+    "UserType": 1
+  },
+  {
+    "FirstName": "Staffan",
+    "UserId": 2404,
+    "UserType": 4
   }
 ]
