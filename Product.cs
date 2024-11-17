@@ -61,7 +61,6 @@ public static class ProductHandler
         Console.Write("Ange typ av produkt utifrån siffra: ");
 
         var typearray = Enum.GetValues(typeof(Product.ProductType)); // gör om producttype till array  
-        var vatarray = Enum.GetValues(typeof(Product.VatRate)); // gör om vatItem till array 
         string input = Console.ReadLine(); // användare lägger till typ och moms genom att ange heltal
         input = UserInterFace.UppercaseFirst(input);
 
@@ -80,17 +79,7 @@ public static class ProductHandler
 
                 else
                 {
-                    //OM input = 1, 12% = 0
-                    //OM input = 2, 25% = 1
-                    //OM input = 3, 12% = 0
-
                     Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal
-                    Product.VatRate selectedVatType = Product.VatRate._12; //Standard 12%, alkohol 25  
-                    if (intinput == 2) // om input = 2, 25%
-                    {
-                        selectedVatType = (Product.VatRate)vatarray.GetValue(1);
-                    }
-
                     Console.Write("Produktens namn: ");
                     string? name = UserInterFace.UppercaseFirst(Console.ReadLine());
                     Console.Write("Pris: ");
