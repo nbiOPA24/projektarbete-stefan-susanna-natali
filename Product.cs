@@ -20,7 +20,7 @@ public class Product
     public string Name { get; set; }
     public double Price { get; set; }
     public int ProductNumber { get; set; }
-    private static int nextNumber = 1;
+    public static int nextNumber = 1;
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
@@ -31,7 +31,7 @@ public class Product
         Price = price;
         MenuItem = menuItem;
 
-        ProductNumber += nextNumber; //uppdatera produktnummer efter varje skapat objekt
+        ProductNumber = nextNumber; //uppdatera produktnummer efter varje skapat objekt
         nextNumber++;
 
     }
@@ -41,18 +41,19 @@ public static class ProductHandler
 {
 
     public static List<Product> productList { get; set; } = new();
-
+#region PrintProduct
     public static void PrintProduct()
     {
         AdjustVatItem();
 
         foreach (Product p in productList)
         {
-            Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - " + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
+            Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - \t" + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
         }
 
     }
-
+    #endregion
+#region AddProduct
     public static void AddProduct() //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
@@ -68,7 +69,7 @@ public static class ProductHandler
         bool addmeny = true;
         while (addmeny)
         {
-            if (int.TryParse(input, out int intinput)) 
+            if (int.TryParse(input, out int intinput))
             {
                 if (intinput != 1 && intinput != 2 && intinput != 3)
                 {
@@ -113,8 +114,8 @@ public static class ProductHandler
         }
     }
 
-
-
+#endregion
+#region PrintProType
 
     public static void PrintProductType()
     {
@@ -126,8 +127,8 @@ public static class ProductHandler
 
         }
     }
-
-
+#endregion
+    #region RemoveProd
     public static void RemoveProduct()
     {
         while (true)
@@ -157,7 +158,8 @@ public static class ProductHandler
 
 
     }
-
+    #endregion
+#region EditProduct
     //TODO Generell prisändring på alla produkter inom kategori
     public static void EditProduct()
     {
@@ -172,21 +174,21 @@ public static class ProductHandler
         int choice = int.Parse(Console.ReadLine());
         foreach (Product p in productList)
         {
-            if (choice == 1) //TODO fungerar denna ens?
+            if (choice == 1 && pickProduct == p.ProductNumber) //TODO fungerar denna ens?
             {
                 Console.Write("Ange nytt pris: ");
                 int newPrice = int.Parse(Console.ReadLine());
                 p.Price = newPrice;
                 break;
             }
-            else if (choice == 2)
+            else if (choice == 2 && pickProduct == p.ProductNumber)
             {
                 Console.Write("Ange nytt namn: ");
                 string? newName = Console.ReadLine();
                 p.Name = newName;
                 break;
             }
-            else if (choice == 3)
+            else if (choice == 3 && pickProduct == p.ProductNumber)
             {
 
                 PrintProductType();
@@ -203,8 +205,8 @@ public static class ProductHandler
         }
     }
 
-
-
+#endregion
+    #region AdjVatItem
     public static void AdjustVatItem()
     {
         for (int i = 0; i < productList.Count; i++)
@@ -221,6 +223,8 @@ public static class ProductHandler
             }
         }
     }
+    #endregion
+    #region StartMenu
     public static void ProductStartMenu()
     {
         while (true)
@@ -230,28 +234,35 @@ public static class ProductHandler
             Console.WriteLine("2. Lägg till produkt");
             Console.WriteLine("3. Ta bort produkt");
             Console.WriteLine("4. Ändra en produkt");
+            Console.Write("Q för tillbaka: ");
 
-            int choice = int.Parse(Console.ReadLine());
+            string? choice = Console.ReadLine().ToUpper();
             switch (choice)
             {
-                case 1:
+                case "1":
                     PrintProduct();
                     Data.SaveProductList("product.json");
                     break;
-                case 2:
+                case "2":
                     AddProduct();
                     Data.SaveProductList("product.json");
+                    Data.SaveNextProductNumber("nextproductnumber.json");
                     break;
-                case 3:
+                case "3":
                     RemoveProduct();
                     Data.SaveProductList("product.json");
                     break;
-                case 4:
+                case "4":
                     EditProduct();
                     Data.SaveProductList("product.json");
+                    break;
+                case "Q":
+                    return;
+                default:
+                    Console.WriteLine("Ogiltig input!");
                     break;
             }
         }
     }
-
+#endregion
 }

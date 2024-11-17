@@ -3,7 +3,7 @@ public static class UserInterFace
 
     public static int UserChoice { get; set; }
     public static List<Product> orderList = new();
-
+#region PrintOrderLis
     public static void PrintOrderlist()
     {
 
@@ -33,7 +33,8 @@ public static class UserInterFace
         //                 Console.WriteLine($"{p.Value} st {p.Key}");
         //             }
     }
-
+#endregion
+#region Order
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
     public static void Order(Table table, Receipt receipt)
     {
@@ -64,13 +65,12 @@ public static class UserInterFace
             double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
             double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
-            //Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
             receipt.Vat25 = vat25;
             receipt.Vat12 = vat12;
             receipt.AmountToPay = totalSum;
-            
 
-            
+
+
 
             if (choice == "Q")
             {
@@ -106,7 +106,8 @@ public static class UserInterFace
 
         }
     }
-
+#endregion
+#region CountTotal
     public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
 
@@ -134,7 +135,8 @@ public static class UserInterFace
 
 
     }
-
+#endregion
+#region CreateDescr
     public static void CreateMenuDescription() // OM en produkt inte innehåller en beskriving, fyll i beskrivning
     {
         // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
@@ -185,6 +187,8 @@ public static class UserInterFace
             }
         }
     }
+    #endregion
+    #region EditDescript
     public static void EditMenuDescription()
     {
         ProductHandler.PrintProduct();
@@ -206,6 +210,8 @@ public static class UserInterFace
             }
 
     }
+    #endregion
+    #region DisplayMenu
     public static void DisplayMenu()
     {
 
@@ -230,6 +236,8 @@ public static class UserInterFace
         }
 
     }
+    #endregion
+    #region StartMenu
     public static void UserInterFaceStartMenu(Receipt receipt, TableHandler tableHandler, int number, bool status, int size, Table table, User user)
     {
         while (true)
@@ -243,12 +251,15 @@ public static class UserInterFace
             UserHandler.IsAdmin();
             bool innerMenu = true;
             while (innerMenu)
-            
+
             {
+                Console.Clear();
                 Data.LoadUserList("user.json");
-                Data.LoadProductList("product.json");
-                // Data.LoadReceiptList("receipt.json");
-                //Data.LoadTableList("table.json");           
+                Data.LoadNextId("nextid.json");
+                //Data.LoadNextProductNumber("nextproductnumber.json");
+                        //Data.LoadProductList("product.json");
+                        // Data.LoadReceiptList("receipt.json");
+                        //Data.LoadTableList("table.json");           
                 Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
                 Console.WriteLine("1. Ny Order");//Ny beställning");
                 Console.WriteLine("2. Hantera Order"); // hämta order på bord
@@ -291,9 +302,9 @@ public static class UserInterFace
                                     break;
                                 case "Q":
                                     break;
-                                    default:
-                                    Console.WriteLine("Ogiltig input!"); 
-                                    break; 
+                                default:
+                                    Console.WriteLine("Ogiltig input!");
+                                    break;
                             }
                         }
                         break;
@@ -308,20 +319,22 @@ public static class UserInterFace
 
                         break;
                     case "7":
-                        UserHandler.UserStartMenu();
+                        UserHandler.UserStartMenu(user);
                         break;
 
                     case "L":
                         Back(choice);
                         innerMenu = false;
                         break;
-                        default:
-                        Console.WriteLine("Ogiltig input!"); 
+                    default:
+                        Console.WriteLine("Ogiltig input!");
                         break;
                 }
             }
         }
     }
+    #endregion
+    #region Back
     public static bool Back(string input)
     {
         if (input == "Q")
@@ -333,7 +346,8 @@ public static class UserInterFace
         return false;
 
     }
-
+#endregion
+#region UpperCase
     public static string UppercaseFirst(string str)
     {
         if (string.IsNullOrEmpty(str))
@@ -342,3 +356,4 @@ public static class UserInterFace
     }
 
 }
+#endregion

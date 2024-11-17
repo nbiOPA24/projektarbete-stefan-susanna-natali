@@ -17,15 +17,15 @@ public class User
     public static bool Admin { get; set; } //acceslevel
     public string? FirstName { get; set; } // TODO fixa ev. lastname!
     public int UserId { get; set; }
-    public static int NextId = 1;
+    public static int NextId = 2400;
     public TypeOfUser UserType { get; set; }
 
     public User(TypeOfUser userType, string firstName)
     {
         UserType = userType;
         FirstName = firstName;
-        UserId = 2400;
-        UserId += NextId;
+        
+        UserId = NextId;
         NextId++;
     }
 
@@ -34,6 +34,7 @@ public class User
 public static class UserHandler
 {
     public static List<User> userList = new();
+    #region IsAdmin
     public static void IsAdmin()
     {
         // foreach (User u in userList) User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
@@ -51,6 +52,8 @@ public static class UserHandler
         }
 
     }
+    #endregion
+    #region PrintUser
     public static void PrintUser()
     {
         Console.WriteLine("Här är personallistan: ");
@@ -73,6 +76,8 @@ public static class UserHandler
 
 
     }
+    #endregion
+    #region PrintUserTyp
     public static void PrintUserType()
     {
         Console.WriteLine("Behörighetslista: ");
@@ -82,8 +87,11 @@ public static class UserHandler
         }
 
     }
-    public static void AddUser()
+    #endregion
+    #region AddUser
+    public static void AddUser(User user)
     {
+                
         Console.WriteLine("LÄGG TILL PERSONAL");
         PrintUserType();
         Console.Write("Behörighet, ange utifrån siffra: ");
@@ -100,9 +108,6 @@ public static class UserHandler
                 Console.WriteLine("Ogilitg input, enbart bokstäver är tillåtna!");
                 return;
             }
-
-            // Kanske lambda för att hitta den som matchar firstname och skirva ut dennes ID? 
-
             User newUser = new(selectedUserType, firstname);
             userList.Add(newUser);
             User newAddedUser = userList.Find(user => user.FirstName == firstname);
@@ -116,8 +121,8 @@ public static class UserHandler
         }
 
     }
-
-
+    #endregion
+#region RemoveUser
     public static void RemoveUser()
     {
         Console.WriteLine("TA BORT PERSONAL");
@@ -132,14 +137,12 @@ public static class UserHandler
                 Console.WriteLine(userList[i].FirstName + " är borttagen!");
                 userList.RemoveAt(i);
             }
-            else
-            {
-                Console.WriteLine("Ogiltig input!");
-            }
         }
 
 
     }
+    #endregion
+    #region Search
     public static void SearchForUser() //TODO kanske en global? Tex. menyval först för 1. User, 2. Product osv och en för allt?
     {
         List<User> searchList = new();
@@ -168,7 +171,8 @@ public static class UserHandler
         }
 
     }
-
+#endregion
+#region EditUser
     public static void EditUser()
     {
         Console.WriteLine("ÄNDRA PERSONAL");
@@ -207,9 +211,9 @@ public static class UserHandler
         }
 
     }
-
-
-    public static void UserStartMenu()
+#endregion
+#region StartMenu
+    public static void UserStartMenu(User user)
     {
         Data.LoadUserList("user.json");
         while (true)
@@ -220,28 +224,32 @@ public static class UserHandler
             Console.WriteLine("3. Ta bort personal");
             Console.WriteLine("4. Redigera personal");
             Console.WriteLine("5. Sökning");
+            Console.Write("Q för tillbaka: ");
 
-            int choice = int.Parse(Console.ReadLine());
+            string? choice = Console.ReadLine();
             switch (choice)
             {
-                case 1:
+                case "1":
                     PrintUser();
                     break;
-                case 2:
-                    AddUser();
+                case "2":
+                    AddUser(user);
                     Data.SaveUserList("user.json");
+                    Data.SaveNextId("nextid.json");
                     break;
-                case 3:
+                case "3":
                     RemoveUser();
                     Data.SaveUserList("user.json");
                     break;
-                case 4:
+                case "4":
                     EditUser();
                     Data.SaveUserList("user.json");
                     break;
-                case 5:
+                case "5":
                     SearchForUser();
                     break;
+                    case "Q":
+                    return;
                 default:
                     break;
             }
@@ -249,3 +257,4 @@ public static class UserHandler
     }
 
 }
+#endregion
