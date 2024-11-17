@@ -13,11 +13,29 @@ public static class UserInterFace
             Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. ");
 
         }
+        //TODO
+        // Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
+        //             // Söker upp alla matchande produkter och räknar
+        //             foreach (Product p in tableToAddOrder.TableList)
+        //             {
+        //                 if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+        //                 {
+        //                     productAntal[p.Name]++; // Räknar antal träffar av samma name
+        //                 }
+        //                 else
+        //                 {
+        //                     productAntal[p.Name] = 1; // om bara en träff så = 1
+        //                 }
+        //             }
+        //             foreach (var p in productAntal)
+        //             {
+        //                 Console.WriteLine($"{p.Value} st {p.Key}");
+        //             }
     }
 
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(Table table)
+    public static void Order(Table table, Receipt receipt)
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
@@ -33,7 +51,8 @@ public static class UserInterFace
                 Product productsToAdd = ProductHandler.productList.Find(product => product.ProductNumber == number);
                 if (productsToAdd != null)
                 {
-                    orderList.Add(productsToAdd);
+                    orderList.Add(productsToAdd);// orderlista för att skickas till betalning eller bord
+                    
                 }
 
                 else
@@ -42,7 +61,16 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
-            CountTotal(table);
+            double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
+            double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
+            Console.WriteLine("Summa att betala: " + totalSum);
+            //Console.WriteLine($"Moms: vat12 {vat12:F2}, vat25 {vat25:F2}");
+            receipt.Vat25 = vat25;
+            receipt.Vat12 = vat12;
+            receipt.AmountToPay = totalSum;
+            
+
+            
 
             if (choice == "Q")
             {
@@ -51,7 +79,7 @@ public static class UserInterFace
 
                 if (paymentChoice == "D")
                 {
-                    Payment.StartPayment(table);
+                    Payment.StartPayment(table, receipt);
                     orderList.Clear();// för tidigt?
                     //TODO lägg i rapport-lista
                     break;
@@ -63,7 +91,7 @@ public static class UserInterFace
                     //TableHandler tableHandler = new();
                     //TableHandler.ShowTables();
 
-                    TableHandler.OrderToTable(number);
+                    TableHandler.OrderToTable();
                     //TODO lägg i rapport-lista
                     orderList.Clear();// oklart
                     break;
@@ -79,15 +107,17 @@ public static class UserInterFace
         }
     }
 
-    public static void CountTotal(Table table)// denna räknar ju inte med bordsprodukterna
+    public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
 
-        Payment.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
+        double temptotal = 0;
+        //receipt.AmountToPay = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
             foreach (Product p in orderList)
             {
-                Payment.AmountToPay += p.Price; //p.Quantity *
+                temptotal += p.Price;
+                //receipt.AmountToPay += p.Price; //p.Quantity *
 
             }
         }
@@ -95,11 +125,12 @@ public static class UserInterFace
         {
             foreach (Product p in table.TableList)
             {
-                Payment.AmountToPay += p.Price;
+                temptotal += p.Price;
+                //receipt.AmountToPay += p.Price;
             }
         }
-
-        Console.WriteLine("Summa att betala: " + Payment.AmountToPay); 
+        return temptotal;
+        //Console.WriteLine("Summa att betala: " + receipt.AmountToPay);
 
 
     }
@@ -199,70 +230,98 @@ public static class UserInterFace
         }
 
     }
-    public static void UserInterFaceStartMenu(TableHandler tableHandler, int number, bool status, int size, Table table)
+    public static void UserInterFaceStartMenu(Receipt receipt, TableHandler tableHandler, int number, bool status, int size, Table table, User user)
     {
-        // Console.WriteLine("Välkommen!");
-        // UserHandler.PrintUser(user);
-        // Console.Write("Välj användare, ange ID-nummer: ");
-
-        UserChoice = 2401;//int.Parse(Console.ReadLine());
         while (true)
         {
-            Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
-            Console.WriteLine("1. Ny Order");//Ny beställning");
-            Console.WriteLine("2. Hantera Order"); // hämta order på bord
-            Console.WriteLine("3. Se restaurangmeny");
-            Console.WriteLine("4. Bordshantering");
-            Console.WriteLine("5. Produktmeny");
-            Console.WriteLine("6. Personalmeny");
+            Data.LoadUserList("user.json");
 
-            string? choice = Console.ReadLine().ToUpper();
-            switch (choice)
+            Console.WriteLine("Välkommen!");
+            UserHandler.PrintUser();
+            Console.Write("Välj användare, ange ID-nummer: "); // "AnvändarId:" 
+            UserChoice = 2402;//int.Parse(Console.ReadLine()); //Pausad så man slipper logga in
+            UserHandler.IsAdmin();
+            bool innerMenu = true;
+            while (innerMenu)
+            
             {
-                case "1":
-                    Order(table);
-                    break;
-                case "2":
-                    TableHandler.ShowOpenTables();
-                    tableHandler.HandleTableContents();
-                    break;
-                case "3":
-                    DisplayMenu();
-                    //if(admin)
-                    Console.WriteLine("1. Skapa meny");
-                    Console.WriteLine("2. Ändra meny");
-                    Console.Write("Q. för att avsluta: ");
-                    string? menuchoice = Console.ReadLine().ToUpper();
-                    switch (menuchoice)
-                    {
-                        case "1":
-                            CreateMenuDescription();
-                            break;
-                        case "2":
-                            EditMenuDescription();
-                            break;
-                        case "Q":
-                            return;
-                    }
-                    break;
-                case "4":
-                    TableHandler.TableMenu(number, status, size);
-                    break;
-                case "5":
-                    ProductHandler.ProductStartMenu();
-                    break;
-                case "6":
-                    UserHandler.UserStartMenu();
-                    break;
-                case "7":
-                    break;
-                case "Q":
-                    Back(choice);
-                    break;
+                Data.LoadUserList("user.json");
+                Data.LoadProductList("product.json");
+                // Data.LoadReceiptList("receipt.json");
+                //Data.LoadTableList("table.json");           
+                Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
+                Console.WriteLine("1. Ny Order");//Ny beställning");
+                Console.WriteLine("2. Hantera Order"); // hämta order på bord
+                Console.WriteLine("3. Restaurangmeny");
+                Console.WriteLine("4. Bordshantering");
+                Console.WriteLine("5. Skriv ut alla kvitton");
+                if (User.Admin)
+                {
+                    Console.WriteLine("6. Produktmeny");
+                    Console.WriteLine("7. Personalmeny");
+
+                }
+                Console.WriteLine("(L)ogga ut");
+
+                string? choice = Console.ReadLine().ToUpper();
+                switch (choice)
+                {
+                    case "1":
+                        Order(table, receipt);
+                        break;
+                    case "2":
+                        TableHandler.ShowOpenTables();
+                        tableHandler.HandleTableContents(receipt);
+                        break;
+                    case "3":
+                        DisplayMenu();
+                        if (User.Admin)
+                        {
+                            Console.WriteLine("1. Skapa meny");
+                            Console.WriteLine("2. Ändra meny");
+                            Console.Write("Q. för att avsluta: ");
+                            string? menuchoice = Console.ReadLine().ToUpper();
+                            switch (menuchoice)
+                            {
+                                case "1":
+                                    CreateMenuDescription();
+                                    break;
+                                case "2":
+                                    EditMenuDescription();
+                                    break;
+                                case "Q":
+                                    break;
+                                    default:
+                                    Console.WriteLine("Ogiltig input!"); 
+                                    break; 
+                            }
+                        }
+                        break;
+                    case "4":
+                        TableHandler.TableMenu(number, status, size, user);
+                        break;
+                    case "5":
+                        Payment.PrintReceiptList(receipt);
+                        break;
+                    case "6":
+                        ProductHandler.ProductStartMenu();
+
+                        break;
+                    case "7":
+                        UserHandler.UserStartMenu();
+                        break;
+
+                    case "L":
+                        Back(choice);
+                        innerMenu = false;
+                        break;
+                        default:
+                        Console.WriteLine("Ogiltig input!"); 
+                        break;
+                }
             }
         }
     }
-   
     public static bool Back(string input)
     {
         if (input == "Q")

@@ -8,54 +8,58 @@ public class User
 {
     public enum TypeOfUser
     {
-        Admin = 1,
-        Manager,
-        HeadWaiter,
+        Manager = 1, // ha admin true
+        Headwaiter,
         Sommelier,
         Waiter,
         Bartender
     }
+    public static bool Admin { get; set; } //acceslevel
     public string? FirstName { get; set; } // TODO fixa ev. lastname!
     public int UserId { get; set; }
-    public static int NextId = 1;
+    public static int NextId = 2400;
     public TypeOfUser UserType { get; set; }
 
     public User(TypeOfUser userType, string firstName)
     {
         UserType = userType;
         FirstName = firstName;
-        UserId = 2400;
-        UserId += NextId;
+        
+        UserId = NextId;
         NextId++;
-
-
     }
 
+    public User(){} // Tom konstruktor för att kunna lägga till utan indata i main.
 }
 public static class UserHandler
 {
     public static List<User> userList = new();
+    #region IsAdmin
+    public static void IsAdmin()
+    {
+        // foreach (User u in userList) User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
+        // {
+        
+        User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
 
+        if (currentUser.UserType == User.TypeOfUser.Manager || currentUser.UserType == User.TypeOfUser.Headwaiter || currentUser.UserType == User.TypeOfUser.Sommelier)
+        {
+            User.Admin = true;
+        }
+        else
+        {
+            User.Admin = false;
+        }
+
+    }
+    #endregion
+    #region PrintUser
     public static void PrintUser()
     {
         Console.WriteLine("Här är personallistan: ");
         if (userList.Count == 0) //TODO(if admin)
         {
             Console.WriteLine("------TOM------");
-            Console.Write("Lägga till personal? j/n: ");
-            string? input = Console.ReadLine().ToUpper();
-            if (input == "J")
-            {
-                AddUser();
-            }
-            else if (input == "N")
-            {
-                Console.WriteLine("Bekräftar, lägger inte till personal");
-            }
-            else
-            {
-                Console.WriteLine("Ogilig input!");
-            }
 
         }
         else
@@ -72,6 +76,8 @@ public static class UserHandler
 
 
     }
+    #endregion
+    #region PrintUserTyp
     public static void PrintUserType()
     {
         Console.WriteLine("Behörighetslista: ");
@@ -81,8 +87,11 @@ public static class UserHandler
         }
 
     }
-    public static void AddUser()
+    #endregion
+    #region AddUser
+    public static void AddUser(User user)
     {
+                
         Console.WriteLine("LÄGG TILL PERSONAL");
         PrintUserType();
         Console.Write("Behörighet, ange utifrån siffra: ");
@@ -90,7 +99,7 @@ public static class UserHandler
         {
             int input = int.Parse(Console.ReadLine());
             var userArray = Enum.GetValues(typeof(User.TypeOfUser));
-            User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar produkttypen efter angivet heltal ??
+            User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar usertypen efter angivet heltal 
 
             Console.Write("Personalens förnamn: ");
             string? firstname = UserInterFace.UppercaseFirst(Console.ReadLine());
@@ -99,9 +108,6 @@ public static class UserHandler
                 Console.WriteLine("Ogilitg input, enbart bokstäver är tillåtna!");
                 return;
             }
-
-            // Kanske lambda för att hitta den som matchar firstname och skirva ut dennes ID? 
-
             User newUser = new(selectedUserType, firstname);
             userList.Add(newUser);
             User newAddedUser = userList.Find(user => user.FirstName == firstname);
@@ -115,8 +121,8 @@ public static class UserHandler
         }
 
     }
-
-
+    #endregion
+#region RemoveUser
     public static void RemoveUser()
     {
         Console.WriteLine("TA BORT PERSONAL");
@@ -131,14 +137,12 @@ public static class UserHandler
                 Console.WriteLine(userList[i].FirstName + " är borttagen!");
                 userList.RemoveAt(i);
             }
-            else
-            {
-                Console.WriteLine("Ogiltig input!");
-            }
         }
 
 
     }
+    #endregion
+    #region Search
     public static void SearchForUser() //TODO kanske en global? Tex. menyval först för 1. User, 2. Product osv och en för allt?
     {
         List<User> searchList = new();
@@ -167,7 +171,8 @@ public static class UserHandler
         }
 
     }
-
+#endregion
+#region EditUser
     public static void EditUser()
     {
         Console.WriteLine("ÄNDRA PERSONAL");
@@ -175,71 +180,76 @@ public static class UserHandler
         Console.Write("Skriv in ID-nummer för personal du vill ändra: ");
 
         int id = int.Parse(Console.ReadLine());
+
         Console.WriteLine("Vill du ändra 1. Namn eller 2.ID? ");
         int choice = int.Parse(Console.ReadLine());
         foreach (User u in userList)
         {
-            if (choice == 1)
+            if (choice == 1 && id == u.UserId)
             {
                 Console.Write("Namn valt. Skriv in nytt: ");
                 string? newName = Console.ReadLine();
+
                 u.FirstName = newName;
                 Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                 break;
+
+
+
             }
-            else if (choice == 2)
+            else if (choice == 2 && id == u.UserId)
             {
-                if (id == u.UserId)
-                {
-                    Console.Write("ID-nummer valt. Skriv in nytt: ");
-                    int newId = int.Parse(Console.ReadLine());
-                    u.UserId = newId;
-                    Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
-                    break;
-                }
-            }
-            else
-            {
-                Console.WriteLine("Ogilig input!");
+
+                Console.Write("ID-nummer valt. Skriv in nytt: ");
+                int newId = int.Parse(Console.ReadLine());
+                u.UserId = newId;
+                Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
+                break;
+
             }
 
         }
 
     }
-    public static void UserStartMenu()
+#endregion
+#region StartMenu
+    public static void UserStartMenu(User user)
     {
-        //string filePath = "data.json";
-        //Data.LoadJson(filePath);
-
+        Data.LoadUserList("user.json");
         while (true)
         {
+            // lägg till en tillbaka knapp
             Console.WriteLine("1. Se personallista");
             Console.WriteLine("2. Lägg till personal");
             Console.WriteLine("3. Ta bort personal");
             Console.WriteLine("4. Redigera personal");
             Console.WriteLine("5. Sökning");
+            Console.Write("Q för tillbaka: ");
 
-            int choice = int.Parse(Console.ReadLine());
+            string? choice = Console.ReadLine();
             switch (choice)
             {
-                case 1:
+                case "1":
                     PrintUser();
                     break;
-                case 2:
-                    AddUser();
-                    //Data.SaveJson(filePath);
+                case "2":
+                    AddUser(user);
+                    Data.SaveUserList("user.json");
+                    Data.SaveNextId("nextid.json");
                     break;
-                case 3:
+                case "3":
                     RemoveUser();
-                    //Data.SaveJson(filePath);
+                    Data.SaveUserList("user.json");
                     break;
-                case 4:
+                case "4":
                     EditUser();
-                    //Data.SaveJson(filePath);
+                    Data.SaveUserList("user.json");
                     break;
-                case 5:
+                case "5":
                     SearchForUser();
                     break;
+                    case "Q":
+                    return;
                 default:
                     break;
             }
@@ -247,3 +257,4 @@ public static class UserHandler
     }
 
 }
+#endregion

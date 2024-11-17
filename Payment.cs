@@ -1,34 +1,113 @@
+public class Receipt
+{
+    public int ReceiptNumber { get; set; }
+    private static int NextNumber = 1;
+    public double PaidAmount { get; set; }
+    public double Tips { get; set; }
+    public double AmountToPay { get; set; }
+    public double Vat12 { get; set; }
+    public double Vat25 { get; set; }
+    public double Netto { get; set; }
+    public bool IsCash { get; set; }
+    public DateTime PaymentAccepted { get; set; }
+    public int CurrentTable { get; set; }
+    public string CurrentFirstName { get; set; }
+    public int CurrentUserId { get; set; }
+        public List<Product> paidProductList {get;set;}
+
+
+    //int receiptNumber, double paidAmount, double tips, double amountToPay, double vat12, double vat25, double netto, bool isCash, DateTime paymentAccepted, int currentTable, string currentFirstName, int currentUserId
+    public Receipt(Receipt receipt, int currentTable, User user)
+    {
+        ReceiptNumber = receipt.ReceiptNumber;
+        PaidAmount = receipt.PaidAmount;
+        Tips = receipt.Tips;
+        AmountToPay = receipt.AmountToPay;
+        Vat12 = receipt.Vat12;
+        Vat25 = receipt.Vat25;
+        Netto = receipt.Netto;
+        IsCash = receipt.IsCash;
+        PaymentAccepted = receipt.PaymentAccepted;
+
+        CurrentTable = currentTable;
+        CurrentFirstName = user.FirstName;
+        CurrentUserId = user.UserId;
+
+        ReceiptNumber += NextNumber;
+        NextNumber++;
+        paidProductList = new List<Product>();
+    }
+    public void GetRef()
+    {
+    //Receipt temp = paidProductList.Find(paidProductlist => paidProductlist.ReceiptNumber == currentReceiptNumber);
+    }
+    public Receipt()
+    {
+        
+    }
+
+
+}
 public static class Payment
 {
 
-    public static double PaidAmount { get; set; }
-    public static double Tips { get; set; }
-    public static double AmountToPay { get; set; }
-    public static double Vat12 { get; set; }
-    public static double Vat25 { get; set; }
-    public static bool IsCash { get; set; }
-    public static DateTime PaymentAccepted { get; set; }
-    public static void StartPayment(Table table)
+    public static List<Receipt> receiptList = new();
+    public static void PrintReceiptList(Receipt receipt)
+    {
+        Data.LoadReceiptList("receipt.json");
+        foreach (Receipt r in receiptList)
+        {
+            
+            Console.WriteLine("\t\tRestaurangNamn");
+            Console.WriteLine("\t\tKvittonummer: " + r.ReceiptNumber);
+            //if (blabla tablenr != null)
+            Console.WriteLine("Bordsnummer: #" + r.CurrentTable);
+            Console.WriteLine("Användare: " + r.CurrentFirstName + " - " + r.CurrentUserId); //Vilken Användare/servis
+            Console.WriteLine("Datum: " + r.PaymentAccepted); 
+            Console.WriteLine("Beställda artiklar: ");
+            // UserInterFace.PrintOrderlist();
+            int receiptNumber = 1000;
+            Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
+
+            foreach (Product p in temp.paidProductList)
+            {
+                Console.WriteLine("Skrivs jag ut?");
+                Console.WriteLine(p.Name +"  "+ p.Price);
+            }
+            Console.WriteLine("------------------------");
+            Console.WriteLine("Betald summa: " + Math.Round(r.PaidAmount, 3));//Betald summa
+            Console.WriteLine("Varav dricks: " + Math.Round(r.Tips));//Varav dricks(Extra)
+            Console.WriteLine("Netto: " + Math.Round(r.Netto));
+            Console.WriteLine("Varav moms 12%: " + Math.Round(r.Vat12));//Varav moms
+            Console.WriteLine("Varav moms 25%: " + Math.Round(r.Vat25));
+        }
+    }
+    public static void StartPayment(Table table, Receipt receipt)
     {
 
-        if (AmountToPay > 0)
+        if (receipt.AmountToPay > 0)
         {
             Console.WriteLine("*******BETALNING********");
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
-            UserInterFace.CountTotal(table);
+            double totalSum = UserInterFace.CountTotal(table, receipt);
+<<<<<<< HEAD
+            Console.WriteLine("Totalbelopp: "+totalSum);
+=======
+            Console.WriteLine("Summa att betala: " + totalSum);
+>>>>>>> 2e598accabd76b34b9aab4712f53ef565be093b5
             switch (input)
             {
 
                 case 1: // KORT
-                    IsCash = false;
-                    GetPayment();
+                    receipt.IsCash = false;
+                    GetPayment(receipt);
                     break;
 
 
                 case 2: // KONTANT
-                    IsCash = true;
-                    GetPayment();
+                    receipt.IsCash = true;
+                    GetPayment(receipt);
                     break;
             }
         }
@@ -38,47 +117,42 @@ public static class Payment
         }
 
     }
-    public static void GetPayment() // Payment är META nu. vi ska inte betala och dricksa
+    public static void GetPayment(Receipt receipt) // Product product, Table table 
     {
-
-
         while (true)
         {
             Console.Write("Slå in totalbelopp ink. ev. dricks: ");
-            PaidAmount = int.Parse(Console.ReadLine());
-            Tips = PaidAmount - AmountToPay;
+            receipt.PaidAmount = int.Parse(Console.ReadLine());
+            receipt.Tips = receipt.PaidAmount - receipt.AmountToPay;
 
-            if (PaidAmount < AmountToPay)
+            if (receipt.PaidAmount < receipt.AmountToPay)
             {
-                Console.WriteLine("Beloppet är för lågt! Summa att betala är " + AmountToPay);
+                Console.WriteLine("Beloppet är för lågt! Summa att betala är " + receipt.AmountToPay);
                 continue;
             }
-            if (IsCash == true)
+            if (receipt.IsCash == true)
             {
                 Console.Write("Slå in mottagna pengar: ");
                 double givenMoney = int.Parse(Console.ReadLine());
-                double change = givenMoney - PaidAmount;
-                Console.WriteLine("Du dricksade " + Tips + " kr."); // användaren är servitör och ska inte pay eller tip
-                Console.WriteLine("Din växel är " + change + " kr.");
+                double change = givenMoney - receipt.PaidAmount;
                 Console.WriteLine("Tack!");
                 Thread.Sleep(1000);
-                PrintReceipt();
+                PrintReceipt(receipt);
                 break;
             }
-            else if (PaidAmount >= AmountToPay)
+            else if (receipt.PaidAmount >= receipt.AmountToPay)
             {
-                Console.WriteLine("Du dricksade " + Tips + " kr.");
                 Console.WriteLine("Betalning genomförs");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
-                Console.WriteLine(" Tack!");
-                Thread.Sleep(1000);
-                PrintReceipt(); //TODO indata kvittonummer för att hålla reda på? 
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
+                // Console.WriteLine(" Tack!");
+                // Thread.Sleep(1000);
+                PrintReceipt(receipt); //TODO indata kvittonummer för att hålla reda på?
                 UserInterFace.orderList.Clear();
 
                 break;
@@ -95,52 +169,59 @@ public static class Payment
         // Splitta per person
 
     }
-    public static void PrintReceipt() //TODO kvittokopia, kolla riktigt kvitto å se va som ska va mäd! Kuna spara kvitto. söka upp gamla kvitton.
+    public static void PrintReceipt(Receipt receipt)
     {
-        PaymentAccepted = DateTime.Now;
-        int ReceiptNumber = 1000; //Todo gör till egenskap
+
+        receipt.PaymentAccepted = DateTime.Now;
+        receipt.ReceiptNumber = 1000;
+        User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
 
         Console.WriteLine("\t\tRestaurangNamn");
-        Console.WriteLine("\t\tKvittonummer: " + ReceiptNumber);
-        //if (blabla tablenr != null)
-        Console.WriteLine("Bordsnummer: #");
-        User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
+        Console.WriteLine("\t\tKvittonummer: " + receipt.ReceiptNumber);
+        //if (tablenr != null)
+
+        Console.WriteLine("Bordsnummer: #" + TableHandler.CurrentTable);
         Console.WriteLine("Användare: " + currentUser.FirstName + " - " + currentUser.UserId); //Vilken Användare/servis
-        Console.WriteLine("Datum: " + PaymentAccepted); //TODO DateTime från när betalningen gått igenom
+        Console.WriteLine("Datum: " + receipt.PaymentAccepted); //TODO DateTime från när betalningen gått igenom
+
         Console.WriteLine("Beställda artiklar: ");
         UserInterFace.PrintOrderlist();
         Console.WriteLine("------------------------");
-        Console.WriteLine("Betald summa: " + Math.Round(PaidAmount, 3));//Betald summa
-        Console.WriteLine("Varav dricks: " + Math.Round(Tips, 3));//Varav dricks(Extra)
-        CalculateVat();
-        double Netto = AmountToPay - Vat12 - Vat25;
-        Console.WriteLine("Netto: " + Math.Round(Netto, 2));
-        Console.WriteLine("Varav moms 12%: " + Math.Round(Vat12, 3));//Varav moms
-        Console.WriteLine("Varav moms 25%: " + Math.Round(Vat25, 3));
+
+        Console.WriteLine("Betald summa: " + Math.Round(receipt.PaidAmount, 2));//Betald summa
+        Console.WriteLine("Varav dricks: " + Math.Round(receipt.Tips, 2));//Varav dricks(Extra)
+        //CalculateVat(table,receipt);
+        receipt.Netto = receipt.AmountToPay - receipt.Vat12 - receipt.Vat25;
+        Console.WriteLine("Netto: " + Math.Round(receipt.Netto, 2));
+        Console.WriteLine("Varav moms 12%: " + Math.Round(receipt.Vat12, 2));//Varav moms
+        Console.WriteLine("Varav moms 25%: " + Math.Round(receipt.Vat25, 2));
+        //ReportHandler.AddToReport(ReceiptNumber, currentUser, )
+        Receipt newReceipt = new(receipt, TableHandler.CurrentTable, currentUser);// nu behövs inte detta: ReceiptNumber, receipt.PaidAmount, receipt.Tips, receipt.AmountToPay, receipt.Vat12, receipt.Vat25, receipt.Netto, receipt.IsCash, receipt.PaymentAccepted, TableHandler.CurrentTable, currentUser.FirstName, currentUser.UserId);
+        receiptList.Add(newReceipt);
+        //Data.SaveReceiptList("receipt.json");
         //TODO lägg in allt detta i en rapportlista
         // placeholder kortuppgifter
     }
 
-    public static void CalculateVat()
+    public static double CalculateVat(Table table, Receipt receipt, out double totalVat25)
     {
-        double CalcVat12 = 0;
-        double CalcVat25 = 0;
+        double totalVat12 = 0;
+        totalVat25 = 0;
         foreach (Product p in UserInterFace.orderList)
         {
             if (p.MenuItem == Product.ProductType.Food || p.MenuItem == Product.ProductType.Beverage)
             {
-
-                CalcVat12 += p.Price;
-                Vat12 = CalcVat12 * 0.12;
-
+                totalVat12 += p.Price;
+                totalVat12 = totalVat12 * 0.12;
             }
 
             else if (p.MenuItem == Product.ProductType.Alcohol)
             {
-                CalcVat25 += p.Price;
-                Vat25 = CalcVat25 * 0.25;
+                totalVat25 += p.Price;
+                totalVat25 = totalVat25 * 0.25;
             }
         }
+        return totalVat12;
 
     }
 }
