@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [
   {
     "Name": "Risotto",
@@ -45,39 +44,4 @@
     "Description": null,
     "Quantity": 0
   }
-=======
-[
-  { 
-    "Name": "Risotto",
-    "Price": 120.0,
-    "ProductNumber": 1,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null
-  },
-  {
-    "Name": "Carbonara",
-    "Price": 100.0,
-    "ProductNumber": 2,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null
-  },
-  {
-    "Name": "Pripps",
-    "Price": 55.0,
-    "ProductNumber": 3,
-    "MenuItem": 2,
-    "VatItem": 2,
-    "Description": null
-  },
-  {
-    "Name": "Heineken",
-    "Price": 60.0,
-    "ProductNumber": 4,
-    "MenuItem": 2,
-    "VatItem": 2,
-    "Description": null
-  }
->>>>>>> 2e598accabd76b34b9aab4712f53ef565be093b5
 ]

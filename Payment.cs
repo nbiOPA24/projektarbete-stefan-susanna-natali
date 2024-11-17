@@ -91,11 +91,7 @@ public static class Payment
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
             double totalSum = UserInterFace.CountTotal(table, receipt);
-<<<<<<< HEAD
             Console.WriteLine("Totalbelopp: "+totalSum);
-=======
-            Console.WriteLine("Summa att betala: " + totalSum);
->>>>>>> 2e598accabd76b34b9aab4712f53ef565be093b5
             switch (input)
             {
 
