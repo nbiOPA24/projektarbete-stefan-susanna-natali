@@ -174,21 +174,21 @@ public static class ProductHandler
         int choice = int.Parse(Console.ReadLine());
         foreach (Product p in productList)
         {
-            if (choice == 1) //TODO fungerar denna ens?
+            if (choice == 1 && pickProduct == p.ProductNumber) //TODO fungerar denna ens?
             {
                 Console.Write("Ange nytt pris: ");
                 int newPrice = int.Parse(Console.ReadLine());
                 p.Price = newPrice;
                 break;
             }
-            else if (choice == 2)
+            else if (choice == 2 && pickProduct == p.ProductNumber)
             {
                 Console.Write("Ange nytt namn: ");
                 string? newName = Console.ReadLine();
                 p.Name = newName;
                 break;
             }
-            else if (choice == 3)
+            else if (choice == 3 && pickProduct == p.ProductNumber)
             {
 
                 PrintProductType();

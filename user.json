@@ -18,5 +18,25 @@
     "FirstName": "Staffan",
     "UserId": 2404,
     "UserType": 4
+  },
+  {
+    "FirstName": "Pelle",
+    "UserId": 2405,
+    "UserType": 5
+  },
+  {
+    "FirstName": "Per",
+    "UserId": 2406,
+    "UserType": 4
+  },
+  {
+    "FirstName": "Simon",
+    "UserId": 2410,
+    "UserType": 4
+  },
+  {
+    "FirstName": "Peter",
+    "UserId": 2411,
+    "UserType": 4
   }
 ]

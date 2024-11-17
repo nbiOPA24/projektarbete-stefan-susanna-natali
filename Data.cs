@@ -22,6 +22,23 @@ public static class Data
             UserHandler.userList = new List<User>();
         }
     }
+    #region NextId
+    public static void SaveNextId(string filePath)
+    {
+        File.WriteAllText(filePath, User.NextId.ToString());
+    }
+    public static void LoadNextId(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            User.NextId = int.Parse(File.ReadAllText(filePath));
+        }
+        else
+        {
+            User.NextId = 2400; // Startvärde om filen saknas
+        }
+    }
+    #endregion
     public static void SaveProductList(string filePath)
     {
         string json = JsonConvert.SerializeObject(ProductHandler.productList, Formatting.Indented);
@@ -39,6 +56,21 @@ public static class Data
         {
             Console.WriteLine("No product data found. Creating a new empty list.");
             ProductHandler.productList = new List<Product>();
+        }
+    }
+    public static void SaveNextProductNumber(string filePath)
+    {
+        File.WriteAllText(filePath, Product.nextNumber.ToString());
+    }
+    public static void LoadNextProductNumber(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            Product.nextNumber = int.Parse(File.ReadAllText(filePath));
+        }
+        else
+        {
+            Product.nextNumber = 1; // Startvärde om filen saknas
         }
     }
     public static void SaveReceiptList(string filePath)

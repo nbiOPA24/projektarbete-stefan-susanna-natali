@@ -1,72 +1,8 @@
-<<<<<<< HEAD
 [
-  {
-    "Name": "Risotto",
-    "Price": 120.0,
-    "ProductNumber": 1,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null,
-    "Quantity": 0
-  },
-  {
-    "Name": "Bolognese",
-    "Price": 80.0,
-    "ProductNumber": 2,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null,
-    "Quantity": 0
-  },
-  {
-    "Name": "Carlsberg",
-    "Price": 60.0,
-    "ProductNumber": 3,
-    "MenuItem": 2,
-    "VatItem": 2,
-    "Description": null,
-    "Quantity": 0
-  },
-  {
-    "Name": "Carbonara",
-    "Price": 129.0,
-    "ProductNumber": 4,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null,
-    "Quantity": 0
-  },
-  {
-    "Name": "Vitt vin",
-    "Price": 95.0,
-    "ProductNumber": 5,
-    "MenuItem": 2,
-    "VatItem": 2,
-    "Description": null,
-    "Quantity": 0
-  }
-=======
-[
-  { 
-    "Name": "Risotto",
-    "Price": 120.0,
-    "ProductNumber": 1,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null
-  },
-  {
-    "Name": "Carbonara",
-    "Price": 100.0,
-    "ProductNumber": 2,
-    "MenuItem": 1,
-    "VatItem": 1,
-    "Description": null
-  },
   {
     "Name": "Pripps",
     "Price": 55.0,
-    "ProductNumber": 3,
+    "ProductNumber": 1,
     "MenuItem": 2,
     "VatItem": 2,
     "Description": null
@@ -74,10 +10,49 @@
   {
     "Name": "Heineken",
     "Price": 60.0,
+    "ProductNumber": 2,
+    "MenuItem": 3,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Kaffe",
+    "Price": 15.0,
+    "ProductNumber": 3,
+    "MenuItem": 3,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Pizza",
+    "Price": 99.0,
     "ProductNumber": 4,
-    "MenuItem": 2,
-    "VatItem": 2,
+    "MenuItem": 1,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Risotto",
+    "Price": 120.0,
+    "ProductNumber": 5,
+    "MenuItem": 1,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Bryggkaffe",
+    "Price": 20.0,
+    "ProductNumber": 6,
+    "MenuItem": 3,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Pasta",
+    "Price": 45.0,
+    "ProductNumber": 7,
+    "MenuItem": 1,
+    "VatItem": 1,
     "Description": null
   }
->>>>>>> 2e598accabd76b34b9aab4712f53ef565be093b5
 ]
