@@ -52,6 +52,7 @@ public static class Payment
 {
 
     public static List<Receipt> receiptList = new();
+    #region ReceiptList
     public static void PrintReceiptList(Receipt receipt)
     {
         Data.LoadReceiptList("receipt.json");
@@ -66,14 +67,14 @@ public static class Payment
             Console.WriteLine("Datum: " + r.PaymentAccepted); 
             Console.WriteLine("Beställda artiklar: ");
             // UserInterFace.PrintOrderlist();
-            int receiptNumber = 1000;
-            Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
+            // int receiptNumber = 1000;
+            // Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
 
-            foreach (Product p in temp.paidProductList)
-            {
-                Console.WriteLine("Skrivs jag ut?");
-                Console.WriteLine(p.Name +"  "+ p.Price);
-            }
+            // foreach (Product p in temp.paidProductList)
+            // {
+            //     Console.WriteLine("Skrivs jag ut?");
+            //     Console.WriteLine(p.Name +"  "+ p.Price);
+            // }
             Console.WriteLine("------------------------");
             Console.WriteLine("Betald summa: " + Math.Round(r.PaidAmount, 3));//Betald summa
             Console.WriteLine("Varav dricks: " + Math.Round(r.Tips));//Varav dricks(Extra)
@@ -82,6 +83,8 @@ public static class Payment
             Console.WriteLine("Varav moms 25%: " + Math.Round(r.Vat25));
         }
     }
+    #endregion
+    #region StartPayment
     public static void StartPayment(Table table, Receipt receipt)
     {
 
@@ -91,11 +94,7 @@ public static class Payment
             Console.Write("1. Kort eller 2. kontant?: ");
             int input = int.Parse(Console.ReadLine());
             double totalSum = UserInterFace.CountTotal(table, receipt);
-<<<<<<< HEAD
             Console.WriteLine("Totalbelopp: "+totalSum);
-=======
-            Console.WriteLine("Summa att betala: " + totalSum);
->>>>>>> 2e598accabd76b34b9aab4712f53ef565be093b5
             switch (input)
             {
 
@@ -117,6 +116,8 @@ public static class Payment
         }
 
     }
+    #endregion
+    #region GetPayment
     public static void GetPayment(Receipt receipt) // Product product, Table table 
     {
         while (true)
@@ -163,12 +164,16 @@ public static class Payment
             }
         }
     }
+    #endregion
+    #region SplitPayment
     public static void SplitPayment() // vänta med denna
     {
         // Splitta broderligt
         // Splitta per person
 
     }
+    #endregion
+    #region PrintReceipt
     public static void PrintReceipt(Receipt receipt)
     {
 
@@ -202,7 +207,8 @@ public static class Payment
         //TODO lägg in allt detta i en rapportlista
         // placeholder kortuppgifter
     }
-
+#endregion
+#region CalculateVat
     public static double CalculateVat(Table table, Receipt receipt, out double totalVat25)
     {
         double totalVat12 = 0;
@@ -225,3 +231,4 @@ public static class Payment
 
     }
 }
+#endregion
