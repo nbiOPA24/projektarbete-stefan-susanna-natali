@@ -31,16 +31,18 @@ public class Report
 }
 
 public class TotalReport : Report {} // lista och summa på TUTTI: sales, user, product, VAT, fritt datum-spann
-public class WeeklyReport : Report {} // lista och summa på sales, välj vecka enligt 7 dagar
+/*public class WeeklyReport : Report {} // lista och summa på sales, välj vecka enligt 7 dagar
 public class DailyReport : Report {} //lista och summa på sales, dagens datum
 public class SalesReport : Report {} //lista och summa på sales, fritt datum-spann
 public class UserReport : Report {} // lista och summa på sales, per user, fritt datum-spann
 public class TableReport : Report {} // lista och summa på sales per bord, per user, fritt datum-spann
 public class ProductReport : Report {} // lista och summa på antal sales per produkter per bord, per user, fritt datum-spann
+
 public class TipsReport : Report // lista och summa på dricks per bord, per user, fritt datum-spann
     {
         public double Tips {get; set;}
     } 
+    */
 
 //varje ärvd klass ovan innehåller en egen unik metod?? för att generera rapport? eller en generisk metod??
 //en generisk metod med anpassad datum-logik??
@@ -162,6 +164,3 @@ public static class ReportHandler {}; //metod att kalla på
     }
 
     */
-
-
-
