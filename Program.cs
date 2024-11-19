@@ -5,208 +5,73 @@ using Newtonsoft.Json;
 using System.IO;
 
 class Program
-// TODO kolla metod för ? 
+//TODO Fixa json
+//TODO spectra
+//TODO få reports att fungera
+//TODO få ut orderlist när man skriver ut kvitto
+//TODO felhantering!
+//TODO lägg till att man kan ändra UserType
+//TODO ska inte gå att ändra till ett upptaget 
+
 {
-    
-        static void Main(string[] args)
-        {   
-            CultureInfo.CurrentCulture = new CultureInfo("sv-SE");
-            CultureInfo.CurrentUICulture = new CultureInfo("sv-SE");
-            DataContainer.SaveProductJson(ProductHandler.productList);
-            DataContainer.SaveSalesJson(ReportHandler.Report);
-            //User user = new User();
-            //Product product = new();
-            //UserHandler.AddUser(user);
-            //UserHandler.PrintUser(UserHandler.userList);
-            //UserHandler.ModifyUser();
-            //Console.WriteLine("Här är listan uppdaterad: ");
-            //UserHandler.PrintUser(UserHandler.userList);
-            // Console.WriteLine("Uppdaterad lista: ");
-            // UserHandler.PrintUser(UserHandler.userList);
-            // UserHandler.RemoveUser(user);
-            // UserHandler.PrintUser(UserHandler.userList);
-            List<Product>productList = new List<Product>
-            { 
-            new Product("Carbonara",95.50, Product.ProductType.Food, Product.VatRate._12),
-            new Product("Hawaii-pizza",105, Product.ProductType.Food, Product.VatRate._12),
-            new Product("Mozzarella sticks",75, Product.ProductType.Food, Product.VatRate._12),
-            new Product("Boquerones",45, Product.ProductType.Food, Product.VatRate._12),
-            new Product("Marängsviss",55, Product.ProductType.Food, Product.VatRate._12),
 
-            new Product("Karma Cola",25, Product.ProductType.Food, Product.VatRate._12),
-            new Product("Dubbel espresso",25, Product.ProductType.Food, Product.VatRate._12),
-
-            new Product("Pripps",55, Product.ProductType.Drinks, Product.VatRate._25),
-            new Product("Pinot Grigio 125ml",75, Product.ProductType.Drinks, Product.VatRate._25),
-            new Product("Päroncider 5%",45, Product.ProductType.Drinks, Product.VatRate._25),
-            };
-
-            //Testkör rapport-funktionen i konsollen:
-            Console.WriteLine("Meny: ");
-            foreach (var product in productList)
-            {
-                Console.WriteLine($"{product.Name} - {product.Price:C} ({product.MenuItem}, VAT: {product.VatItem}%)");
-            }
-            var report = new Report
-            {
-                ReportNumber=1,
-                Date = DateTime.Today,
-                Category = Report.ReportCategory.DailySales
-            };
-
-            Report salesReport = new Report {ReportNumber = 1, Date = DateTime.Now, Category = Report.ReportCategory.TotalSales};
-            //salesReport.AddSale(product, 5, DateTime.Now);
-
-            //ProductHandler.AddProduct(product);
-            //ProductHandler.PrintProduct();
-            // UserHandler.AddUser(user);
-            // UserHandler.RemoveUser(user);
-            // UserHandler.PrintUser(UserHandler.userList);
-            // List<User>userList = new ();
-            //List<Sales>salesData = new List<Sales>
-            
-                salesReport.AddSale(productList[0], 5, new DateTime(2023, 1, 1));
-                salesReport.AddSale(productList[1], 5, new DateTime(2023, 5, 10));
-                salesReport.AddSale(productList[2], 5, new DateTime(2023, 8, 31));
-                salesReport.AddSale(productList[8], 5, new DateTime(2023, 10, 23));
-                salesReport.AddSale(productList[9], 5, new DateTime(2023, 11, 5));
-
-                salesReport.AddSale(productList[3], 5, new DateTime(2024, 10, 1));
-                salesReport.AddSale(productList[4], 5, new DateTime(2024, 10, 2));
-                salesReport.AddSale(productList[5], 5, new DateTime(2024, 10, 3));
-                salesReport.AddSale(productList[6], 5, new DateTime(2024, 10, 4));
-                salesReport.AddSale(productList[7], 5, new DateTime(2024, 10, 4));
-            
-            List<Report> SalesList =  new List<Report>(); 
-            ReportHandler.SalesList = new List<Report>();
-            ReportHandler.SalesList.Add(salesReport);
-
-            DateTime startDate = DateTime.Today.AddDays(-1);
-            DateTime endDate = DateTime.Today;
-            decimal totalSalesAmount = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
-
-            Console.WriteLine($"\nTotal försäljning för {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}: {totalSalesAmount:C}");
-            
+    static void Main(string[] args)
+    {
         
+#if !DEBUG
+    Console.Clear();
+#endif
+        int number = 0;
+        bool status = false;
+        int size = 0;
+        DateTime nu = DateTime.Now;
+        Data.LoadUserList("user.json");
 
-            // List<Table> tablelist = new();
-            //ProductHandler.productList.Add(product);
-                               
-            //Console.WriteLine(product.Name);
-            //Console.WriteLine(product.Price);
-            //Console.WriteLine(product.MenuItem);
-            //ProductHandler.Add("Pripps", 55, product.MenuItem);
+        User user = new();
 
-            bool isRunning = true;
-            while (isRunning)
-            {
-            Console.WriteLine("Välkommen till HoReCa Rapport- & Försäljnings-hanteringsmeny.");
-            Console.WriteLine("Var god välj 1 eller 2: ");
-            Console.WriteLine("Välj 1. För att välja Rapport-Kategori: ");
-            Console.WriteLine("Välj 2. För att avsluta: ");
-            string? choice = Console.ReadLine();
-
-            switch (choice)
-            {
-                case "2":
-                isRunning = false;
-                break;
-
-                case "1":
-                    Console.WriteLine("Var god välj vilken Rapport du vill generera: ");
-                    Console.WriteLine("Tryck 1. För TotalSales: ");
-                    Console.WriteLine("Tryck 2. För WeeklySales: ");
-                    Console.WriteLine("Tryck 3. För DailySales: ");
-                    Console.WriteLine("Tryck 4. För att avsluta: ");
-                    string? reportChoice = Console.ReadLine();
-                    Report.ReportCategory reportCategory = reportChoice 
-                    switch  //Added dynamics to menu thru string interpolation in line 77 & 78
-                    {
-                        "1" => Report.ReportCategory.TotalSales,   //TODO ändra denna meny - dra index från enum i 'Report' ist?
-                        "2" => Report.ReportCategory.WeeklySales,
-                        "3" => Report.ReportCategory.DailySales,
-                        "4" => Report.ReportCategory.PrintReceipt,
-                        _   => Report.ReportCategory.TotalSales
-                    };
-                    if (reportCategory == Report.ReportCategory.PrintReceipt)
-                        {
-                            Console.WriteLine("Avslutar. Välkommen åter!");
-                            break;
-                        }
-
-                    if (!Report.GetDate($"Ange startdatum för rapporten (YYYY-MM-DD):", out startDate) || //Done! justerat för dynamik från user-input
-                        !Report.GetDate($"Ange slutdatum för rapporten (YYYY-MM-DD): ", out endDate))     // TODO Lägg in exception för inkorrekt datum-format enligt mall YYYY-MM-DD
-                    {
-                        Console.WriteLine("Ogiltig input. Försök igen (YYYY-MM-DD).");
-                        continue;
-                    }
-                
-            //Ändrade logik för Reportgenerator-input. Streamlineade för enklare output av rapport-kategori
-
-                        decimal reportTotal = ReportHandler.ReportGenerator(reportCategory, startDate, endDate);
-                        Console.WriteLine($"Total försäljning för {reportCategory} är: {reportTotal: C}");
-                        
-                        Console.WriteLine("Vill du generera en annan rapport? (y/n)");
-                        string? anotherReport = Console.ReadLine();
-                        if (anotherReport?.ToLower() != "y")
-                        {
-                            Console.WriteLine("Avslutar. Välkommen åter!");
-                            isRunning = false;
-                        }
-                        break;
-
-                        default:
-                        Console.WriteLine("Ogiltigt val, försök igen!");
-                        break;
-                        
-            }
-    
+        TableHandler tableHandler = new();
+        TableHandler.GenerateTables();
         
-            }
+        // Product product1 = new("Risotto", 120, Product.ProductType.Food);
+        // Product product2 = new("Carbonara", 100, Product.ProductType.Food);
+        // Product product3 = new("Carlsberg", 60, Product.ProductType.Alcohol);
 
-            
-            // while (true)
-            // {
-                //Console.WriteLine("1. lägg till");
-                //Console.WriteLine("2. printa");
-                //Console.WriteLine("3. avsluta");
-                // string? choice = Console.ReadLine();
-                // switch(choice)
-                // {
-                //     case "1":
-                //     {
-                        //Console.WriteLine("Ange produktnamn");
-                        //string? name = Console.ReadLine();
-                        //Console.WriteLine("Ange pris");
-                        //double? price = double.Parse(Console.ReadLine());
-                        //Console.WriteLine("välj produkttyp");
+        // ProductHandler.productList.Add(product1);
+        // ProductHandler.productList.Add(product2);
+        // ProductHandler.productList.Add(product3);
+        // // UserHandler.userList.Add(user);
+        // // UserHandler.userList.Add(user01);
+        // // UserHandler.userList.Add(user02);
 
-                        //Konvertera till array:  
-                        //var jobArray = Enum.GetValues(typeof(Staff.Jobs));
-                        // FOREACHLOOP
-                        //              foreach (Staff.Jobs job in Enum.GetValues(typeof(Staff.Jobs)))
-                        // {
-                        //     Console.WriteLine((int)job + " " + job); // int skriver ut indexet
-                        // }
+        // //Testkör rapport-funktionen i konsollen:
+        // //ProductHandler.PrintProduct();
+        // var report = new Report
+        // {
+        //     ReportNumber = 1,
+        //     Date = DateTime.Today,
+        //     Category = Report.ReportCategory.DailySales
+        // };
+
+
+
+        // report.AddSale(ProductHandler.productList[0], 5, new DateTime(2023, 1, 1));
+        // report.AddSale(ProductHandler.productList[1], 5, new DateTime(2023, 5, 10));
+        // report.AddSale(ProductHandler.productList[2], 5, new DateTime(2023, 8, 31));
+
+        // DateTime startDate = DateTime.Today.AddDays(-1);
+        // DateTime endDate = DateTime.Today;
+        // decimal totalSalesAmount = ReportHandler.ReportGenerator(Report.ReportCategory.TotalSales, startDate, endDate);
+
+        // Console.WriteLine($"\nTotal försäljning för {startDate:yyyy-MM-dd} to {endDate:yyyy-MM-dd}: {totalSalesAmount:C}");
+        Receipt newReceipt = new();
+        Table table = new(number, status, size);
+
         
-
-                        //Product prod = new Product(name, price, Product.ProductCategory, Product.VatRate._12);
-            //             break;
-            //         }
-            //         case "2":
-            //         {
-            //             //newProduct.Print();
-            //             break;
-            //         }
-            //         case "3":
-            //         {
-            //             return;
-            //         }
-            //     }   
-                    
-            // }
+        UserInterFace.UserInterFaceStartMenu(newReceipt, tableHandler, number, status, size, table, user);
 
 
-        }
 
+    }
 }
+
+//Spectre för konsol
