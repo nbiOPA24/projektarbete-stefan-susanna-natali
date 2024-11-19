@@ -92,6 +92,21 @@ public static class Data
             Payment.receiptList = new List<Receipt>();
         }
     }
+        public static void SaveNextReceiptNumber(string filePath)
+    {
+        File.WriteAllText(filePath, Receipt.nextNumber.ToString());
+    }
+    public static void LoadNextReceiptNumber(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            Product.nextNumber = int.Parse(File.ReadAllText(filePath));
+        }
+        else
+        {
+            Product.nextNumber = 1; // Startvärde om filen saknas
+        }
+    }
     public static void SaveTableList(string filePath)
     {
         string json = JsonConvert.SerializeObject(TableHandler.tables, Formatting.Indented);
