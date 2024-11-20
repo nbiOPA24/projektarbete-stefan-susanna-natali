@@ -155,20 +155,20 @@ public static class Payment
         {
 
             Console.WriteLine("*******BETALNING********");
-            Console.Write("1. Kort eller 2. kontant?: ");
-            int input = int.Parse(Console.ReadLine());
+            Console.Write("(K)ort eller (C)ash?: ");
+            string? input = Console.ReadLine().ToUpper();
             double totalSum = UserInterFace.CountTotal(table, receipt);
             Console.WriteLine("Totalbelopp: " + totalSum);
             switch (input)
             {
 
-                case 1: // KORT
+                case "K": // KORT
                     receipt.IsCash = false;
                     GetPayment(receipt);
                     break;
 
 
-                case 2: // KONTANT
+                case "C": // KONTANT
                     receipt.IsCash = true;
                     GetPayment(receipt);
                     break;
@@ -212,15 +212,15 @@ public static class Payment
             else if (receipt.PaidAmount >= receipt.AmountToPay)
             {
                 Console.WriteLine("Betalning genomförs");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.Write(".");
-                // Thread.Sleep(1000);
-                // Console.WriteLine(" Tack!");
-                // Thread.Sleep(1000);
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.WriteLine(" Tack!");
+                Thread.Sleep(1000);
                 Data.LoadNextReceiptNumber("receiptnumber.json");
 
                 PrintReceipt(receipt); //TODO indata kvittonummer för att hålla reda på?
@@ -230,7 +230,7 @@ public static class Payment
                 // {
                 //     receipt.paidProductList.Add(p);
                 // }
-                //UserInterFace.orderList.Clear();
+                UserInterFace.orderList.Clear();
                 //receipt.paidProductList.Clear();
 
                 break;
@@ -240,14 +240,6 @@ public static class Payment
                 Console.WriteLine("Ogilig inmatning!");
             }
         }
-    }
-    #endregion
-    #region SplitPayment
-    public static void SplitPayment() // vänta med denna
-    {
-        // Splitta broderligt
-        // Splitta per person
-
     }
     #endregion
 

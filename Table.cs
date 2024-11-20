@@ -28,8 +28,8 @@ public class Table
 // Bordslistan och metoder för att hantera bord och ordrar med produkter
 public class TableHandler
 {
-    // lista med bord
     public static int CurrentTable { get; set; }
+    // lista med bord
     public static List<Table> tables { get; set; }
     public TableHandler()
     {
@@ -346,27 +346,12 @@ public class TableHandler
 
                             if (input == "J")
                             {
-                                //måste markera status som stängd
-                                //status = false;
-
-                                // Officer toArchive = new Officer(firstName, lastName, badgeNr); // Skapa objekt
-                                // archive.Add(toArchive); // Lägg till objektet i lista;
-
-
-                                //här ska aktuella produkter skickas till betalning
-                                // skickar tillbaks produkter till orderlist för moms osv.
-                                // Receipt temp = new Receipt();
-                                // paidProductList.add(temp);
-                                // int receiptNumber = 1000;
-                                // Receipt temp = Payment.receiptList.Find(receipt => receipt.ReceiptNumber == receiptNumber);
-
                                 foreach (Product p in tableToHandle.TableList)
                                 {
                                     UserInterFace.orderList.Add(p);
                                 }
                                 Payment.StartPayment(tableToHandle, receipt);
                                 tableToHandle.Status = false;
-
                                 tableToHandle.TableList.Clear();//TODO stäng bordet
 
                             }
@@ -374,7 +359,6 @@ public class TableHandler
                             {
                                 Console.WriteLine("Avbruten.");
                                 break;
-                                //UserInterFace.UserInterFaceStartMenu(product, tableHandler, user, number, status, size, table); // kanske skickas till splitta osv.
                             }
                             else
                             {
@@ -394,18 +378,37 @@ public class TableHandler
                             break;
                         }
                     }
-
                     else if (choice == "2")
                     {
-                        Console.WriteLine("Delbetala.");
-                        Table tableToHandle = tables.Find(tables => tables.Number == number);
-                        foreach (Product p in tableToHandle.TableList)
+                        Console.WriteLine("Flytta produkter.");
+                        int i = 1;
+                        while (true)
                         {
-                            Console.WriteLine(p);
+                            List<Product> splitList = new();
+                            Table tableToHandle = tables.Find(tables => tables.Number == number); //vilket bord e detta?
+                            foreach (Product p in tableToHandle.TableList)
+                            {
+                                Console.WriteLine($"{i} {p.Name}{p.Price}{p.ProductNumber}");
+                                i++;
+                            }
+                            while (true)
+                            {
+                                Console.WriteLine("Välj produkt som du vill hantera");
+                                number = int.Parse(Console.ReadLine());
+                                Table temp = tables.Find(tables => tables.Number == number);
+
+                                if (number == 0)
+                                {
+                                    break;
+                                }
+                            }
                         }
+                        // splitta jämt per antal
 
-
-
+                    }
+                    else if (choice == "Q")
+                    {
+                        break;
                     }
                     else if (choice == "3")
                     {
@@ -453,8 +456,6 @@ public class TableHandler
             if (number > tables.Count)
             {
                 Console.WriteLine("finns inte inom range");
-
-
             }
         }
 

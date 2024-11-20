@@ -31,8 +31,10 @@ public class Report
 }
 public static class ReportHandler
 {
-    static List<Receipt> reportList = new();
-    static List<Product> reportProductList = new();
+    public static List<Receipt> reportList = new();
+    public static List<Product> reportProductList = new();
+
+    //public static List<User> reportUserList = new();
     public static void TotalReport()
     {
         double totalSum = 0;
@@ -46,12 +48,13 @@ public static class ReportHandler
 
             foreach (Product p in ProductHandler.productList)
             {
-
+                //Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - \t" + p.Price + " kr " + p.VatItem + "% moms. );
             }
 
 
         }
         Console.WriteLine($"Rapport för total försäljning: {totalSum} kr");
+        Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
         Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
         //TODO totalt antal sålda produkter (st)
 

@@ -627,5 +627,37 @@
         "Description": null
       }
     ]
+  },
+  {
+    "ReceiptNumber": 1027,
+    "PaidAmount": 200.0,
+    "Tips": 25.0,
+    "AmountToPay": 175.0,
+    "Vat12": 14.399999999999999,
+    "Vat25": 13.75,
+    "Netto": 146.85,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-20T09:06:29.6210922+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Risotto",
+        "Price": 120.0,
+        "ProductNumber": 13,
+        "MenuItem": 1,
+        "VatItem": 0,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
   }
 ]

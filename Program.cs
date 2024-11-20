@@ -25,8 +25,8 @@
         TableHandler tableHandler = new();
         // TableHandler.GenerateTables();
         Receipt receipt = new();
-        Product product = new("Risotto", 120, Product.ProductType.Food);
-        UserInterFace.orderList.Add(product);
+        // Product product = new("Risotto", 120, Product.ProductType.Food);
+        // UserInterFace.orderList.Add(product);
         
         // User user01 = new(User.TypeOfUser.Manager, "Natali");
         // User user02 = new(User.TypeOfUser.Manager, "Natalie");
@@ -42,7 +42,7 @@
         // Console.WriteLine("Siffra: " +receipt.siffra);
         // Console.WriteLine("NextNumber: " +Receipt.nextNumber);
         //ReportHandler.DailyReport();
-        
+        //ProductHandler.ProductStartMenu();
         UserInterFace.UserInterFaceStartMenu(receipt, tableHandler, number, status, size, table, user);
 
     

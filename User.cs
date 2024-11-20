@@ -98,9 +98,9 @@ public static class UserHandler
             int input = int.Parse(Console.ReadLine());
             var userArray = Enum.GetValues(typeof(User.TypeOfUser));
             User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar usertypen efter angivet heltal 
-
-            Console.Write("Personalens förnamn: ");
-            string? firstname = UserInterFace.UppercaseFirst(Console.ReadLine());
+            
+            string? firstname = UserInterFace.GetName();
+            firstname = UserInterFace.UppercaseFirst(firstname);
             if (int.TryParse(firstname, out int number))
             {
                 Console.WriteLine("Ogilitg input, enbart bokstäver är tillåtna!");
@@ -185,9 +185,8 @@ public static class UserHandler
         {
             if (choice == 1 && id == u.UserId)
             {
-                Console.Write("Namn valt. Skriv in nytt: ");
-                string? newName = Console.ReadLine();
-
+                string? newName = UserInterFace.GetName();
+                newName = UserInterFace.UppercaseFirst(newName);
                 u.FirstName = newName;
                 Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                 break;

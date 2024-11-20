@@ -53,6 +53,7 @@ public static class ProductHandler
 
     }
     #endregion
+
     #region AddProduct
     public static void AddProduct() //  If food == vatRate._12
     {
@@ -78,8 +79,8 @@ public static class ProductHandler
                 else
                 {
                     Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal
-                    Console.Write("Produktens namn: ");
-                    string? name = UserInterFace.UppercaseFirst(Console.ReadLine());
+                    string? name = UserInterFace.GetName(); 
+                    name = UserInterFace.UppercaseFirst(name);
                     Console.Write("Pris: ");
                     double price = double.Parse(Console.ReadLine());
                     Product newProduct = new(name, price, selectedItemType);
@@ -145,12 +146,12 @@ public static class ProductHandler
     #endregion
     #region EditProduct
     //TODO Generell prisändring på alla produkter inom kategori
+
     public static void EditProduct()
     {
         PrintProduct();
         Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
         int pickProduct = int.Parse(Console.ReadLine());
-        ReadInt(pickProduct);
         Console.WriteLine("1. Pris");
         Console.WriteLine("2. Namn");
         Console.WriteLine("3. Produkttyp & moms");
@@ -166,9 +167,8 @@ public static class ProductHandler
                 break;
             }
             else if (choice == 2 && pickProduct == p.ProductNumber)
-            {
-                Console.Write("Ange nytt namn: ");
-                string? newName = Console.ReadLine();
+            {   
+                string? newName = UserInterFace.GetName();
                 p.Name = newName;
                 break;
             }
@@ -247,9 +247,9 @@ public static class ProductHandler
         }
     }
     #endregion
-        public static int ReadInt(int input)
+    public static int ReadInt(int input)
     {
-        
+
         while (!int.TryParse(Console.ReadLine(), out input))
         {
             Console.WriteLine("Ogiltig inmatning, försök igen:");
