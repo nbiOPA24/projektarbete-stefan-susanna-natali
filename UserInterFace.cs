@@ -4,8 +4,11 @@ public class Order
     public double TotalVat { get; set; }
     public static int OrderNumber = 1;
     public List<Product> ProductList { get; set; }
-    public Order(List<Product> NewOrderList)
+    public User User { get; set; }
+
+    public Order(List<Product> NewOrderList, User user)
     {
+        User = user;
         ProductList = NewOrderList;
         OrderNumber++;
     }
@@ -15,7 +18,7 @@ public static class UserInterFace
 {
 
     public static int UserChoice { get; set; }
-    public static List<Product> orderList = new();
+    public static List<Order> orderList = new();
 
     // public static void testmetod()
     // {
@@ -33,14 +36,13 @@ public static class UserInterFace
 
     // }
     #region PrintOrderLis
-    public static void PrintOrderlist()
+    public static void PrintOrderlist(Order order)
     {
-        Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
         Dictionary<string, int> productAmount = new Dictionary<string, int>();
 
         // Söker upp alla matchande produkter och räknar
-        foreach (Product p in orderList)
+        foreach (Product p in order.ProductList)
         {
             if (productAmount.ContainsKey(p.Name)) // kollar matchande p.Name
             {
@@ -59,12 +61,13 @@ public static class UserInterFace
     #endregion
     #region Order
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(Table table, Receipt receipt)
+    public static void Order(User user)
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
         Console.WriteLine();
-            List<Product> temporärLista = new();
+        List<Product> temporärLista = new();
+
         while (true)
         {
             Console.Write("Skriv in beställning, ange artikelnr. 'Q' för klar: ");
@@ -75,7 +78,7 @@ public static class UserInterFace
                 Product productsToAdd = ProductHandler.productList.Find(product => product.ProductNumber == number);
                 if (productsToAdd != null)
                 {
-                    orderList.Add(productsToAdd);// orderlista för att skickas till betalning eller bord
+                    temporärLista.Add(productsToAdd);// orderlista för att skickas till betalning eller bord
 
                 }
 
@@ -84,18 +87,19 @@ public static class UserInterFace
                     Console.WriteLine("Ogiltig input");
                 }
             }
-            PrintOrderlist();
-
-            double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
-            Payment.CalculateVat(table, receipt, out double vat12, out double vat25); //out retunerar en till variabel
+            // PrintOrderlist();
+            Order newOrder = new(temporärLista, user);
+            double totalSum = CountTotal(newOrder);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
+            Payment.CalculateVat(newOrder, out double vat12, out double vat25); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
-            receipt.Vat25 = vat25;
-            receipt.Vat12 = vat12;
-            receipt.AmountToPay = totalSum;
+            // receipt.Vat25 = vat25;
+            // receipt.Vat12 = vat12;
+            // receipt.AmountToPay = totalSum;
 
-            Order newOrder = new(temporärLista);
+            
             newOrder.TotalSum = totalSum;
             newOrder.TotalVat = vat12 + vat25;
+            PrintOrderlist(newOrder);
             if (choice == "Q")
             {
                 Console.WriteLine("Betala (D)irekt eller lägga order till (B)ord?");
@@ -103,14 +107,14 @@ public static class UserInterFace
 
                 if (paymentChoice == "D")
                 {
-                    Payment.StartPayment(table, receipt);
-                    orderList.Clear();// för tidigt?
+                    Payment.StartPayment(newOrder, null);//table, receipt);
+                    //orderList.Clear();// för tidigt?
                     break;
                 }
                 else if (paymentChoice == "B")
                 {
-                    TableHandler.OrderToTable();
-                    orderList.Clear();// oklart
+                    TableHandler.OrderToTable(newOrder);
+                    //orderList.Clear();// oklart
                     break;
                 }
                 else
@@ -125,13 +129,13 @@ public static class UserInterFace
     }
     #endregion
     #region CountTotal
-    public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
+    public static double CountTotal(Order order)// denna räknar ju inte med bordsprodukterna
     {
 
         double temptotal = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
         if (orderList.Count != 0)
         {
-            foreach (Product p in orderList)
+            foreach (Product p in order.ProductList)
             {
                 temptotal += p.Price;
 
@@ -139,7 +143,7 @@ public static class UserInterFace
         }
         else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
         {
-            foreach (Product p in table.TableList)
+            foreach (Product p in order.ProductList)
             {
                 temptotal += p.Price;
             }
@@ -295,12 +299,12 @@ public static class UserInterFace
                 switch (choice)
                 {
                     case "1":
-                        Order(table, receipt);
+                        Order(user);
                         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
                         break;
                     case "2":
                         TableHandler.ShowOpenTables();
-                        tableHandler.HandleTableContents(receipt);
+                        TableHandler.HandleTableContents();
                         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
 
                         break;
@@ -342,7 +346,7 @@ public static class UserInterFace
                         UserHandler.UserStartMenu(user);
                         break;
                     case "8":
-                        ReportHandler.ReportMenu();
+                        // ReportHandler.ReportMenu();
                         break;
 
                     case "L":

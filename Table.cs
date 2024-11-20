@@ -5,8 +5,9 @@
 public class Table
 {
     // Bordsspecifik lista för produkter
-    public List<Product> TableList { get; set; } //= new();
+    //public List<Product> TableList { get; set; } //= new();
     //public Order Order { get; set; }
+    public Order? TableOrder { get; set; }
 
     // Bordsnummer för bordskarta/lista
     public int Number { get; set; }
@@ -19,7 +20,7 @@ public class Table
         Number = number;
         Status = status;
         Size = size;
-        TableList = new List<Product>(); //TODO ska den ligga här? JA!
+        //TableList = new List<Product>(); //TODO ska den ligga här? JA!
     }
     public Table() { }
 }
@@ -230,7 +231,7 @@ public class TableHandler
             if (t.Status) // checkar om bord är öppna
             {
                 // kollar om de finns produkter kvar på bordet
-                foreach (Product p in tableToClear.TableList)
+                foreach (Product p in tableToClear.TableOrder.ProductList)
                 {
                     if (p != null)
                     {
@@ -311,26 +312,26 @@ public class TableHandler
     #endregion
     #region HandleTableContents
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
-    public void HandleTableContents(Receipt receipt, int receiptNumber)// endast send? eller addtotable?
-    {
-        // if (inga bord har status... tebax)
-        {
-            Console.Write("Välj bordsnummer: ");
-            string? nr = Console.ReadLine();
-            Console.WriteLine("1. Betalning.");
-            Console.WriteLine("2. Dela");
-        }
-    }
+    // public void HandleTableContents()// endast send? eller addtotable?
+    // {
+    //     // if (inga bord har status... tebax)
+    //     {
+    //         Console.Write("Välj bordsnummer: ");
+    //         string? nr = Console.ReadLine();
+    //         Console.WriteLine("1. Betalning.");
+    //         Console.WriteLine("2. Dela");
+    //     }
+    // }
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
-    public void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
+    public static void HandleTableContents()// endast send? eller addtotable?
     {
         // if (inga bord har status... tebax)
         {
             Console.Write("Välj bordsnummer: ");
             string? nr = Console.ReadLine();
+
             Console.WriteLine("1. Betalning.");
             Console.WriteLine("2. Dela");
-
             Console.WriteLine("'Q' för att avbryta."); // oklart läge :)
             string? choice = Console.ReadLine().ToUpper();
             while (true)
@@ -347,7 +348,7 @@ public class TableHandler
                         {
 
                             // Får bygga en meny för ex. splitta nota osv1
-                            foreach (Product p in tableToHandle.TableList)
+                            foreach (Product p in tableToHandle.TableOrder.ProductList)
                             {
                                 Console.WriteLine(p.Name + " " + p.Price);
                             }
@@ -358,13 +359,13 @@ public class TableHandler
 
                             if (input == "J")
                             {
-                                foreach (Product p in tableToHandle.TableList)
-                                {
-                                    UserInterFace.orderList.Add(p);
-                                }
-                                Payment.StartPayment(tableToHandle, receipt);
+                                // foreach (Product p in tableToHandle.TableOrder.ProductList)
+                                // {
+                                //     UserInterFace.orderList.Add(p);
+                                // }
+                                Payment.StartPayment(tableToHandle.TableOrder, CurrentTable);
                                 tableToHandle.Status = false;
-                                tableToHandle.TableList.Clear();//TODO stäng bordet
+                                tableToHandle.TableOrder = null; //.ProductList.Clear();//TODO stäng bordet
 
                             }
                             else if (input == "N")
@@ -379,11 +380,11 @@ public class TableHandler
 
                             break;
                         }
-                        else if (receipt.AmountToPay <= 0)
-                        {
-                            Console.WriteLine("Det finns inget att betala. Summan är noll!");
-                            break;
-                        }
+                        // else if (receipt.AmountToPay <= 0)
+                        // {
+                        //     Console.WriteLine("Det finns inget att betala. Summan är noll!");
+                        //     break;
+                        // }
                         else
                         {
                             Console.WriteLine("Finns inga produkter på det bordet!");
@@ -398,7 +399,7 @@ public class TableHandler
                         {
                             List<Product> splitList = new();
                             Table tableToHandle = tables.Find(tables => tables.Number == number); //vilket bord e detta?
-                            foreach (Product p in tableToHandle.TableList)
+                            foreach (Product p in tableToHandle.TableOrder.ProductList)
                             {
                                 Console.WriteLine($"{i} {p.Name}{p.Price}{p.ProductNumber}");
                                 i++;
@@ -420,7 +421,7 @@ public class TableHandler
                     }
                     else if (choice == "Q")
                     {
-                        break;
+                        return;
                     }
                     else if (choice == "3")
                     {
@@ -452,7 +453,7 @@ public class TableHandler
     #endregion
     #region OrderToTable
     // metod för att lägga en order till ett bord
-    public static void OrderToTable()
+    public static void OrderToTable(Order order)
     {
 
         // fixa felhantering med en loop och lite breaks så att den startar om på rätt plats.
@@ -485,15 +486,15 @@ public class TableHandler
             {
 
                 // checkar om de finns grejjer på bordet
-                if (tableToAddOrder.Status == true)
+                if (tableToAddOrder.TableOrder != null)
                 {
                     Console.WriteLine("Det finns redan produkter på bordet. Vill addera din order till dessa? J/N?");//n
                     string? choice = Console.ReadLine().ToUpper();
                     if (choice == "J")
                     {
-                        foreach (Product p in UserInterFace.orderList)
+                        foreach (Product p in order.ProductList)
                         {
-                            tableToAddOrder.TableList.Add(p);
+                            tableToAddOrder.TableOrder.ProductList.Add(p);
                         }
                         Console.WriteLine("Dina produkter har lagts till på bordet");
 
@@ -516,9 +517,9 @@ public class TableHandler
                 {
                     tableToAddOrder.Status = true;
 
-                    foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
+                    foreach (Product p in order.ProductList)// här läggs ordern till bordet
                     {
-                        tableToAddOrder.TableList.Add(p);
+                            tableToAddOrder.TableOrder.ProductList.Add(p);
                     }
 
                 }
@@ -528,13 +529,13 @@ public class TableHandler
             else
             {
                 Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
-                OrderToTable();
+                OrderToTable(order);
             }
             // skapar en Dict med stringKey och intKey
             Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
             // Söker upp alla matchande produkter och räknar
-            foreach (Product p in tableToAddOrder.TableList)
+            foreach (Product p in tableToAddOrder.TableOrder.ProductList)
             {
                 if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
                 {
