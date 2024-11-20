@@ -23,6 +23,7 @@ public static class UserInterFace
     #region PrintOrderLis
     public static void PrintOrderlist()
     {
+        Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
         Dictionary<string, int> productAmount = new Dictionary<string, int>();
 
