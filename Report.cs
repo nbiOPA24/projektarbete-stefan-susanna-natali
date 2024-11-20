@@ -44,9 +44,9 @@ public static class ReportHandler
             reportList.Add(r);
             totalSum += r.PaidAmount;
 
-           foreach (Product p in ProductHandler.productList)
+            foreach (Product p in ProductHandler.productList)
             {
-                
+
             }
 
 
@@ -64,23 +64,27 @@ public static class ReportHandler
             reportProductList.Add(p);
 
         }
-         Dictionary<string, int> productSum = new();
-           // Söker upp alla matchande produkter och räknar
-            foreach (Product p in reportProductList)
+
+    }
+    public static void PrintSoldProducts()
+    {
+        Dictionary<string, int> productSum = new();
+        // Söker upp alla matchande produkter och räknar
+        foreach (Product p in reportProductList)
+        {
+            if (productSum.ContainsKey(p.Name)) // kollar matchande p.Name
             {
-                if (productSum.ContainsKey(p.Name)) // kollar matchande p.Name
-                {
-                    productSum[p.Name]++; // Räknar antal träffar av samma name
-                }
-                else
-                {
-                    productSum[p.Name] = 1; // om bara en träff så = 1
-                }
+                productSum[p.Name]++; // Räknar antal träffar av samma name
             }
-            foreach (var p in productSum)
+            else
             {
-                Console.WriteLine($"{p.Value} st {p.Key}");
+                productSum[p.Name] = 1; // om bara en träff så = 1
             }
+        }
+        foreach (var p in productSum)
+        {
+            Console.WriteLine($"{p.Value} st {p.Key}");
+        }
     }
 
     public static void DailyReport()
@@ -98,7 +102,7 @@ public static class ReportHandler
         }
         Console.WriteLine($"Försäljning för {date} är: {dailySum}"); //TODO ta bort klockslag
     }
-         
+
     public static void CustomReport()
     {
         double weeklySum = 0;
@@ -152,7 +156,7 @@ public static class ReportHandler
 
             default:
                 break;
-        }   
+        }
 
     }
     // if (reportCategory == Report.ReportCategory.Receipt)

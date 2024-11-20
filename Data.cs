@@ -62,15 +62,15 @@ public static class Data
     {
         File.WriteAllText(filePath, Product.nextNumber.ToString());
     }
-    public static void LoadNextProductNumber(string filePath)
+    public static int LoadNextProductNumber(string filePath)
     {
         if (File.Exists(filePath))
         {
-            Product.nextNumber = int.Parse(File.ReadAllText(filePath));
+            return Product.nextNumber = int.Parse(File.ReadAllText(filePath));
         }
         else
         {
-            Product.nextNumber = 1; // Startvärde om filen saknas
+            return Product.nextNumber = 9999; // Startvärde om filen saknas
         }
     }
     public static void SaveReceiptList(string filePath)
@@ -92,19 +92,19 @@ public static class Data
             Payment.receiptList = new List<Receipt>();
         }
     }
-        public static void SaveNextReceiptNumber(string filePath)
+    public static void SaveNextReceiptNumber(string filePath)
     {
-        File.WriteAllText(filePath, Receipt.nextNumber.ToString());
+        File.WriteAllText(filePath, Receipt.nextReceiptNumber.ToString());
     }
-    public static void LoadNextReceiptNumber(string filePath)
+    public static int LoadNextReceiptNumber(string filePath)
     {
         if (File.Exists(filePath))
         {
-            Product.nextNumber = int.Parse(File.ReadAllText(filePath));
+           return Receipt.nextReceiptNumber = int.Parse(File.ReadAllText(filePath));
         }
         else
         {
-            Product.nextNumber = 1; // Startvärde om filen saknas
+            return Receipt.nextReceiptNumber = 8888; // Startvärde om filen saknas
         }
     }
     public static void SaveTableList(string filePath)

@@ -20,7 +20,7 @@ public class Product
     public string Name { get; set; }
     public double Price { get; set; }
     public int ProductNumber { get; set; }
-    public static int nextNumber = 1;
+    public static int nextNumber = Data.LoadNextProductNumber("nextproductnumber.json");
     public ProductType MenuItem { get; set; } // typ av produkt som relaterar till vilken moms som gäller för produkten
     public VatRate VatItem { get; set; } // momssats
     public string Description { get; set; }
@@ -41,7 +41,7 @@ public static class ProductHandler
 {
 
     public static List<Product> productList { get; set; } = new();
-#region PrintProduct
+    #region PrintProduct
     public static void PrintProduct()
     {
         AdjustVatItem();
@@ -53,7 +53,7 @@ public static class ProductHandler
 
     }
     #endregion
-#region AddProduct
+    #region AddProduct
     public static void AddProduct() //  If food == vatRate._12
     {
         PrintProductType(); // visar alternativen
@@ -75,8 +75,6 @@ public static class ProductHandler
                     Console.Write("Ogiltig input!");
                     addmeny = false;
                 }
-
-
                 else
                 {
                     Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal
@@ -103,20 +101,17 @@ public static class ProductHandler
         }
     }
 
-#endregion
-#region PrintProType
+    #endregion
+    #region PrintProType
 
     public static void PrintProductType()
     {
-
-
         foreach (Product.ProductType p in Enum.GetValues(typeof(Product.ProductType)))
         {
             Console.WriteLine((int)p + ". " + " " + p);
-
         }
     }
-#endregion
+    #endregion
     #region RemoveProd
     public static void RemoveProduct()
     {
@@ -148,14 +143,14 @@ public static class ProductHandler
 
     }
     #endregion
-#region EditProduct
+    #region EditProduct
     //TODO Generell prisändring på alla produkter inom kategori
     public static void EditProduct()
     {
         PrintProduct();
         Console.Write("Välj vilken produkt du vill uppdatera, ange siffa: ");
         int pickProduct = int.Parse(Console.ReadLine());
-
+        ReadInt(pickProduct);
         Console.WriteLine("1. Pris");
         Console.WriteLine("2. Namn");
         Console.WriteLine("3. Produkttyp & moms");
@@ -184,9 +179,8 @@ public static class ProductHandler
                 Console.Write("Välj ny produkttyp, ange siffra: ");
                 int type = int.Parse(Console.ReadLine());
                 // 0 = Food, 1 = alcohol, 2 = beverage
-                var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1!
+                var newItem = (Product.ProductType)Enum.GetValues(typeof(Product.ProductType)).GetValue(type - 1); // tilldela newItem till MenuItem av index input. Kom ihåg -1 då listan börjar på 0!
                 productList[pickProduct - 1].MenuItem = newItem; // -1 för att listan börjar på 0. tilldelar den värdet av type
-                AdjustVatItem();
                 break;
 
             }
@@ -194,7 +188,7 @@ public static class ProductHandler
         }
     }
 
-#endregion
+    #endregion
     #region AdjVatItem
     public static void AdjustVatItem()
     {
@@ -218,7 +212,6 @@ public static class ProductHandler
     {
         while (true)
         {
-            Data.LoadProductList("product.json");
             Console.WriteLine("1. Se alla produkter");
             Console.WriteLine("2. Lägg till produkt");
             Console.WriteLine("3. Ta bort produkt");
@@ -253,5 +246,14 @@ public static class ProductHandler
             }
         }
     }
-#endregion
+    #endregion
+        public static int ReadInt(int input)
+    {
+        
+        while (!int.TryParse(Console.ReadLine(), out input))
+        {
+            Console.WriteLine("Ogiltig inmatning, försök igen:");
+        }
+        return input;
+    }
 }

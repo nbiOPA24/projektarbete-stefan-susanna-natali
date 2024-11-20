@@ -1,9 +1,26 @@
+
 public static class UserInterFace
 {
 
     public static int UserChoice { get; set; }
-    public static List<Product> orderList = new();
-#region PrintOrderLis
+    public static List<Product> orderList = new();  
+
+    // public static void testmetod()
+    // {
+    //     //loop för att skriva ut alla ordrar
+    //     foreach (Order p in orderList)
+    //     {
+    //         Console.WriteLine(p.ProductList);
+    //     }
+    //     //loop för att skriva ut alla produkter i en order
+    //     foreach (Product p in orderList[2].ProductList)
+    //     {
+    //         Console.WriteLine(p.Price + p.Name);
+    //     }
+    //     orderList[2].ProductList
+
+    // }
+    #region PrintOrderLis
     public static void PrintOrderlist()
     {
 
@@ -33,14 +50,15 @@ public static class UserInterFace
         //                 Console.WriteLine($"{p.Value} st {p.Key}");
         //             }
     }
-#endregion
-#region Order
+    #endregion
+    #region Order
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
     public static void Order(Table table, Receipt receipt)
     {
         Console.WriteLine();
         ProductHandler.PrintProduct();
         Console.WriteLine();
+        List<Product> temporärLista = new();
 
         while (true)
         {
@@ -53,7 +71,7 @@ public static class UserInterFace
                 if (productsToAdd != null)
                 {
                     orderList.Add(productsToAdd);// orderlista för att skickas till betalning eller bord
-                    
+
                 }
 
                 else
@@ -62,13 +80,17 @@ public static class UserInterFace
                 }
             }
             PrintOrderlist();
+            
             double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
             double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
             receipt.Vat25 = vat25;
             receipt.Vat12 = vat12;
             receipt.AmountToPay = totalSum;
-
+            //orderList.Add(newOrder);
+            double tempSum;
+            double tempVat;
+            //newOrder.ProductList.Add(newProduct);
 
 
 
@@ -106,8 +128,8 @@ public static class UserInterFace
 
         }
     }
-#endregion
-#region CountTotal
+    #endregion
+    #region CountTotal
     public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
 
@@ -135,8 +157,8 @@ public static class UserInterFace
 
 
     }
-#endregion
-#region CreateDescr
+    #endregion
+    #region CreateDescr
     public static void CreateMenuDescription() // OM en produkt inte innehåller en beskriving, fyll i beskrivning
     {
         // TODO: Console.WriteLine("Vill du fylla i alla tomma beskrivningar eller välja från en lista? ");
@@ -242,8 +264,11 @@ public static class UserInterFace
     {
         while (true)
         {
+#if !DEBUG
+            Console.Clear();
+#endif
             Data.LoadUserList("user.json");
-
+            TableHandler.GenerateTables();
             Console.WriteLine("Välkommen!");
             UserHandler.PrintUser();
             Console.Write("Välj användare, ange ID-nummer: "); // "AnvändarId:" 
@@ -253,13 +278,13 @@ public static class UserInterFace
             while (innerMenu)
 
             {
-                Console.Clear();
                 Data.LoadUserList("user.json");
+                Data.LoadProductList("product.json");
                 Data.LoadNextId("nextid.json");
-                //Data.LoadNextProductNumber("nextproductnumber.json");
-                        //Data.LoadProductList("product.json");
-                        // Data.LoadReceiptList("receipt.json");
-                        //Data.LoadTableList("table.json");           
+                Data.LoadNextProductNumber("nextproductnumber.json");
+                Data.LoadReceiptList("receipt.json");
+                Data.LoadNextReceiptNumber("nextreceiptnumber.json");
+                //Data.LoadTableList("table.json");           
                 Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
                 Console.WriteLine("1. Ny Order");//Ny beställning");
                 Console.WriteLine("2. Hantera Order"); // hämta order på bord
@@ -279,10 +304,13 @@ public static class UserInterFace
                 {
                     case "1":
                         Order(table, receipt);
+                        Data.SaveNextReceiptNumber("nextreceiptnumber.json");
                         break;
                     case "2":
                         TableHandler.ShowOpenTables();
                         tableHandler.HandleTableContents(receipt);
+                        Data.SaveNextReceiptNumber("nextreceiptnumber.json");
+
                         break;
                     case "3":
                         DisplayMenu();
@@ -346,8 +374,8 @@ public static class UserInterFace
         return false;
 
     }
-#endregion
-#region UpperCase
+    #endregion
+    #region UpperCase
     public static string UppercaseFirst(string str)
     {
         if (string.IsNullOrEmpty(str))

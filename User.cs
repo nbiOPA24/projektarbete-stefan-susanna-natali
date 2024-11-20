@@ -49,7 +49,7 @@ public static class UserHandler
         else
         {
             User.Admin = false;
-        }
+     }
 
     }
     #endregion
@@ -60,11 +60,9 @@ public static class UserHandler
         if (userList.Count == 0) //TODO(if admin)
         {
             Console.WriteLine("------TOM------");
-
         }
         else
         {
-
             foreach (User u in userList)
             {
                 Console.WriteLine("Namn: " + u.FirstName + " - " + u.UserId);
@@ -193,8 +191,6 @@ public static class UserHandler
                 u.FirstName = newName;
                 Console.WriteLine("Du har uppdaterat " + u.FirstName + " med ID-nummer: " + u.UserId);
                 break;
-
-
 
             }
             else if (choice == 2 && id == u.UserId)

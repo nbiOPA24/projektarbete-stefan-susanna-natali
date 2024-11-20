@@ -11,8 +11,8 @@
     "Name": "Heineken",
     "Price": 60.0,
     "ProductNumber": 2,
-    "MenuItem": 3,
-    "VatItem": 1,
+    "MenuItem": 2,
+    "VatItem": 2,
     "Description": null
   },
   {
@@ -52,6 +52,22 @@
     "Price": 45.0,
     "ProductNumber": 7,
     "MenuItem": 1,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Burgare",
+    "Price": 105.0,
+    "ProductNumber": 8,
+    "MenuItem": 1,
+    "VatItem": 1,
+    "Description": null
+  },
+  {
+    "Name": "Te",
+    "Price": 20.0,
+    "ProductNumber": 9,
+    "MenuItem": 3,
     "VatItem": 1,
     "Description": null
   }
