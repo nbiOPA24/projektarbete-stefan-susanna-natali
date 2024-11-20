@@ -3,7 +3,7 @@ public static class UserInterFace
 {
 
     public static int UserChoice { get; set; }
-    public static List<Product> orderList = new();
+    public static List<Product> orderList = new List<Product>();
 
     // public static void testmetod()
     // {
@@ -20,7 +20,7 @@ public static class UserInterFace
     //     orderList[2].ProductList
 
     // }
-    #region PrintOrderLis
+    #region PrintOrderList
     public static void PrintOrderlist()
     {
         Dictionary<string, int> productAntal = new Dictionary<string, int>();

@@ -31,7 +31,7 @@ public class Report
 }
 public static class ReportHandler
 {
-    public static List<Receipt> reportList = new();
+    public static List<Receipt> reportList = new(); 
     public static List<Product> reportProductList = new();
 
     //public static List<User> reportUserList = new();
@@ -48,14 +48,16 @@ public static class ReportHandler
 
             foreach (Product p in ProductHandler.productList)
             {
-                //Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - \t" + p.Price + " kr " + p.VatItem + "% moms. );
+                
             }
 
 
         }
+        Console.WriteLine($"--------------------------------------------");
         Console.WriteLine($"Rapport för total försäljning: {totalSum} kr");
         Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
         Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
+        Console.WriteLine($"--------------------------------------------");
         //TODO totalt antal sålda produkter (st)
 
     }
@@ -86,7 +88,7 @@ public static class ReportHandler
         }
         foreach (var p in productSum)
         {
-            Console.WriteLine($"{p.Value} st {p.Key}");
+            Console.WriteLine($"{p.Key} {p.Value} st");
         }
     }
 
@@ -138,8 +140,8 @@ public static class ReportHandler
         Console.WriteLine("Tryck 1. För TotalReport: ");
         Console.WriteLine("Tryck 2. För DailyReport: ");
         Console.WriteLine("Tryck 3. För CustomReport: ");
-        /*  Console.WriteLine("Tryck 3. För SalesReport: ");
-          Console.WriteLine("Tryck 3. För UserReport: ");
+        Console.WriteLine("Tryck 4. För ProductReport: ");
+          /*Console.WriteLine("Tryck 3. För UserReport: ");
           Console.WriteLine("Tryck 3. För TableReport: ");
           Console.WriteLine("Tryck 3. För ProductReport: ");
           Console.WriteLine("Tryck 3. För TipsReport: "); */
@@ -155,6 +157,11 @@ public static class ReportHandler
 
             case "3":
                 ReportHandler.CustomReport();
+                break;
+
+            case "4":
+                ReportHandler.GetSoldProducts();
+                ReportHandler.PrintSoldProducts();
                 break;
 
             default:
