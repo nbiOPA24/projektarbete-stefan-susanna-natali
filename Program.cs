@@ -17,6 +17,7 @@
         int number = 0;
         bool status = false;
         int size = 0;
+        int receiptNumber = 0;
         DateTime nu = DateTime.Now;
         //Data.LoadUserList("user.json");
 

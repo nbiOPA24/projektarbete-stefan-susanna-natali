@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< HEAD
     "ReceiptNumber": 1000,
     "PaidAmount": 20.0,
     "Tips": 0.0,
@@ -627,5 +628,20 @@
         "Description": null
       }
     ]
+=======
+    "ReceiptNumber": 1,
+    "PaidAmount": 333.0,
+    "Tips": 3.0,
+    "AmountToPay": 330.0,
+    "Vat12": 13.728,
+    "Vat25": 17.1875,
+    "Netto": 299.0845,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-15T16:03:46.0034775+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": null
+>>>>>>> ed82a22 (Testat lösningar för kvittonummer och påbörjat logik för att splitta en bordsnota)
   }
 ]

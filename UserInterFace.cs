@@ -23,32 +23,32 @@ public static class UserInterFace
     #region PrintOrderLis
     public static void PrintOrderlist()
     {
+        Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
         foreach (Product p in orderList)
         {
 
-            Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. ");
+            //Console.WriteLine(p.ProductNumber + ". " + p.Name + " - " + p.Price + " kr. ");
 
+                    // Söker upp alla matchande produkter och räknar
+                    // foreach (Product p in orderList)
+                    // {
+                    if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+                    {
+                            productAntal[p.Name]++; // Räknar antal träffar av samma name
+                    }
+                    else
+                    {
+                            productAntal[p.Name] = 1; // om bara en träff så = 1
+                    }
+                    // }
         }
+                    foreach (var p in productAntal)
+                    {
+                        Console.WriteLine($"{p.Value} st {p.Key}");
+                    }
         //TODO
-        // Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
-        //             // Söker upp alla matchande produkter och räknar
-        //             foreach (Product p in tableToAddOrder.TableList)
-        //             {
-        //                 if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
-        //                 {
-        //                     productAntal[p.Name]++; // Räknar antal träffar av samma name
-        //                 }
-        //                 else
-        //                 {
-        //                     productAntal[p.Name] = 1; // om bara en träff så = 1
-        //                 }
-        //             }
-        //             foreach (var p in productAntal)
-        //             {
-        //                 Console.WriteLine($"{p.Value} st {p.Key}");
-        //             }
     }
     #endregion
     #region Order
@@ -258,9 +258,13 @@ public static class UserInterFace
         }
 
     }
+<<<<<<< HEAD
     #endregion
     #region StartMenu
     public static void UserInterFaceStartMenu(Receipt receipt, TableHandler tableHandler, int number, bool status, int size, Table table, User user)
+=======
+    public static void UserInterFaceStartMenu(Receipt receipt, TableHandler tableHandler, int number, bool status, int size, Table table, User user, int receiptNumber)
+>>>>>>> ed82a22 (Testat lösningar för kvittonummer och påbörjat logik för att splitta en bordsnota)
     {
         while (true)
         {
@@ -308,9 +312,13 @@ public static class UserInterFace
                         break;
                     case "2":
                         TableHandler.ShowOpenTables();
+<<<<<<< HEAD
                         tableHandler.HandleTableContents(receipt);
                         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
 
+=======
+                        tableHandler.HandleTableContents(receipt, receiptNumber);
+>>>>>>> ed82a22 (Testat lösningar för kvittonummer och påbörjat logik för att splitta en bordsnota)
                         break;
                     case "3":
                         DisplayMenu();
@@ -340,7 +348,7 @@ public static class UserInterFace
                         TableHandler.TableMenu(number, status, size, user);
                         break;
                     case "5":
-                        Payment.PrintReceiptList(receipt);
+                        Payment.PrintReceiptList();
                         break;
                     case "6":
                         ProductHandler.ProductStartMenu();
