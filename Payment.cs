@@ -124,9 +124,9 @@ public static class Payment
     }
     #endregion
     #region CalculateVat
-    public static double CalculateVat(Table table, Receipt receipt, out double totalVat25)
+    public static void CalculateVat(Table table, Receipt receipt,out double totalVat12, out double totalVat25)
     {
-        double totalVat12 = 0;
+        totalVat12 = 0;
         totalVat25 = 0;
         foreach (Product p in UserInterFace.orderList)
         {
@@ -142,7 +142,7 @@ public static class Payment
                 totalVat25 = totalVat25 * 0.25;
             }
         }
-        return totalVat12;
+        //return totalVat12;
 
     }
     #endregion

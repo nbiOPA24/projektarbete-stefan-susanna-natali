@@ -310,17 +310,17 @@ public class TableHandler
     }
     #endregion
     #region HandleTableContents
-        // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
-        public void HandleTableContents(Receipt receipt, int receiptNumber)// endast send? eller addtotable?
+    // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
+    public void HandleTableContents(Receipt receipt, int receiptNumber)// endast send? eller addtotable?
+    {
+        // if (inga bord har status... tebax)
         {
-            // if (inga bord har status... tebax)
-            {
-                Console.Write("Välj bordsnummer: ");
-                string? nr = Console.ReadLine();
-                Console.WriteLine("1. Betalning.");
-                Console.WriteLine("2. Dela");
-            }
+            Console.Write("Välj bordsnummer: ");
+            string? nr = Console.ReadLine();
+            Console.WriteLine("1. Betalning.");
+            Console.WriteLine("2. Dela");
         }
+    }
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
     {
@@ -428,9 +428,9 @@ public class TableHandler
                     }
                     else
                     {
-                        Console.WriteLine("FEL");
-                        break;
-                    }
+                    Console.WriteLine("FEL");
+                    break;
+                }
             }
         }
     }
