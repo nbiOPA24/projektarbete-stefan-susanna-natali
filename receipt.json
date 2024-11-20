@@ -627,5 +627,101 @@
         "Description": null
       }
     ]
+  },
+  {
+    "ReceiptNumber": 1028,
+    "PaidAmount": 500.0,
+    "Tips": 101.0,
+    "AmountToPay": 399.0,
+    "Vat12": 7.3032192,
+    "Vat25": 18.4375,
+    "Netto": 373.2592808,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-20T12:29:05.3166538+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Bryggkaffe",
+        "Price": 20.0,
+        "ProductNumber": 6,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Risotto",
+        "Price": 120.0,
+        "ProductNumber": 5,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pasta",
+        "Price": 45.0,
+        "ProductNumber": 7,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1029,
+    "PaidAmount": 200.0,
+    "Tips": 46.0,
+    "AmountToPay": 154.0,
+    "Vat12": 11.879999999999999,
+    "Vat25": 13.75,
+    "Netto": 128.37,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-20T12:36:21.0724687+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
   }
 ]

@@ -21,7 +21,7 @@ public class Table
         Size = size;
         TableList = new List<Product>(); //TODO ska den ligga här? JA!
     }
-    public Table() { }
+    //public Table() { }
 }
 
 #endregion
@@ -29,25 +29,20 @@ public class Table
 // Bordslistan och metoder för att hantera bord och ordrar med produkter
 public class TableHandler
 {
+    //public static List<Product> splitList { get; set; }
     public static int CurrentTable { get; set; }
     // lista med bord
     public static List<Table> tables { get; set; }
     public TableHandler()
     {
         tables = new List<Table>(); // ska den ha konstruktor?
+        //splitList = new List<Product>();
     }
+
     #region TableMenu
     public static void TableMenu(int number, bool status, int size, User user)
     {
-        //startvärden
-        //int number = 0;
-        //bool status = false;
-        //TestTables();
-        // Console.Clear();
-
-        //UserHandler.IsAdmin();// kallar på metod IsAdmin och checkar Admin bool för inloggad user
-
-        //UserHandler.IsAdmin();
+     
         while (true)
         {
             // TODO lägga till TypeOfUser från user sen
@@ -335,11 +330,10 @@ public class TableHandler
             string? choice = Console.ReadLine().ToUpper();
             while (true)
             {
-
-                if (choice == "1")
-                    if (int.TryParse(nr, out int number))
+                if (int.TryParse(nr, out int number))
+                {
+                    if (choice == "1")
                     {
-
                         Table tableToHandle = tables.Find(tables => tables.Number == number);
                         CurrentTable = number;
 
@@ -389,58 +383,101 @@ public class TableHandler
                             Console.WriteLine("Finns inga produkter på det bordet!");
                             break;
                         }
-                    }
-                    else if (choice == "2")
-                    {
+                    
+                }
+                else if (choice == "2")
+                {
                         Console.WriteLine("Flytta produkter.");
                         int i = 1;
-                        while (true)
+                        while (true) // ngn do while number inte = =?
                         {
-                            List<Product> splitList = new();
+                            List<Product> splitList = new(); //använda orderlist från Uinterface?
+
                             Table tableToHandle = tables.Find(tables => tables.Number == number); //vilket bord e detta?
+                             
                             foreach (Product p in tableToHandle.TableList)
                             {
-                                Console.WriteLine($"{i} {p.Name}{p.Price}{p.ProductNumber}");
+                                Console.WriteLine($"{i} {p.Name}{p.Price}"); //dictionary?
                                 i++;
                             }
+                            //bool innerLoop = true;
                             while (true)
                             {
-                                Console.WriteLine("Välj produkt som du vill hantera");
-                                number = int.Parse(Console.ReadLine());
-                                Table temp = tables.Find(tables => tables.Number == number);
-
-                                if (number == 0)
+                                Console.WriteLine("Välj produkt som du vill hantera, 'Q' för klar"); // måste ta remove oxå
+                                string? input = Console.ReadLine().ToUpper();
+                                if (input == "Q")
                                 {
-                                    break;
+                                        //innerLoop = false;
+                                        break;
                                 }
+                                if (int.TryParse(input, out number))
+                                {
+
+                                    Product productToAdd = tableToHandle.TableList.Find(product => product.ProductNumber == number);
+                                    
+                                    if (productToAdd != null)
+                                    {
+
+                                        splitList.Add(productToAdd);
+                                        tableToHandle.TableList.Remove(productToAdd); // ska detta ske senare så man kan aborta eller ändra sig om man gör fel?
+
+                                        
+                                    }
+                                    else
+                                    Console.WriteLine("Fel val.");
+                                }
+
                             }
+                            Dictionary<string, int> productAntal = new Dictionary<string, int>(); // en metod?
+
+            
+                                        foreach (Product p in splitList)
+                                        {
+                                            if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+                                            {
+                                                productAntal[p.Name]++; // Räknar antal träffar av samma name
+                                            }
+                                            else
+                                            {
+                                                productAntal[p.Name] = 1; // om bara en träff så = 1
+                                            }
+                                        }
+                                        foreach (var p in productAntal)
+                                        {
+                                            Console.WriteLine($"{p.Value} st {p.Key}");
+                                        }// splitta jämt per antal
                         }
-                        // splitta jämt per antal
 
                     }
                     else if (choice == "Q")
                     {
-                        break;
+                            break;
                     }
                     else if (choice == "3")
                     {
-                        Console.WriteLine("Rensa?");
+                            Console.WriteLine("Rensa?");
                     }
                     else
                     {
-                        Console.WriteLine("FEL");
-                        break;
+                            Console.WriteLine("FEL");
+                            //break;
                     }
+                }
             }
         }
     }
+    
     #endregion
     #region SplitTable
 
     // metod för att splitta bordsnota (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
-    public void SplitTable()// Split, splitCheck? 
+    public static void SplitTable()// Split, splitCheck? 
     {
+        // procedur för att skicka in produkter till en orderlista
 
+        // add orderlist
+
+        // skicka vidare till x
     }
     #endregion
     #region VoidOrder
@@ -458,7 +495,7 @@ public class TableHandler
         // fixa felhantering med en loop och lite breaks så att den startar om på rätt plats.
         // bool rightTable = true;
         // while(rightTable)
-        // {
+        //{
         ShowTables();// ska detta va här eller en ny metod i TableHandler?
         Console.Write("välj bordsnummer: "); //Börja om här tills rätt bordsnummer eller q
         string? nr = Console.ReadLine();
