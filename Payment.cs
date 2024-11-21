@@ -18,7 +18,7 @@ public class Receipt
     public List<Product> paidProductList { get; private set; }
 
     public Receipt(Receipt receipt, int currentTable, User user)
-    //
+
     {
         PaidAmount = receipt.PaidAmount;
         Tips = receipt.Tips;

@@ -33,8 +33,9 @@ public static class ReportHandler
 {
     public static List<Receipt> reportList = new(); 
     public static List<Product> reportProductList = new();
+    public static List<User> reportUserList = new();
+    public static Dictionary<string, (double TotalSales, int ProductSold, double ProductNameAmount)> userReport = new(); //ProductNameAmount är 
 
-    //public static List<User> reportUserList = new();
     public static void TotalReport()
     {
         double totalSum = 0;
@@ -47,16 +48,18 @@ public static class ReportHandler
             totalSum += r.PaidAmount;
 
             foreach (Product p in ProductHandler.productList)
+            //foreach (Product p in Receipt.paidProductList)
             {
-                
+                //reportList.Add(p);
+                //totalSum += p.PaidAmount;
             }
 
 
         }
         Console.WriteLine($"--------------------------------------------");
         Console.WriteLine($"Rapport för total försäljning: {totalSum} kr");
-        Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
-        Console.WriteLine($"Rapport för total av sålda produkter: {reportProductList.Count} st");
+        Console.WriteLine($"Lista av sålda produkter: {reportProductList.Count} st");
+        Console.WriteLine($"Total av sålda produkter: {reportProductList.Count} st"); //här ska det vara en lista av produkt-namn + antal sålda
         Console.WriteLine($"--------------------------------------------");
         //TODO totalt antal sålda produkter (st)
 
@@ -71,6 +74,50 @@ public static class ReportHandler
         }
 
     }
+
+    public static void UserSales()   //försäljning per användare
+    {
+        double userSum = 0;
+        
+        Console.WriteLine("Inputta startdatum");
+        Report.GetDate("YYYY-MM-DD", out DateTime startDate);
+        Console.WriteLine("Inputta sluttdatum");
+        Report.GetDate("YYYY-MM-DD", out DateTime endDate);
+
+        foreach (Receipt r in Payment.receiptList)      //försöker gå igenom listorna av kvitton med summa och antal sålda produkter per user inom ett datum-spann
+        {
+            reportList.Add(r);
+            userSum += r.PaidAmount;
+
+            string FirstName = r.CurrentFirstName;
+            if (!userReport.ContainsKey(FirstName))
+            {
+                userReport[FirstName] = (0, 0, 0);
+            }
+            var currentData = userReport[FirstName];
+            currentData.TotalSales += r.PaidAmount;
+
+         /*   foreach (Product p in r.Product.receiptList)
+            {
+            currentData.ProductSold ++;
+            currentData.ProductNameAmount ++;
+            userReport[FirstName] = currentData;
+            }*/
+        }
+    }
+
+    public static void GetUserSales()    //en metod att kalla på i report-menu
+    {
+        foreach(var user in userReport)
+        {
+            Console.WriteLine($"--------------------------------------------");
+            Console.WriteLine($"{user.Key} total försäljning: {user.Value.TotalSales} kr");
+            Console.WriteLine($"{user.Key} total försäljning: {user.Value.ProductNameAmount}"); //minns inte vad ProductNameAmount skulle va? Lista på vilka produkter??
+            Console.WriteLine($"{user.Key} antal produkter: {user.Value.ProductSold} st");
+            Console.WriteLine($"--------------------------------------------");
+        }
+    }
+
     public static void PrintSoldProducts()
     {
         Dictionary<string, int> productSum = new();
@@ -89,6 +136,11 @@ public static class ReportHandler
         foreach (var p in productSum)
         {
             Console.WriteLine($"{p.Key} {p.Value} st");
+
+            if (productSum.Count < 1)                       // funkar denna?
+            {
+                Console.WriteLine("Inga produkter sålda."); 
+            }
         }
     }
 
@@ -105,7 +157,9 @@ public static class ReportHandler
 
             //DailyReport(date);
         }
+        Console.WriteLine($"--------------------------------------------");
         Console.WriteLine($"Försäljning för {date} är: {dailySum}"); //TODO ta bort klockslag
+        Console.WriteLine($"--------------------------------------------");
     }
 
     public static void CustomReport()
@@ -141,9 +195,8 @@ public static class ReportHandler
         Console.WriteLine("Tryck 2. För DailyReport: ");
         Console.WriteLine("Tryck 3. För CustomReport: ");
         Console.WriteLine("Tryck 4. För ProductReport: ");
-          /*Console.WriteLine("Tryck 3. För UserReport: ");
-          Console.WriteLine("Tryck 3. För TableReport: ");
-          Console.WriteLine("Tryck 3. För ProductReport: ");
+        Console.WriteLine("Tryck 5. För UserReport: ");
+          /*Console.WriteLine("Tryck 3. För TableReport: ");
           Console.WriteLine("Tryck 3. För TipsReport: "); */
         Console.WriteLine("Tryck Q. För att avsluta till huvudmenyn: ");
 
@@ -162,6 +215,10 @@ public static class ReportHandler
             case "4":
                 ReportHandler.GetSoldProducts();
                 ReportHandler.PrintSoldProducts();
+                break;
+
+            case "5":
+                ReportHandler.GetUserSales();
                 break;
 
             default:

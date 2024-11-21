@@ -723,5 +723,37 @@
         "Description": null
       }
     ]
+  },
+  {
+    "ReceiptNumber": 1030,
+    "PaidAmount": 250.0,
+    "Tips": 10.0,
+    "AmountToPay": 240.0,
+    "Vat12": 16.128,
+    "Vat25": 0.0,
+    "Netto": 223.872,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T13:34:01.527683+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Risotto",
+        "Price": 120.0,
+        "ProductNumber": 5,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Risotto",
+        "Price": 120.0,
+        "ProductNumber": 5,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
   }
 ]
