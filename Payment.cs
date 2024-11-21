@@ -15,7 +15,7 @@ public class Receipt
     public int? CurrentTable { get; set; }
     public string? CurrentFirstName { get; set; }
     public int CurrentUserId { get; set; }
-    public List<Product> paidProductList { get; private set; }
+    public List<Product> paidProductList { get; set; }
 
     public Receipt(Order order, int? currentTable, bool isCash, double paidAmount, double tips)
     //
@@ -66,7 +66,7 @@ public static class Payment
 
     public static List<Receipt> receiptList = new();
     #region PrintReceipt
-    public static void PrintReceipt(Order order, Receipt receipt) //Order order, Table table, Receipt receipt)
+    public static List<Receipt> PrintReceipt(Order order, Receipt receipt) //Order order, Table table, Receipt receipt)
     {
         User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
         Data.LoadNextReceiptNumber("nextreceiptnumber.json");
@@ -95,6 +95,7 @@ public static class Payment
         // }
         Data.SaveReceiptList("receipt.json");
         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
+        return receiptList;
     }
     #endregion
     #region ReceiptList

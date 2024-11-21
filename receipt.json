@@ -675,5 +675,37 @@
         "Description": null
       }
     ]
+  },
+  {
+    "ReceiptNumber": 1028,
+    "PaidAmount": 110.0,
+    "Tips": 0.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 0.0,
+    "Netto": 110.0,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-20T20:18:05.2906859+01:00",
+    "CurrentTable": null,
+    "CurrentFirstName": "Natali",
+    "CurrentUserId": 2400,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
   }
 ]

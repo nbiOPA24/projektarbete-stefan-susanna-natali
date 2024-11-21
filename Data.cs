@@ -100,7 +100,7 @@ public static class Data
     {
         if (File.Exists(filePath))
         {
-           return Receipt.nextReceiptNumber = int.Parse(File.ReadAllText(filePath));
+            return Receipt.nextReceiptNumber = int.Parse(File.ReadAllText(filePath));
         }
         else
         {
@@ -109,7 +109,7 @@ public static class Data
     }
     public static void SaveTableList(string filePath)
     {
-        string json = JsonConvert.SerializeObject(TableHandler.tables, Formatting.Indented);
+        string json = JsonConvert.SerializeObject(TableHandler.Tables, Formatting.Indented);
         File.WriteAllText(filePath, json);
     }
 
@@ -118,12 +118,12 @@ public static class Data
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            TableHandler.tables = JsonConvert.DeserializeObject<List<Table>>(json) ?? new List<Table>();
+            TableHandler.Tables = JsonConvert.DeserializeObject<List<Table>>(json) ?? new List<Table>();
         }
         else
         {
             Console.WriteLine("No product data found. Creating a new empty list.");
-            TableHandler.tables = new List<Table>();
+            TableHandler.Tables = new List<Table>();
         }
     }
 
