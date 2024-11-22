@@ -375,15 +375,10 @@ public class TableHandler
                             Console.WriteLine("Avbruten.");
                             break;
                         }
-                        else if (choice == "Q")
-                        {
-                            Console.WriteLine("avslutar i if-sats... ");
-                            return;
-                        }
                         else
                         {
                             Console.WriteLine("Ogiltigt val.");
-                            break;
+                            continue;
                         }
                     }
 
