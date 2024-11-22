@@ -5,6 +5,7 @@ public static class UserInterFace
     public static int UserChoice { get; set; }
     public static List<Product> orderList = new List<Product>();
 
+
     // public static void testmetod()
     // {
     //     //loop för att skriva ut alla ordrar
@@ -47,17 +48,22 @@ public static class UserInterFace
     #endregion
     #region Order
     // Ev. TODO ev. välja nollbong eller funktion för detta? 
-    public static void Order(Table table, Receipt receipt)
+    public static void Order(Receipt receipt)
     {
+        Console.WriteLine();
+        Console.WriteLine("Produkter:");
         Console.WriteLine();
         ProductHandler.PrintProduct();
         Console.WriteLine();
 
         while (true)
         {
-            Console.Write("Skriv in beställning, ange artikelnr. 'Q' för klar: ");
+            Console.Write("Skriv in beställning, ange artikelnr. 'Q' för klar eller 'A' för avbryt: ");
             string? choice = Console.ReadLine().ToUpper();
-
+            if (choice == "A")
+            {
+                break;
+            }
             if (int.TryParse(choice, out int number))
             {
                 Product productsToAdd = ProductHandler.productList.Find(product => product.ProductNumber == number);
@@ -74,8 +80,8 @@ public static class UserInterFace
             }
             PrintOrderlist();
 
-            double totalSum = CountTotal(table, receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
-            double vat12 = Payment.CalculateVat(table, receipt, out double vat25); //out retunerar en till variabel
+            double totalSum = CountTotal(receipt);   //skicka in och räkna ut summan för bordet, skicka tillbaka till totalSum
+            double totalVat = Payment.CalculateVat(receipt, out double vat25, out double vat12); //out retunerar en till variabel
             Console.WriteLine("Summa att betala: " + totalSum);
             receipt.Vat25 = vat25;
             receipt.Vat12 = vat12;
@@ -88,7 +94,7 @@ public static class UserInterFace
 
                 if (paymentChoice == "D")
                 {
-                    Payment.StartPayment(table, receipt);
+                    Payment.StartPayment(receipt);
                     orderList.Clear();// för tidigt?
                     break;
                 }
@@ -110,7 +116,7 @@ public static class UserInterFace
     }
     #endregion
     #region CountTotal
-    public static double CountTotal(Table table, Receipt receipt)// denna räknar ju inte med bordsprodukterna
+    public static double CountTotal(Receipt receipt)// denna räknar ju inte med bordsprodukterna
     {
 
         double temptotal = 0; //Nollställ efter varje knapptryckning när man lägger på en ny artikel
@@ -122,13 +128,13 @@ public static class UserInterFace
 
             }
         }
-        else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
-        {
-            foreach (Product p in table.TableList)
-            {
-                temptotal += p.Price;
-            }
-        }
+        // else //YEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSSS
+        // {
+        //     foreach (Product p in table.TableList)
+        //     {
+        //         temptotal += p.Price;
+        //     }
+        // }
         return temptotal;
 
 
@@ -236,23 +242,24 @@ public static class UserInterFace
     }
     #endregion
     #region StartMenu
-    public static void UserInterFaceStartMenu(Receipt receipt, TableHandler tableHandler, int number, bool status, int size, Table table, User user)
+    public static void UserInterFaceStartMenu(Receipt receipt) //, User user01
     {
         while (true)
         {
-#if !DEBUG
-            Console.Clear();
-#endif
+//#if !DEBUG
+            //Console.Clear();
+//
             Data.LoadUserList("user.json");
-            TableHandler.GenerateTables();
+            // TableHandler.GenerateTables();
             Console.WriteLine("Välkommen!");
+            Console.WriteLine();
             UserHandler.PrintUser();
+            Console.WriteLine();
             Console.Write("Välj användare, ange ID-nummer: "); // "AnvändarId:" 
             UserChoice = 2402;//int.Parse(Console.ReadLine()); //Pausad så man slipper logga in
             UserHandler.IsAdmin();
             bool innerMenu = true;
             while (innerMenu)
-
             {
                 Data.LoadUserList("user.json");
                 Data.LoadProductList("product.json");
@@ -260,9 +267,11 @@ public static class UserInterFace
                 Data.LoadNextProductNumber("nextproductnumber.json");
                 Data.LoadReceiptList("receipt.json");
                 Data.LoadNextReceiptNumber("nextreceiptnumber.json");
+                Console.WriteLine();
                 Console.WriteLine("*****SUNAST-KASSASYSTEM*****");
+                Console.WriteLine();
                 Console.WriteLine("1. Ny Order");//Ny beställning");
-                Console.WriteLine("2. Hantera Order"); // hämta order på bord
+                Console.WriteLine("2. Hantera bordsnotor"); // hämta order på bord
                 Console.WriteLine("3. Restaurangmeny");
                 Console.WriteLine("4. Bordshantering");
                 Console.WriteLine("5. Skriv ut alla kvitton");
@@ -280,12 +289,16 @@ public static class UserInterFace
                 switch (choice)
                 {
                     case "1":
-                        Order(table, receipt);
+                        Order(receipt);
                         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
                         break;
                     case "2":
-                        TableHandler.ShowOpenTables();
-                        tableHandler.HandleTableContents(receipt);
+                        bool aTableIsOpen = TableHandler.ShowOpenTables();
+                        if (!aTableIsOpen)
+                        {
+                            continue;
+                        }
+                        TableHandler.HandleTableContents(receipt);
                         Data.SaveNextReceiptNumber("nextreceiptnumber.json");
 
                         break;
@@ -314,7 +327,7 @@ public static class UserInterFace
                         }
                         break;
                     case "4":
-                        TableHandler.TableMenu(number, status, size, user);
+                        TableHandler.TableMenu();
                         break;
                     case "5":
                         Payment.PrintReceiptList(receipt);
@@ -324,7 +337,7 @@ public static class UserInterFace
 
                         break;
                     case "7":
-                        UserHandler.UserStartMenu(user);
+                        UserHandler.UserStartMenu();
                         break;
                         case "8":
                         ReportHandler.ReportMenu();

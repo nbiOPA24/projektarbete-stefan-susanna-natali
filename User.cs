@@ -24,12 +24,12 @@ public class User
     {
         UserType = userType;
         FirstName = firstName;
-        
+
         UserId = NextId;
         NextId++;
     }
 
-    public User(){} // Tom konstruktor för att kunna lägga till utan indata i main.
+    public User() { } // Tom konstruktor för att kunna lägga till utan indata i main.
 }
 public static class UserHandler
 {
@@ -39,7 +39,7 @@ public static class UserHandler
     {
         // foreach (User u in userList) User currentUser = UserHandler.userList.Find(user => user.UserId == UserChoice);
         // {
-        
+
         User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
 
         if (currentUser.UserType == User.TypeOfUser.Manager || currentUser.UserType == User.TypeOfUser.Headwaiter || currentUser.UserType == User.TypeOfUser.Sommelier)
@@ -49,7 +49,7 @@ public static class UserHandler
         else
         {
             User.Admin = false;
-     }
+        }
 
     }
     #endregion
@@ -87,9 +87,9 @@ public static class UserHandler
     }
     #endregion
     #region AddUser
-    public static void AddUser(User user)
+    public static void AddUser()
     {
-                
+
         Console.WriteLine("LÄGG TILL PERSONAL");
         PrintUserType();
         Console.Write("Behörighet, ange utifrån siffra: ");
@@ -98,7 +98,7 @@ public static class UserHandler
             int input = int.Parse(Console.ReadLine());
             var userArray = Enum.GetValues(typeof(User.TypeOfUser));
             User.TypeOfUser selectedUserType = (User.TypeOfUser)userArray.GetValue(input - 1); // hämtar usertypen efter angivet heltal 
-            
+
             string? firstname = UserInterFace.GetName();
             firstname = UserInterFace.UppercaseFirst(firstname);
             if (int.TryParse(firstname, out int number))
@@ -120,7 +120,7 @@ public static class UserHandler
 
     }
     #endregion
-#region RemoveUser
+    #region RemoveUser
     public static void RemoveUser()
     {
         Console.WriteLine("TA BORT PERSONAL");
@@ -169,8 +169,8 @@ public static class UserHandler
         }
 
     }
-#endregion
-#region EditUser
+    #endregion
+    #region EditUser
     public static void EditUser()
     {
         Console.WriteLine("ÄNDRA PERSONAL");
@@ -206,9 +206,9 @@ public static class UserHandler
         }
 
     }
-#endregion
-#region StartMenu
-    public static void UserStartMenu(User user)
+    #endregion
+    #region StartMenu
+    public static void UserStartMenu()
     {
         Data.LoadUserList("user.json");
         while (true)
@@ -228,7 +228,7 @@ public static class UserHandler
                     PrintUser();
                     break;
                 case "2":
-                    AddUser(user);
+                    AddUser();
                     Data.SaveUserList("user.json");
                     Data.SaveNextId("nextid.json");
                     break;
@@ -243,7 +243,7 @@ public static class UserHandler
                 case "5":
                     SearchForUser();
                     break;
-                    case "Q":
+                case "Q":
                     return;
                 default:
                     break;

@@ -100,7 +100,7 @@ public static class Data
     {
         if (File.Exists(filePath))
         {
-           return Receipt.nextReceiptNumber = int.Parse(File.ReadAllText(filePath));
+            return Receipt.nextReceiptNumber = int.Parse(File.ReadAllText(filePath));
         }
         else
         {
