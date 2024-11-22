@@ -726,23 +726,2021 @@
   },
   {
     "ReceiptNumber": 1030,
-    "PaidAmount": 250.0,
-    "Tips": 10.0,
-    "AmountToPay": 240.0,
-    "Vat12": 16.128,
-    "Vat25": 0.0,
-    "Netto": 223.872,
+    "PaidAmount": 122.0,
+    "Tips": 7.0,
+    "AmountToPay": 115.0,
+    "Vat12": 0.0,
+    "Vat25": 18.4375,
+    "Netto": 96.5625,
     "IsCash": false,
-    "PaymentAccepted": "2024-11-21T13:34:01.527683+01:00",
+    "PaymentAccepted": "2024-11-21T10:20:42.6479751+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1031,
+    "PaidAmount": 122.0,
+    "Tips": 12.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T10:25:42.8055725+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1032,
+    "PaidAmount": 244.0,
+    "Tips": 44.0,
+    "AmountToPay": 200.0,
+    "Vat12": 6.048,
+    "Vat25": 17.1875,
+    "Netto": 176.7645,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T16:24:08.9359262+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1033,
+    "PaidAmount": 33.0,
+    "Tips": 3.0,
+    "AmountToPay": 30.0,
+    "Vat12": 2.016,
+    "Vat25": 0.0,
+    "Netto": 27.984,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T16:59:45.9813039+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1034,
+    "PaidAmount": 255.0,
+    "Tips": 21.0,
+    "AmountToPay": 234.0,
+    "Vat12": 15.85152,
+    "Vat25": 0.0,
+    "Netto": 218.14848,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:02:50.2416487+01:00",
     "CurrentTable": 1,
     "CurrentFirstName": "Susanna",
     "CurrentUserId": 2402,
     "paidProductList": [
       {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
         "Name": "Risotto",
         "Price": 120.0,
         "ProductNumber": 5,
         "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Risotto",
+        "Price": 120.0,
+        "ProductNumber": 5,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1035,
+    "PaidAmount": 166.0,
+    "Tips": 1.0,
+    "AmountToPay": 165.0,
+    "Vat12": 0.0,
+    "Vat25": 18.046875,
+    "Netto": 146.953125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:03:46.3818806+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1036,
+    "PaidAmount": 166.0,
+    "Tips": 1.0,
+    "AmountToPay": 165.0,
+    "Vat12": 0.0,
+    "Vat25": 18.046875,
+    "Netto": 146.953125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:04:11.6266996+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1037,
+    "PaidAmount": 166.0,
+    "Tips": 1.0,
+    "AmountToPay": 165.0,
+    "Vat12": 0.0,
+    "Vat25": 18.046875,
+    "Netto": 146.953125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:05:18.9565761+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1038,
+    "PaidAmount": 166.0,
+    "Tips": 1.0,
+    "AmountToPay": 165.0,
+    "Vat12": 0.0,
+    "Vat25": 18.046875,
+    "Netto": 146.953125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:05:41.3966358+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1039,
+    "PaidAmount": 165.0,
+    "Tips": 0.0,
+    "AmountToPay": 165.0,
+    "Vat12": 0.0,
+    "Vat25": 18.046875,
+    "Netto": 146.953125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T17:07:17.6572355+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1040,
+    "PaidAmount": 122.0,
+    "Tips": 2.0,
+    "AmountToPay": 120.0,
+    "Vat12": 5.688,
+    "Vat25": 13.75,
+    "Netto": 100.562,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T18:00:12.4844013+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Bryggkaffe",
+        "Price": 20.0,
+        "ProductNumber": 6,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1041,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-21T18:05:32.0994509+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1042,
+    "PaidAmount": 330.0,
+    "Tips": 0.0,
+    "AmountToPay": 330.0,
+    "Vat12": 14.111999999999998,
+    "Vat25": 18.75,
+    "Netto": 297.138,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T09:57:54.0642146+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Burgare",
+        "Price": 105.0,
+        "ProductNumber": 8,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Burgare",
+        "Price": 105.0,
+        "ProductNumber": 8,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1043,
+    "PaidAmount": 110.0,
+    "Tips": 0.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:27:29.6331357+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1044,
+    "PaidAmount": 100.0,
+    "Tips": -98.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:35:18.6698958+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1045,
+    "PaidAmount": 100.0,
+    "Tips": -98.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:36:02.4676535+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": []
+  },
+  {
+    "ReceiptNumber": 1046,
+    "PaidAmount": 110.0,
+    "Tips": 5.0,
+    "AmountToPay": 105.0,
+    "Vat12": 12.6,
+    "Vat25": 13.75,
+    "Netto": 78.65,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:39:36.568235+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Burgare",
+        "Price": 105.0,
+        "ProductNumber": 8,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1047,
+    "PaidAmount": 60.0,
+    "Tips": 5.0,
+    "AmountToPay": 55.0,
+    "Vat12": 11.879999999999999,
+    "Vat25": 13.75,
+    "Netto": 29.370000000000005,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:43:11.0781892+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1048,
+    "PaidAmount": 65.0,
+    "Tips": 5.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:48:23.4360871+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1049,
+    "PaidAmount": 60.0,
+    "Tips": 0.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:05:51.6252693+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1050,
+    "PaidAmount": 75.0,
+    "Tips": 0.0,
+    "AmountToPay": 75.0,
+    "Vat12": 1.7999999999999998,
+    "Vat25": 15.0,
+    "Netto": 58.2,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:06:29.6648761+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1051,
+    "PaidAmount": 65.0,
+    "Tips": 5.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:07:11.5325892+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1052,
+    "PaidAmount": 29.0,
+    "Tips": 14.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T11:07:58.7184678+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1053,
+    "PaidAmount": 50.0,
+    "Tips": 5.0,
+    "AmountToPay": 45.0,
+    "Vat12": 5.3999999999999995,
+    "Vat25": 0.0,
+    "Netto": 39.6,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:35:55.543312+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pasta",
+        "Price": 45.0,
+        "ProductNumber": 7,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1054,
+    "PaidAmount": 60.0,
+    "Tips": 0.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:37:57.612632+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1055,
+    "PaidAmount": 20.0,
+    "Tips": 5.0,
+    "AmountToPay": 15.0,
+    "Vat12": 1.7999999999999998,
+    "Vat25": 0.0,
+    "Netto": 13.2,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:41:02.7752789+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1056,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:42:17.7321046+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1057,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:43:40.6693722+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1058,
+    "PaidAmount": 60.0,
+    "Tips": 0.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:47:17.7443828+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1059,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:47:30.0626134+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1060,
+    "PaidAmount": 110.0,
+    "Tips": 0.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:54:20.0706027+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1061,
+    "PaidAmount": 0.0,
+    "Tips": 0.0,
+    "AmountToPay": 0.0,
+    "Vat12": 0.0,
+    "Vat25": 0.0,
+    "Netto": 0.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T11:54:31.8417737+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": []
+  },
+  {
+    "ReceiptNumber": 1062,
+    "PaidAmount": 20.0,
+    "Tips": 5.0,
+    "AmountToPay": 15.0,
+    "Vat12": 1.7999999999999998,
+    "Vat25": 0.0,
+    "Netto": 13.2,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:24:53.209158+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1063,
+    "PaidAmount": 120.0,
+    "Tips": 5.0,
+    "AmountToPay": 115.0,
+    "Vat12": 0.0,
+    "Vat25": 18.4375,
+    "Netto": 96.5625,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:27:39.692818+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1064,
+    "PaidAmount": 15.0,
+    "Tips": 0.0,
+    "AmountToPay": 15.0,
+    "Vat12": 1.7999999999999998,
+    "Vat25": 0.0,
+    "Netto": 13.2,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:29:19.4598506+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1065,
+    "PaidAmount": 60.0,
+    "Tips": 0.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:29:46.8434718+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1066,
+    "PaidAmount": 60.0,
+    "Tips": 0.0,
+    "AmountToPay": 60.0,
+    "Vat12": 0.0,
+    "Vat25": 15.0,
+    "Netto": 45.0,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:30:04.2227407+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1067,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:32:52.4567506+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1068,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:33:01.5816527+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1069,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T12:33:39.140189+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1070,
+    "PaidAmount": 122.0,
+    "Tips": 12.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:00:23.9025001+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1071,
+    "PaidAmount": 122.0,
+    "Tips": 12.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:02:30.9753764+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1072,
+    "PaidAmount": 66.0,
+    "Tips": 11.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:43:57.3936168+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1073,
+    "PaidAmount": 111.0,
+    "Tips": 1.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:46:05.991499+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1074,
+    "PaidAmount": 66.0,
+    "Tips": 11.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:46:50.8809815+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1075,
+    "PaidAmount": 111.0,
+    "Tips": 1.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:50:40.6792984+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1076,
+    "PaidAmount": 188.0,
+    "Tips": 18.0,
+    "AmountToPay": 170.0,
+    "Vat12": 0.0,
+    "Vat25": 19.296875,
+    "Netto": 150.703125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T13:51:16.337803+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Heineken",
+        "Price": 60.0,
+        "ProductNumber": 2,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1077,
+    "PaidAmount": 122.0,
+    "Tips": 12.0,
+    "AmountToPay": 110.0,
+    "Vat12": 17.1875,
+    "Vat25": 0.0,
+    "Netto": 92.8125,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T13:54:04.6770586+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1078,
+    "PaidAmount": 66.0,
+    "Tips": 11.0,
+    "AmountToPay": 55.0,
+    "Vat12": 0.0,
+    "Vat25": 13.75,
+    "Netto": 41.25,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T14:02:24.1497543+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1079,
+    "PaidAmount": 55.0,
+    "Tips": 0.0,
+    "AmountToPay": 55.0,
+    "Vat12": 13.75,
+    "Vat25": 0.0,
+    "Netto": 41.25,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T14:06:14.8467204+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1080,
+    "PaidAmount": 111.0,
+    "Tips": 1.0,
+    "AmountToPay": 110.0,
+    "Vat12": 0.0,
+    "Vat25": 17.1875,
+    "Netto": 92.8125,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T14:55:06.6025038+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1081,
+    "PaidAmount": 111.0,
+    "Tips": 1.0,
+    "AmountToPay": 110.0,
+    "Vat12": 17.1875,
+    "Vat25": 0.0,
+    "Netto": 92.8125,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T14:55:37.5848537+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1082,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T14:56:48.7044177+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1083,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 198.0,
+    "Vat12": 0.0,
+    "Vat25": 13.305599999999998,
+    "Netto": 184.6944,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T14:57:42.0696487+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1084,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T14:59:42.3556778+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1085,
+    "PaidAmount": 22.0,
+    "Tips": 7.0,
+    "AmountToPay": 15.0,
+    "Vat12": 1.7999999999999998,
+    "Vat25": 0.0,
+    "Netto": 13.2,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T15:00:44.0457027+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1086,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T15:05:25.0538782+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 1087,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 198.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 0.0,
+    "Netto": 184.6944,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T15:06:30.5951265+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8888,
+    "PaidAmount": 444.0,
+    "Tips": 81.0,
+    "AmountToPay": 363.0,
+    "Vat12": 13.305599999999998,
+    "Vat25": 18.046875,
+    "Netto": 331.647525,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T15:17:02.825627+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8889,
+    "PaidAmount": 333.0,
+    "Tips": 36.0,
+    "AmountToPay": 297.0,
+    "Vat12": 0.0,
+    "Vat25": 13.476671999999999,
+    "Netto": 283.523328,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T15:17:33.8392187+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8890,
+    "PaidAmount": 666.0,
+    "Tips": 72.0,
+    "AmountToPay": 594.0,
+    "Vat12": 13.499959689216,
+    "Vat25": 0.0,
+    "Netto": 580.500040310784,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T15:19:46.5253354+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8891,
+    "PaidAmount": 333.0,
+    "Tips": 36.0,
+    "AmountToPay": 594.0,
+    "Vat12": 13.499959689216,
+    "Vat25": 0.0,
+    "Netto": 580.500040310784,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T15:20:38.3342535+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8888,
+    "PaidAmount": 555.0,
+    "Tips": 48.0,
+    "AmountToPay": 507.0,
+    "Vat12": 12.270851260415998,
+    "Vat25": 18.046875,
+    "Netto": 476.682273739584,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T19:21:49.151085+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8889,
+    "PaidAmount": 222.0,
+    "Tips": 24.0,
+    "AmountToPay": 99.0,
+    "Vat12": 0.0,
+    "Vat25": 15.85152,
+    "Netto": 83.14848,
+    "IsCash": true,
+    "PaymentAccepted": "2024-11-22T19:24:04.2887726+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      }
+    ]
+  },
+  {
+    "ReceiptNumber": 8890,
+    "PaidAmount": 333.0,
+    "Tips": 0.0,
+    "AmountToPay": 333.0,
+    "Vat12": 14.807600639999999,
+    "Vat25": 0.0,
+    "Netto": 318.19239936,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T19:24:33.9245686+01:00",
+    "CurrentTable": 0,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pizza",
+        "Price": 99.0,
+        "ProductNumber": 4,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Kaffe",
+        "Price": 15.0,
+        "ProductNumber": 3,
+        "MenuItem": 3,
         "VatItem": 1,
         "Description": null
       },

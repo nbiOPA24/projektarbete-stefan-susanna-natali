@@ -58,7 +58,7 @@ public static class Payment
         User currentUser = UserHandler.userList.Find(user => user.UserId == UserInterFace.UserChoice);
         Console.WriteLine("\t\tRestaurangNamn");
         Console.WriteLine("\t\tKvittonummer: " + Receipt.nextReceiptNumber); //SÅKLART nextNumber ska skrivas ut och inte receiptnumber. för nextNumber är static/för nextnumber inte sätts i konstruktorn?
-        Console.WriteLine("Bordsnummer: #" + TableHandler.CurrentTable);
+        Console.WriteLine("Bordsnummer: #" + receipt.CurrentTable);
         Console.WriteLine("Användare: " + currentUser.FirstName + " - " + currentUser.UserId); //Vilken Användare/servis
         Console.WriteLine("Datum: " + receipt.PaymentAccepted); //TODO DateTime från när betalningen gått igenom
         Console.WriteLine("Beställda artiklar: ");
@@ -72,6 +72,8 @@ public static class Payment
         Console.WriteLine("Netto: " + Math.Round(receipt.Netto, 2));
         Console.WriteLine("Varav moms 12%: " + Math.Round(receipt.Vat12, 2));//Varav moms
         Console.WriteLine("Varav moms 25%: " + Math.Round(receipt.Vat25, 2));
+        Console.WriteLine("------------------------");
+        Console.WriteLine();
         receipt = new(receipt, TableHandler.CurrentTable, currentUser); //receipt.ReceiptNumber, receipt.PaidAmount, receipt.Tips, receipt.AmountToPay, receipt.Vat12, receipt.Vat25, receipt.Netto, receipt.IsCash, receipt.PaymentAccepted, TableHandler.CurrentTable, currentUser.FirstName, currentUser.UserId);// nu behövs inte detta: ReceiptNumber, receipt.PaidAmount, receipt.Tips, receipt.AmountToPay, receipt.Vat12, receipt.Vat25, receipt.Netto, receipt.IsCash, receipt.PaymentAccepted, TableHandler.CurrentTable, currentUser.FirstName, currentUser.UserId
         receiptList.Add(receipt);
         foreach (Product p in UserInterFace.orderList)
@@ -124,9 +126,9 @@ public static class Payment
     }
     #endregion
     #region CalculateVat
-    public static double CalculateVat(Table table, Receipt receipt, out double totalVat25)
+    public static double CalculateVat(Receipt receipt, out double totalVat12, out double totalVat25)
     {
-        double totalVat12 = 0;
+        totalVat12 = 0;
         totalVat25 = 0;
         foreach (Product p in UserInterFace.orderList)
         {
@@ -143,11 +145,12 @@ public static class Payment
             }
         }
         return totalVat12;
+        return totalVat25;
 
     }
     #endregion
     #region StartPayment
-    public static void StartPayment(Table table, Receipt receipt)
+    public static void StartPayment(Receipt receipt)
     {
         Data.LoadNextReceiptNumber("receiptnumber.json");
 
@@ -157,7 +160,7 @@ public static class Payment
             Console.WriteLine("*******BETALNING********");
             Console.Write("(K)ort eller (C)ash?: ");
             string? input = Console.ReadLine().ToUpper();
-            double totalSum = UserInterFace.CountTotal(table, receipt);
+            double totalSum = UserInterFace.CountTotal(receipt);
             Console.WriteLine("Totalbelopp: " + totalSum);
             switch (input)
             {
@@ -186,43 +189,47 @@ public static class Payment
     {
         while (true)
         {
+            double amountToPay = UserInterFace.CountTotal(receipt);
             Console.Write("Slå in totalbelopp ink. ev. dricks: ");
             receipt.PaidAmount = int.Parse(Console.ReadLine());
-            receipt.Tips = receipt.PaidAmount - receipt.AmountToPay;
+            receipt.Tips = receipt.PaidAmount - amountToPay;
 
-            if (receipt.PaidAmount < receipt.AmountToPay)
+            if (receipt.PaidAmount < amountToPay)
             {
-                Console.WriteLine("Beloppet är för lågt! Summa att betala är " + receipt.AmountToPay);
+                Console.WriteLine("Beloppet är för lågt! Summa att betala är " + amountToPay);
                 continue;
             }
             if (receipt.IsCash == true)
             {
                 Console.Write("Slå in mottagna pengar: ");
                 double givenMoney = int.Parse(Console.ReadLine());
-                double change = givenMoney - receipt.PaidAmount;
+                double change = givenMoney - receipt.PaidAmount; //varför grått? ska detta visa pengar tillbaka? Ska man det?
                 Console.WriteLine("Tack!");
                 Thread.Sleep(1000);
                 PrintReceipt(receipt);
-                foreach (Product p in UserInterFace.orderList)
-                {
-                    receipt.paidProductList.Add(p);
-                }
+                // foreach (Product p in UserInterFace.orderList)
+                // {
+                //     receipt.paidProductList.Add(p);
+                // }
                 break;
             }
-            else if (receipt.PaidAmount >= receipt.AmountToPay)
+            else if (receipt.PaidAmount >= amountToPay)
             {
                 Console.WriteLine("Betalning genomförs");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
-                Console.Write(".");
-                Thread.Sleep(1000);
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
+                // Console.Write(".");
+                // Thread.Sleep(1000);
                 Console.WriteLine(" Tack!");
                 Thread.Sleep(1000);
                 Data.LoadNextReceiptNumber("receiptnumber.json");
-
+                receipt.AmountToPay = amountToPay;
+                double totalVat = CalculateVat(receipt, out double vat12, out double vat25);
+                receipt.Vat12 = vat12;
+                receipt.Vat25 = vat25;
                 PrintReceipt(receipt); //TODO indata kvittonummer för att hålla reda på?
                 ReportHandler.GetSoldProducts();
 
@@ -230,8 +237,7 @@ public static class Payment
                 // {
                 //     receipt.paidProductList.Add(p);
                 // }
-                UserInterFace.orderList.Clear();
-                //receipt.paidProductList.Clear();
+                UserInterFace.orderList.Clear(); //clear eller = null.
 
                 break;
             }

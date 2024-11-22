@@ -48,7 +48,7 @@ public static class ProductHandler
 
         foreach (Product p in productList)
         {
-            Console.WriteLine(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - \t" + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
+            Console.WriteLine(p.ProductNumber + ". " + p.Name); //(p.ProductNumber + ". " + p.MenuItem + ": " + p.Name + " - \t" + p.Price + " kr " + p.VatItem + "% moms. Beskrivning: " + p.Description);
         }
 
     }
@@ -79,7 +79,7 @@ public static class ProductHandler
                 else
                 {
                     Product.ProductType selectedItemType = (Product.ProductType)typearray.GetValue(intinput - 1); // hämtar produkttypen efter angivet heltal
-                    string? name = UserInterFace.GetName(); 
+                    string? name = UserInterFace.GetName();
                     name = UserInterFace.UppercaseFirst(name);
                     Console.Write("Pris: ");
                     double price = double.Parse(Console.ReadLine());
@@ -167,7 +167,7 @@ public static class ProductHandler
                 break;
             }
             else if (choice == 2 && pickProduct == p.ProductNumber)
-            {   
+            {
                 string? newName = UserInterFace.GetName();
                 p.Name = newName;
                 break;
