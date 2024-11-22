@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 
-
+#region Report
 public class Report
 {
     public double PaidAmount;
@@ -28,15 +28,17 @@ public class Report
         User = user;
     }
 }
-
-public static class ReportHandler
+#endregion
+#region ReportHandler
+ public static class ReportHandler
 {
     public static List<Receipt> reportReceiptList = new(); 
     public static List<Product> reportProductList = new();
     public static List<User> reportUserList = new();
-    public static Dictionary<string, (double TotalSales, int ProductSold, double ProductNameAmount)> userReport = new(); //ProductNameAmount är 
 
-    public static void TotalReport()
+#endregion
+#region TotalReport
+   public static void TotalReport()
     {
         double totalSum = 0;
         Dictionary<string, int> productReport = new();
@@ -61,10 +63,11 @@ public static class ReportHandler
         Console.WriteLine($"Lista av sålda produkter: {reportProductList.Count} st");
         Console.WriteLine($"Total av sålda produkter: {reportProductList.Count} st"); //här ska det vara en lista av produkt-namn + antal sålda
         Console.WriteLine($"--------------------------------------------");
-        //TODO totalt antal sålda produkter (st)
+        //TODO totalt antal sålda produkter (st). inväntar att Receipt-klassen sparar produkt-namn
 
     }
-
+#endregion
+#region UserSales
     public static void UserSales()   //försäljning per användare
     {
         List<User>userList = new(); //
@@ -118,7 +121,8 @@ public static class ReportHandler
     }
 
     public static void GetUserSales(){} //behövs denna?
-
+#endregion
+#region GetSoldProducts
     public static void GetSoldProducts()
     {
         Data.LoadReceiptList("receipt.json");
@@ -127,7 +131,7 @@ public static class ReportHandler
             reportProductList.Add(p);
         }
     }
-    // public static void PrintSoldProducts() //väntar på produkt-listan
+    // public static void PrintSoldProducts() //väntar på att produkt-listan ska kunna sparas i Receipt
     // {
     //     List<Product>reportProductList = new();//
     //     Data.LoadProductList("product.json"); //visa produkt-listan
@@ -165,7 +169,8 @@ public static class ReportHandler
     //             }
     //         }
     //     }
-
+#endregion
+#region FlashReport
     public static void FlashReport() //en flash-rapport som ger dagens försäljning från start of play -> just nu
     {
         double flashSum =0;
@@ -186,7 +191,8 @@ public static class ReportHandler
     Console.WriteLine($"Försäljning: {flashSum} kr");
     Console.WriteLine($"--------------------------------------------");
     }
-
+#endregion
+#region DailyReport
     public static void DailyReport()
     {
         double dailySum = 0;
@@ -204,7 +210,8 @@ public static class ReportHandler
         Console.WriteLine($"Försäljning för {date:yyyy-MM-dd} är: {dailySum} kr");
         Console.WriteLine($"--------------------------------------------");
     }
-
+#endregion
+#region CustomReport
     public static void CustomReport() //en rapport med valfria datum
     {
         double weeklySum = 0;
@@ -223,18 +230,8 @@ public static class ReportHandler
         Console.WriteLine($"Försäljning: {weeklySum} kr ");
         Console.WriteLine($"--------------------------------------------");
     }
-
-    // lista och summa på TUTTI: sales, user, product, VAT, fritt datum-spann
-    //     public void WeeklyReport () {}// lista och summa på sales, välj vecka enligt 7 dagar
-    //     public void DailyReport () {}//lista och summa på sales, dagens datum
-    //     public void SalesReport () {}//lista och summa på sales, fritt datum-spann
-    //     public void UserReport () {}// lista och summa på sales, per user, fritt datum-spann
-    //     public void TableReport () {}// lista och summa på sales per bord, per user, fritt datum-spann
-    //     public void ProductReport() {}// lista och summa på antal sales per produkter per bord, per user, fritt datum-spann
-    //     public void TipsReport() {}// lista och summa på dricks per bord, per user, fritt datum-spann
-    //     {
-    //         public double Tips { get; set; }
-    //     }
+#endregion
+#region ReportMenu
     public static void ReportMenu() //metod att kalla på i UserInterFace huvudmeny
     {
 
@@ -288,3 +285,4 @@ public static class ReportHandler
 }
 
 
+#endregion
