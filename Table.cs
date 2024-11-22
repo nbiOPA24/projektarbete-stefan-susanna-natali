@@ -220,8 +220,6 @@ public class TableHandler
         foreach (Table t in tables) //Ska man skapa en 
         {
 
-            //Table tableToHandle = tables.Find(tables => tables.Number == number);
-
             if (t.Status) // checkar om bord är öppna
             {
                 Console.WriteLine(t.Number);
@@ -250,10 +248,8 @@ public class TableHandler
                         }
                         tableToClear.TableList.Remove(p);
                     }
-                    t.Status = false;
-
-
                 }
+                t.Status = false;
             }
         }
         Console.WriteLine("Alla bord är stängda.");
@@ -586,24 +582,28 @@ public class TableHandler
                 // checkar om de finns grejjer på bordet
                 if (tableToAddOrder.Status == true)
                 {
-                    Console.WriteLine("Det finns redan produkter på bordet. Vill addera din order till dessa? J/N?");
+                    Console.WriteLine("Det finns redan produkter på bordet. Vill du addera din order till dessa? J/N?");
                     string? choice = Console.ReadLine().ToUpper();
-                    if (choice == "J")
+                    while (true)
                     {
-                        foreach (Product p in UserInterFace.orderList)
+                        if (choice == "J")
                         {
-                            tableToAddOrder.TableList.Add(p);
+                            foreach (Product p in UserInterFace.orderList)
+                            {
+                                tableToAddOrder.TableList.Add(p);
+                            }
+                            Console.WriteLine("Dina produkter har lagts till på bordet");
                         }
-                        Console.WriteLine("Dina produkter har lagts till på bordet");
-                    }
-                    else if (choice == "N")
-                    {
-                        Console.WriteLine("Åtgärd avbruten.");
-                        return; // här vill man nog tillbaks till
-                    }
-                    else
-                    {
-                        Console.WriteLine("Ogiltigt val. Du måste välja produkt: ");
+                        else if (choice == "N")
+                        {
+                            Console.WriteLine("Åtgärd avbruten.");
+                            return; // här vill man nog tillbaks till
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ogiltigt val.");
+                            continue;
+                        }
                     }
                 }
                 if (tableToAddOrder.Status == false)
@@ -612,16 +612,10 @@ public class TableHandler
 
                     foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
                     {
-                        tableToAddOrder.TableList.Add(p);
+                       tableToAddOrder.TableList.Add(p);
                     }
                 }
             }
-            else
-            {
-                Console.WriteLine("Ogiltigt bordsnummer! Försök igen");
-                OrderToTable();
-            }
-            // skapar en Dict med stringKey och intKey
             Dictionary<string, int> productAntal = new Dictionary<string, int>();
 
             // Söker upp alla matchande produkter och räknar
