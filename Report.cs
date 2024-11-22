@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using Newtonsoft.Json;
 
 
 public class Report
-
 {
     public double PaidAmount;
     public DateTime Date;
@@ -19,8 +20,6 @@ public class Report
                                                 System.Globalization.DateTimeStyles.None, out date);
 
     }
-
-
     public Report(double paidamount, DateTime date, string product, string user)
     {
         PaidAmount = paidamount;
@@ -29,9 +28,10 @@ public class Report
         User = user;
     }
 }
+
 public static class ReportHandler
 {
-    public static List<Receipt> reportList = new(); 
+    public static List<Receipt> reportReceiptList = new(); 
     public static List<Product> reportProductList = new();
     public static List<User> reportUserList = new();
     public static Dictionary<string, (double TotalSales, int ProductSold, double ProductNameAmount)> userReport = new(); //ProductNameAmount är 
@@ -44,7 +44,7 @@ public static class ReportHandler
 
         foreach (Receipt r in Payment.receiptList)
         {
-            reportList.Add(r);
+            reportReceiptList.Add(r);
             totalSum += r.PaidAmount;
 
             foreach (Product p in ProductHandler.productList)
@@ -65,83 +65,126 @@ public static class ReportHandler
 
     }
 
-    public static void GetSoldProducts()
-    {
-        foreach (Product p in UserInterFace.orderList)
-        {
-            reportProductList.Add(p);
-
-        }
-
-    }
-
     public static void UserSales()   //försäljning per användare
     {
-        double userSum = 0;
+        List<User>userList = new(); //
+        Data.LoadUserList("user.json"); //visa personal-listan
         
-        Console.WriteLine("Inputta startdatum");
-        Report.GetDate("YYYY-MM-DD", out DateTime startDate);
-        Console.WriteLine("Inputta sluttdatum");
-        Report.GetDate("YYYY-MM-DD", out DateTime endDate);
-
-        foreach (Receipt r in Payment.receiptList)      //försöker gå igenom listorna av kvitton med summa och antal sålda produkter per user inom ett datum-spann
+        Console.WriteLine("------------------------------------------------");
+        Console.WriteLine($"Välj personal enligt ID: ");
+        foreach (User u in UserHandler.userList)
         {
-            reportList.Add(r);
-            userSum += r.PaidAmount;
-
-            string FirstName = r.CurrentFirstName;
-            if (!userReport.ContainsKey(FirstName))
-            {
-                userReport[FirstName] = (0, 0, 0);
-            }
-            var currentData = userReport[FirstName];
-            currentData.TotalSales += r.PaidAmount;
-
-         /*   foreach (Product p in r.Product.receiptList)
-            {
-            currentData.ProductSold ++;
-            currentData.ProductNameAmount ++;
-            userReport[FirstName] = currentData;
-            }*/
+            Console.WriteLine($"\nNamn: {u.FirstName}");
+            Console.WriteLine($"Personal-ID: {u.UserId}");
+            Console.WriteLine($"Roll: {u.UserType}\n");
         }
-    }
 
-    public static void GetUserSales()    //en metod att kalla på i report-menu
-    {
-        foreach(var user in userReport)
-        {
-            Console.WriteLine($"--------------------------------------------");
-            Console.WriteLine($"{user.Key} total försäljning: {user.Value.TotalSales} kr");
-            Console.WriteLine($"{user.Key} total försäljning: {user.Value.ProductNameAmount}"); //minns inte vad ProductNameAmount skulle va? Lista på vilka produkter??
-            Console.WriteLine($"{user.Key} antal produkter: {user.Value.ProductSold} st");
-            Console.WriteLine($"--------------------------------------------");
-        }
-    }
+            Console.Write("Ange personal-ID (4 siffror): ");
+            string userIdInput = Console.ReadLine();
+            User selectedId = null;  //för att komma åt namnet på vald personal via ID utanför if-satsen
 
-    public static void PrintSoldProducts()
-    {
-        Dictionary<string, int> productSum = new();
-        // Söker upp alla matchande produkter och räknar
-        foreach (Product p in reportProductList)
-        {
-            if (productSum.ContainsKey(p.Name)) // kollar matchande p.Name
+            if(int.TryParse(userIdInput, out int userId)) //gör om id-numret till string
             {
-                productSum[p.Name]++; // Räknar antal träffar av samma name
+                selectedId = UserHandler.userList.FirstOrDefault(user=> user.UserId == userId);
+            
+                if(selectedId != null)
+                {
+                    Console.WriteLine($"Du valde: {selectedId.FirstName} ");
+                }
+                else
+                {
+                    Console.WriteLine("Ingen användare med detta Id. Försök igen.");
+                    return;
+                }
             }
             else
             {
-                productSum[p.Name] = 1; // om bara en träff så = 1
+                Console.WriteLine("Ingen användare med detta Id. Försök igen.");
+                return;
             }
-        }
-        foreach (var p in productSum)
-        {
-            Console.WriteLine($"{p.Key} {p.Value} st");
+                Console.WriteLine("Inputta startdatum för rapport: ");
+                Report.GetDate("YYYY-MM-DD", out DateTime startDate);
+                Console.WriteLine("Inputta sluttdatum för rapport: ");
+                Report.GetDate("YYYY-MM-DD", out DateTime endDate);
 
-            if (productSum.Count < 1)                       // funkar denna?
+                double userSum = 0;
+                foreach (Receipt r in Payment.receiptList)      //försöker gå igenom listorna av kvitton med summa och antal sålda produkter per user inom ett datum-spann
+                {
+                    reportReceiptList.Add(r);
+                    userSum += r.PaidAmount;
+                }
+
+            Console.WriteLine($"Försäljning för {selectedId.FirstName} är {userSum} kr.\n"); //total försäljning för vald personal inom valt datum-spann
+    }
+
+    public static void GetUserSales(){} //behövs denna?
+
+    public static void GetSoldProducts()
+    {
+        Data.LoadReceiptList("receipt.json");
+        foreach (Product p in UserInterFace.orderList)
+        {
+            reportProductList.Add(p);
+        }
+    }
+    // public static void PrintSoldProducts() //väntar på produkt-listan
+    // {
+    //     List<Product>reportProductList = new();//
+    //     Data.LoadProductList("product.json"); //visa produkt-listan
+
+    //     Console.WriteLine("Inputta startdatum för rapport: ");
+    //     Report.GetDate("YYYY-MM-DD", out DateTime startDate);
+    //     Console.WriteLine("Inputta sluttdatum för rapport: ");
+    //     Report.GetDate("YYYY-MM-DD", out DateTime endDate);
+
+    //     Dictionary<string, int> productSummary = new();
+    //     Dictionary<string, int> productSum = new();
+
+    //     // Söker upp alla matchande produkter och räknar
+    //     Console.WriteLine("Total lista av sålda produkter: \n ");
+    //     foreach(Product p in reportProductList)
+    //     {
+    //         //foreach (Receipt r in Payment.receiptList)
+            
+    //             if (productSummary.ContainsKey(p.Name)) // kollar matchande p.Name
+    //             {
+    //                 productSummary[p.Name]++; // Räknar antal träffar av samma name
+    //             }
+    //             else
+    //             {
+    //                 productSummary[p.Name] = 1; // om bara en träff så = 1
+    //             }
+    //         }
+    //         foreach (var p in productSum)
+    //         {
+    //             Console.WriteLine($"{p.Key} {p.Value} st");
+
+    //             if (productSummary.Count < 1)                       // funkar denna ens?
+    //             {
+    //                 Console.WriteLine("Inga produkter sålda."); 
+    //             }
+    //         }
+    //     }
+
+    public static void FlashReport() //en flash-rapport som ger dagens försäljning från start of play -> just nu
+    {
+        double flashSum =0;
+        DateTime today = DateTime.Now;
+        DateTime startOfDay = today.Date;
+
+        
+        foreach (Receipt r in Payment.receiptList)
+        {
+            if (r.PaymentAccepted.Date == today.Date)
             {
-                Console.WriteLine("Inga produkter sålda."); 
+                flashSum += r.PaidAmount;
             }
         }
+    
+    Console.WriteLine($"--------------------------------------------");
+    Console.WriteLine($"Datum och tid är:{today: yyyy-MM-dd HH:mm:ss}");
+    Console.WriteLine($"Försäljning: {flashSum} kr");
+    Console.WriteLine($"--------------------------------------------");
     }
 
     public static void DailyReport()
@@ -158,11 +201,11 @@ public static class ReportHandler
             //DailyReport(date);
         }
         Console.WriteLine($"--------------------------------------------");
-        Console.WriteLine($"Försäljning för {date} är: {dailySum}"); //TODO ta bort klockslag
+        Console.WriteLine($"Försäljning för {date:yyyy-MM-dd} är: {dailySum} kr");
         Console.WriteLine($"--------------------------------------------");
     }
 
-    public static void CustomReport()
+    public static void CustomReport() //en rapport med valfria datum
     {
         double weeklySum = 0;
         Report.GetDate("Ange startdatum (YYYY-MM-DD): ", out DateTime startDate);
@@ -174,6 +217,11 @@ public static class ReportHandler
                 weeklySum += r.PaidAmount;
             }
         }
+
+        Console.WriteLine($"--------------------------------------------");
+        Console.WriteLine($"Datum: {startDate:yyyy-MM-dd} - {endDate:yyyy-MM-dd}"); 
+        Console.WriteLine($"Försäljning: {weeklySum} kr ");
+        Console.WriteLine($"--------------------------------------------");
     }
 
     // lista och summa på TUTTI: sales, user, product, VAT, fritt datum-spann
@@ -187,17 +235,18 @@ public static class ReportHandler
     //     {
     //         public double Tips { get; set; }
     //     }
-    public static void ReportMenu() //metod att kalla på i UserInterFace
+    public static void ReportMenu() //metod att kalla på i UserInterFace huvudmeny
     {
 
-        Console.WriteLine("Var god välj vilken Rapport du vill generera: ");
+        Console.WriteLine("Välj vilken Rapport du vill generera: ");
         Console.WriteLine("Tryck 1. För TotalReport: ");
-        Console.WriteLine("Tryck 2. För DailyReport: ");
-        Console.WriteLine("Tryck 3. För CustomReport: ");
-        Console.WriteLine("Tryck 4. För ProductReport: ");
-        Console.WriteLine("Tryck 5. För UserReport: ");
-          /*Console.WriteLine("Tryck 3. För TableReport: ");
-          Console.WriteLine("Tryck 3. För TipsReport: "); */
+        Console.WriteLine("Tryck 2. För X-FlashReport: ");
+        Console.WriteLine("Tryck 3. För DailyReport: ");
+        Console.WriteLine("Tryck 4. För CustomReport: ");
+        /*Console.WriteLine("Tryck 5. För ProductReport: ");*/ //kan inte användas just nu eftersom produkt inte sparas i kvitto-listan
+        Console.WriteLine("Tryck 6. För UserReport: ");
+          /*Console.WriteLine("Tryck 7. För TableReport: ");
+          Console.WriteLine("Tryck 8. För TipsReport: "); */
         Console.WriteLine("Tryck Q. För att avsluta till huvudmenyn: ");
 
         string? reportChoice = Console.ReadLine();
@@ -208,17 +257,26 @@ public static class ReportHandler
                 ReportHandler.TotalReport();
                 break;
 
+            case "2":
+                ReportHandler.FlashReport();
+                break;
+
             case "3":
-                ReportHandler.CustomReport();
+                ReportHandler.DailyReport();
                 break;
 
             case "4":
-                ReportHandler.GetSoldProducts();
-                ReportHandler.PrintSoldProducts();
+                ReportHandler.CustomReport();
                 break;
 
             case "5":
-                ReportHandler.GetUserSales();
+                ReportHandler.GetSoldProducts();
+                //ReportHandler.PrintSoldProducts();
+                Console.WriteLine("Rapport under konstruktion. ");
+                break;
+
+            case "6":
+                ReportHandler.UserSales();              
                 break;
 
             default:
@@ -226,15 +284,5 @@ public static class ReportHandler
         }
 
     }
-    // if (reportCategory == Report.ReportCategory.Receipt)
-    // {
-    //     Console.WriteLine("Tillbaka till huvudmenyn. Välkommen åter!");
-    //     return;
-    // }
-    /* if (!Report.GetDate($"Ange startdatum för rapporten (YYYY-MM-DD):", out DateTime startDate) ||
-         !Report.GetDate($"Ange slutdatum för rapporten (YYYY-MM-DD): ", out DateTime endDate))
-     {
-         Console.WriteLine("Ogiltig input. Försök igen (YYYY-MM-DD).");
-         return;
-     }*/
+
 }

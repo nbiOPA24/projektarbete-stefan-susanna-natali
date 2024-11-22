@@ -755,5 +755,53 @@
         "Description": null
       }
     ]
+  },
+  {
+    "ReceiptNumber": 1031,
+    "PaidAmount": 350.0,
+    "Tips": 30.0,
+    "AmountToPay": 320.0,
+    "Vat12": 14.111999999999998,
+    "Vat25": 17.1875,
+    "Netto": 288.7005,
+    "IsCash": false,
+    "PaymentAccepted": "2024-11-22T10:00:28.050192+01:00",
+    "CurrentTable": 1,
+    "CurrentFirstName": "Susanna",
+    "CurrentUserId": 2402,
+    "paidProductList": [
+      {
+        "Name": "Burgare",
+        "Price": 105.0,
+        "ProductNumber": 8,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Burgare",
+        "Price": 105.0,
+        "ProductNumber": 8,
+        "MenuItem": 1,
+        "VatItem": 1,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      },
+      {
+        "Name": "Pripps",
+        "Price": 55.0,
+        "ProductNumber": 1,
+        "MenuItem": 2,
+        "VatItem": 2,
+        "Description": null
+      }
+    ]
   }
 ]
