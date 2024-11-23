@@ -2,6 +2,8 @@
 
 #region Table
 
+using Microsoft.VisualBasic;
+
 public class Table
 {
     // Bordsspecifik lista för produkter
@@ -60,7 +62,7 @@ public class TableHandler
                 Console.WriteLine("7. Redigera bord.");
             }
             Console.WriteLine("Q. Tillbaks till startmenyn.");
-            string? choice = Console.ReadLine().ToUpper();
+            string? choice = Console.ReadLine()?.ToUpper();
 
             if (choice == "1")
             {
@@ -130,7 +132,7 @@ public class TableHandler
         if (int.TryParse(nr, out int number))
         {
             Console.Write($"Vill du öppna {number}. J/N? "); // Extra steg i felhanteringssyfte
-            string? input = Console.ReadLine().ToUpper();
+            string? input = Console.ReadLine()?.ToUpper();
 
             if (input == "J")
             {
@@ -179,7 +181,7 @@ public class TableHandler
         if (int.TryParse(nr, out int number))
         {
             Console.Write($"Vill du stänga {number}. J/N? "); //måste kolla om de finns varor.
-            string? input = Console.ReadLine().ToUpper();
+            string? input = Console.ReadLine()?.ToUpper();
 
             if (input == "J")
             {
@@ -225,7 +227,7 @@ public class TableHandler
                 Console.WriteLine(t.Number);
                 Table tableToClear = tables.Find(tables => tables.Status == t.Status);
                 Console.Write($"Bord nummer [{t.Number}] Har ohanterade produkter. Vill du ändå stänga bordet? J/N?");
-                string? input = Console.ReadLine().ToUpper();
+                string? input = Console.ReadLine()?.ToUpper();
                 foreach (Product p in tableToClear.TableList.ToList())
                 {
                     // kollar om de finns produkter kvar på bordet
@@ -325,68 +327,77 @@ public class TableHandler
     // metod för att visa varor på bord, ska det läggas till en annan metod för hantering av bordsinnehåll?
     public static void HandleTableContents(Receipt receipt)// endast send? eller addtotable?
     {
-
-        Console.WriteLine();
         Console.Write("Välj bord att hantera: ");
         string? nr = Console.ReadLine();
 
-        Console.WriteLine();
-        Console.WriteLine("Ange val:");
-        Console.WriteLine("1. Betalning.");
-        Console.WriteLine("2. Dela");
-        //Console.WriteLine("3. Rensa bord?");
-        Console.Write("'Q' för att avbryta: "); // oklart läge :)
-        string? choice = Console.ReadLine().ToUpper();
-        Console.WriteLine();
         while (true)
         {
             if (int.TryParse(nr, out int number))
             {
-                if (choice == "1")
+                if (number > tables.Count)
                 {
-                    Table tableToHandle = tables.Find(tables => tables.Number == number);
-                    receipt.CurrentTable = number;
-
-                    if (tableToHandle != null && tableToHandle.Status) //// checkar så bordet finns och att det är öppet
-                    {
-                        Console.WriteLine("------------------------");
-                        // Får bygga en meny för ex. splitta nota osv1
-                        foreach (Product p in tableToHandle.TableList)
-                        {
-                            Console.WriteLine(p.Name + " " + p.Price);
-                        }
-                        Console.WriteLine("------------------------");
-                        Console.Write($"Vill du skicka order till betalning? J/N?");
-                        string? input = Console.ReadLine().ToUpper();
-
-                        if (input == "J")
-                        {
-                            foreach (Product p in tableToHandle.TableList)
-                            {
-                                UserInterFace.orderList.Add(p);
-                            }
-                            Payment.StartPayment(receipt);
-                            tableToHandle.Status = false;
-                            tableToHandle.TableList.Clear();//TODO stäng bordet
-                            break;
-                        }
-                        else if (input == "N")
-                        {
-                            Console.WriteLine("Avbruten.");
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Ogiltigt val.");
-                            continue;
-                        }
-                    }
-
+                    Console.WriteLine("Felaktigt bordsnummer.");
+                    return;
                 }
-                else if (choice == "Q")
+                Table tableToHandle = tables.Find(tables => tables.Number == number);
+                if (tableToHandle.TableList.Count <= 0) //// checkar så bordet finns och att det är öppet
+                {
+                    Console.WriteLine("Tomt bord.");
+                    break;
+                }
+                foreach (Product p in tableToHandle.TableList)
+                {
+                    Console.WriteLine(p.Name + " " + p.Price);
+                }
+                Console.WriteLine();
+                Console.WriteLine("Ange val:");
+                Console.WriteLine("1. Betalning.");
+                Console.WriteLine("2. Dela");
+                //Console.WriteLine("3. Rensa bord?");
+                Console.Write("'Q' för att avbryta: "); // oklart läge :)
+                string? choice = Console.ReadLine().ToUpper();
+                Console.WriteLine();
+
+                if (choice == "Q")
                 {
                     Console.WriteLine("avslutar...");
                     return;
+                }
+                else if (choice == "1")
+                {
+                    receipt.CurrentTable = number;
+
+                    Console.WriteLine("------------------------");
+                    // Får bygga en meny för ex. splitta nota osv1
+                    foreach (Product p in tableToHandle.TableList)
+                    {
+                        Console.WriteLine(p.Name + " " + p.Price);
+                    }
+                    Console.WriteLine("------------------------");
+                    Console.Write($"Vill du skicka order till betalning? J/N?");
+                    string? input = Console.ReadLine().ToUpper();
+
+                    if (input == "J")
+                    {
+                        foreach (Product p in tableToHandle.TableList)
+                        {
+                            UserInterFace.orderList.Add(p);
+                        }
+                        Payment.StartPayment(receipt);
+                        tableToHandle.Status = false;
+                        tableToHandle.TableList.Clear();//TODO stäng bordet
+                        break;
+                    }
+                    else if (input == "N")
+                    {
+                        Console.WriteLine("Avbruten.");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ogiltigt val.");
+                        continue;
+                    }
                 }
 
 
@@ -396,27 +407,23 @@ public class TableHandler
                     return;
                 }
 
-                else if (choice == "3")
-                {
-                    Console.WriteLine("Rensa?");
-                }
                 else
                 {
                     Console.WriteLine("Finns inga produkter på det bordet!");
                     break;
                 }
+                //}
             }
         }
     }
-
     #endregion
     #region SplitTable
 
     // metod för att splitta bordsnota (ex 3 öl. ska dom till annat/nytt bord eller betalas?)
     public static void SplitTable(Receipt receipt, int number)// Split, splitCheck? 
     {
-        Console.WriteLine();
-        Console.WriteLine("Hantera produkter.");
+
+        Console.WriteLine("Produkter att hantera:");
         Console.WriteLine();
         // while (start) // ngn do while number inte = =?
         // {
@@ -429,78 +436,67 @@ public class TableHandler
             Console.WriteLine($"{p.ProductNumber}. {p.Name} {p.Price}"); //dictionary?                 
             tempSplitList.Add(p);
         }
+        Console.WriteLine();
 
         while (true)
         {
-            Console.Write("Välj produktnummer för artikel som du vill hantera och 'Q' för att avsluta: "); // måste ta remove oxå
+            Console.WriteLine("Ange produktnummer för artikel som du vill hantera."); // måste ta remove oxå
+            Console.Write("'Q' för klar och 'A' för avbryt. ");
             string? input = Console.ReadLine().ToUpper();
+            Console.WriteLine();
 
-            if (input == "Q")
-            {
-                Console.WriteLine("Hantering avslutad");
-                Console.WriteLine();
-                break;
-            }
             if (int.TryParse(input, out number))
             {
                 receipt.CurrentTable = number;
                 Product productToAdd = tempSplitList.Find(product => product.ProductNumber == number);
-                if (tempSplitList.Contains(productToAdd)) //tempsplitlist.coint //productToAdd != null)
+                if (productToAdd != null)
                 {
                     splitList.Add(productToAdd);
                     tempSplitList.Remove(productToAdd); // ska detta ske senare så man kan aborta eller ändra sig om man gör fel?  
 
+                    Console.WriteLine("Valda produkter:");
+                    foreach (Product p in splitList)
+                    {
+                        Console.WriteLine($"{p.ProductNumber}. {p.Name} {p.Price}"); //dictionary? 
+                    }
+                    if (tempSplitList.Count > 0)
+                    {
+                        Console.WriteLine("Produkter kvar att hantera:");
+                        foreach (Product p in tempSplitList)
+                        {
+
+                            Console.WriteLine($"{p.ProductNumber}. {p.Name} {p.Price}"); //dictionary? 
+                        }
+                        Console.WriteLine();
+                    }
+
+                    //kunna ändra sig å skicka tillbaka saker
+                    else if (tempSplitList.Count <= 0)
+                    {
+                        Console.WriteLine("Inga produkter kvar att hantera");
+                        Console.WriteLine();
+                        break;
+                    }
                 }
-                else
+            else if (input == "Q")
+                {
+                    break;
+                }
+            else if (input == "A")
+                {
+                    Console.WriteLine("Hantering avbruten.");
+                    return;
+                }
+            else
                 {
                     Console.WriteLine("Ogiltigt val.");
-                    continue;
+                    //continue;
                 }
-                Console.WriteLine();
-                Console.WriteLine("Produkter kvar att hantera:");
-                foreach (Product p in tempSplitList)
-                {
-                    Console.WriteLine($"{p.ProductNumber}. {p.Name} {p.Price}"); //dictionary? 
+            }
 
-                }
-                Console.WriteLine();
-                Console.WriteLine("Valda produkter:");
-                foreach (Product p in splitList)
-                {
-                    Console.WriteLine($"{p.ProductNumber}. {p.Name} {p.Price}"); //dictionary? 
-
-                }
-                Console.WriteLine(""); // kunna ändra sig å skicka tillbaka saker
-                // if (input == "Q")
-                // {
-                //     Console.WriteLine("Hantering avslutad");
-                //     Console.WriteLine();
-                //     //innerLoop = false;
-                //     return;
-                // }
-            }
         }
-        Dictionary<string, int> productAntal = new Dictionary<string, int>(); // en metod med indata och utdata x y?
-        foreach (Product p in splitList)
-        {
-            if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
-            {
-                productAntal[p.Name]++; // Räknar antal träffar av samma name
-            }
-            else
-            {
-                productAntal[p.Name] = 1; // om bara en träff så = 1
-            }
-        }
-        //Console.Clear();
-        Console.WriteLine("Produkter att hantera:");
-        foreach (var p in productAntal)
-        {
-            Console.WriteLine($"{p.Value} st {p.Key}");
-        }// splitta jämt per antal
         Console.WriteLine();
-        Console.WriteLine("Vill du:");
-
+        Console.WriteLine("Ange:");
         Console.WriteLine("1. Till betalning.");
         Console.WriteLine("2. Flytta produkter till annat bord.");
         Console.WriteLine("Q. För att avsluta hantering.");
@@ -527,8 +523,13 @@ public class TableHandler
                     UserInterFace.orderList.Add(p);
                     tableToHandle.TableList.Remove(p); //status
                 }
-                receipt.AmountToPay = UserInterFace.CountTotal(receipt);
+                splitList.Clear();
+                //receipt.AmountToPay = UserInterFace.CountTotal(receipt); dubblerar?
                 OrderToTable();
+                if (tableToHandle.TableList.Count <= 0)
+                {
+                    tableToHandle.Status = false;
+                }
                 return;
 
             case "Q":
@@ -554,98 +555,97 @@ public class TableHandler
         ShowTables();// ska detta va här eller en ny metod i TableHandler?
         Console.Write("välj bordsnummer: "); //Börja om här tills rätt bordsnummer eller q
         string? nr = Console.ReadLine();
-
-        if (int.TryParse(nr, out int number))
+        while (true)
         {
-            if (number > tables.Count)
+            if (int.TryParse(nr, out int number))
             {
-                Console.WriteLine("finns inte inom range");
-            }
-        }
-
-        Console.Write($"Vill lägga order på bord {number}. J/N?");
-        Console.WriteLine();
-        string? input = "J";//Console.ReadLine().ToUpper();
-
-        if (input == "J")
-        {
-            // söker upp bordet efter bordsnummer
-            Table tableToAddOrder = tables.Find(tables => tables.Number == number);
-
-            if (tableToAddOrder != null) // checkar så bordet finns borde kanske ha +1?
-            {
-                // checkar om de finns grejjer på bordet
-                if (tableToAddOrder.Status == true)
+                if (number > tables.Count)
                 {
-                    Console.WriteLine("Det finns redan produkter på bordet. Vill du addera din order till dessa? J/N?");
-                    string? choice = Console.ReadLine().ToUpper();
-                    while (true)
+                    Console.WriteLine("finns inte inom range");
+                    break;
+                }
+
+                // söker upp bordet efter bordsnummer
+                Table tableToAddOrder = tables.Find(tables => tables.Number == number);
+
+                Console.Write($"Vill lägga order på bord {number}. J/N? ");
+                string? input = Console.ReadLine().ToUpper();
+
+                if (input == "J")
+                {
+                    // checkar om de finns grejjer på bordet
+                    if (tableToAddOrder.TableList.Count > 0 || tableToAddOrder.Status == true)
                     {
-                        if (choice == "J")
+                        Console.WriteLine("Det finns redan produkter på bordet. Vill du addera din order till dessa? J/N?");
+                        string? choice = Console.ReadLine()?.ToUpper();
+                        while (true)
                         {
-                            foreach (Product p in UserInterFace.orderList)
+                            if (choice == "J")
                             {
-                                tableToAddOrder.TableList.Add(p);
+                                foreach (Product p in UserInterFace.orderList)
+                                {
+                                    tableToAddOrder.TableList.Add(p);
+                                }
+                                UserInterFace.orderList.Clear();
+                                Console.WriteLine("Dina produkter har lagts till på bordet");
+                                return;
                             }
-                            Console.WriteLine("Dina produkter har lagts till på bordet");
-                        }
-                        else if (choice == "N")
-                        {
-                            Console.WriteLine("Åtgärd avbruten.");
-                            return; // här vill man nog tillbaks till
-                        }
-                        else
-                        {
-                            Console.WriteLine("Ogiltigt val.");
-                            continue;
+                            else if (choice == "N")
+                            {
+                                Console.WriteLine("Åtgärd avbruten.");
+                                return; // här vill man nog tillbaks till
+                            }
+                            else
+                            {
+                                Console.WriteLine("Ogiltigt val.");
+
+                            }
                         }
                     }
-                }
-                if (tableToAddOrder.Status == false)
-                {
-                    tableToAddOrder.Status = true;
-
-                    foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
+                    else if (tableToAddOrder.Status == false)
                     {
-                       tableToAddOrder.TableList.Add(p);
-                    }
-                }
-            }
-            Dictionary<string, int> productAntal = new Dictionary<string, int>();
+                        tableToAddOrder.Status = true;
 
-            // Söker upp alla matchande produkter och räknar
-            foreach (Product p in tableToAddOrder.TableList)
-            {
-                if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+                        foreach (Product p in UserInterFace.orderList)// här läggs ordern till bordet
+                        {
+                            tableToAddOrder.TableList.Add(p);
+                        }
+                        UserInterFace.orderList.Clear();
+
+                        Dictionary<string, int> productAntal = new Dictionary<string, int>();
+
+                        // Söker upp alla matchande produkter och räknar
+                        foreach (Product p in tableToAddOrder.TableList)
+                        {
+                            if (productAntal.ContainsKey(p.Name)) // kollar matchande p.Name
+                            {
+                                productAntal[p.Name]++; // Räknar antal träffar av samma name
+                            }
+                            else
+                            {
+                                productAntal[p.Name] = 1; // om bara en träff så = 1
+                            }
+                        }
+                        Console.WriteLine();
+                        foreach (var p in productAntal)
+                        {
+                            Console.WriteLine($"{p.Value} st {p.Key}");
+                        }
+                        break;
+                    }
+                    // Console.ReadKey();
+                    // Console.Clear();
+                }
+                else if (input == "N")
                 {
-                    productAntal[p.Name]++; // Räknar antal träffar av samma name
+                    Console.WriteLine("Avbruten.");
+                    break;
                 }
                 else
                 {
-                    productAntal[p.Name] = 1; // om bara en träff så = 1
+                    Console.WriteLine("Ogiltigt val.");
                 }
             }
-            Console.WriteLine();
-            foreach (var p in productAntal)
-            {
-                Console.WriteLine($"{p.Value} st {p.Key}");
-            }
-            Console.WriteLine();
-            Console.WriteLine($"Skickas till bord {tableToAddOrder.Number}.");
-            // Console.ReadKey();
-            // Console.Clear();
-        }
-        else if (input == "N")
-        {
-            Console.WriteLine("Avbruten.");
-        }
-        else if (input == "Q")
-        {
-            return;
-        }
-        else
-        {
-            Console.WriteLine("Ogiltigt val.");
         }
     }
     #endregion
