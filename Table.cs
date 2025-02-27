@@ -412,7 +412,7 @@ public class TableHandler
                     Console.WriteLine("Finns inga produkter på det bordet!");
                     break;
                 }
-                //}
+                
             }
         }
     }
